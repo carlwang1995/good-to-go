@@ -4,6 +4,13 @@ import Map from "@/components/Map";
 import SearchResult from "@/components/Trip/Search/SearchResult";
 import TripCard from "@/components/Trip/TripCard";
 
+type ContextContent = {
+  setIsShowSearchResult: React.Dispatch<React.SetStateAction<boolean>>;
+};
+export const ShowSearchResultContext = createContext<ContextContent>({
+  setIsShowSearchResult: () => {},
+});
+
 const Plan = ({ params }: any) => {
   const [isShowSearchResult, setIsShowSearchResult] = useState<boolean>(false);
   return (
@@ -20,7 +27,5 @@ const Plan = ({ params }: any) => {
     </main>
   );
 };
-
-export const ShowSearchResultContext = createContext<boolean>(false);
 
 export default Plan;
