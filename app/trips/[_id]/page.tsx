@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, createContext } from "react";
-import Map from "@/components/Map";
+import Map from "@/components/Trip/Map";
 import SearchResult from "@/components/Trip/Search/SearchResult";
 import TripCard from "@/components/Trip/TripCard";
 

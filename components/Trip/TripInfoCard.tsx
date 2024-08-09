@@ -40,7 +40,7 @@ const TripDateCard = ({ dateCount, setIsSearching }: TripDateCardProps) => {
       />
       <div className="flex items-center justify-center p-10">
         <button
-          className="rounded border-[1px] border-solid border-black p-2 text-xl hover:cursor-pointer hover:bg-slate-200"
+          className="rounded border-[1px] border-solid border-black bg-white p-2 text-xl hover:cursor-pointer hover:bg-slate-200"
           onClick={() => setIsSearching(true)}
         >
           + 搜尋並加入景點

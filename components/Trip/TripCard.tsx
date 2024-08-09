@@ -4,11 +4,11 @@ import Link from "next/link";
 import TripDate from "./TripDate";
 import TripInfoCard from "./TripInfoCard";
 import SearchCard from "./Search/SearchCard";
-import SearchResult from "./Search/SearchResult";
+
 const TripEdit = () => {
   const [dateCount, setDateCount] = useState<string>("第一天");
   const [isSearching, setIsSearching] = useState<boolean>(false);
-  const [isOpenResult, setIsOpenResult] = useState<boolean>(false);
+
   return (
     <div className="h-full bg-slate-50">
       {isSearching ? (
