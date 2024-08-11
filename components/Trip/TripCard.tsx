@@ -1,13 +1,48 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import TripDate from "./TripDate";
 import TripInfoCard from "./TripInfoCard";
 import SearchCard from "./Search/SearchCard";
+import { DB_getTripInfoByDocId } from "@/libs/db/EditTripPage";
 
-const TripEdit = () => {
-  const [dateCount, setDateCount] = useState<string>("第一天");
+// type tripInfoType = {
+//   userId: string | undefined;
+//   tripName: string | undefined;
+//   destination: string | undefined;
+//   startDate: string | undefined;
+//   endDate: string | undefined;
+// };
+
+const TripCard = ({ docId }: { docId: string }) => {
+  const [dateCount, setDateCount] = useState<string>("第1天");
   const [isSearching, setIsSearching] = useState<boolean>(false);
+  const [tripName, setTripName] = useState<string | undefined>(undefined);
+  const [destination, setDestination] = useState<string | undefined>(undefined);
+  const [startDate, setStartDate] = useState<string | undefined>(undefined);
+  const [endDate, setEndDate] = useState<string | undefined>(undefined);
+  const [dates, setDates] = useState<Array<string>>();
+  const dateSectionRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    DB_getTripInfoByDocId(docId).then((tripInfo: any) => {
+      // console.log(tripInfo);
+      const { tripName, destination, startDate, endDate, dates } = tripInfo;
+      setTripName(tripName);
+      setDestination(destination);
+      setStartDate(startDate);
+      setEndDate(endDate);
+      setDates(dates);
+    });
+  }, []);
+
+  const scrollRange = 300;
+  const dateScrollToLeft = () => {
+    dateSectionRef.current.scrollLeft -= scrollRange;
+  };
+  const dateScrollToRight = () => {
+    dateSectionRef.current.scrollLeft += scrollRange;
+  };
 
   return (
     <div className="h-full bg-slate-50">
@@ -15,41 +50,51 @@ const TripEdit = () => {
         <SearchCard setIsSearching={setIsSearching} />
       ) : (
         <>
-          <div className="h-56 shadow-lg">
-            <div className="flex h-16 w-[500px] items-center bg-black/50 p-3">
+          <div className="h-fit w-[500px] shadow-lg">
+            <div className="flex h-16 w-full items-center bg-black/50 p-3">
               <Link href="/trips">
                 <span className="mr-3 w-8 text-xl text-white hover:font-bold">
                   ←
                 </span>
               </Link>
-              <span className="text-xl text-white">台北一日遊</span>
+              <span className="text-xl text-white">{tripName}</span>
             </div>
             <div className="flex h-24 w-full flex-col items-center justify-center bg-slate-500 p-3">
               <div className="w-full">
-                <span className="text-white">2024/08/05</span>
+                <span className="text-white">{startDate}</span>
                 <span className="text-white"> - </span>
-                <span className="text-white">2024/08/07</span>
+                <span className="text-white">{endDate}</span>
               </div>
               <div className="w-full">
-                <p className="text-white">台北市</p>
+                <p className="text-white">{destination}</p>
               </div>
             </div>
-            <div className="flex h-16 w-full bg-white">
-              <TripDate
-                date="8月5日"
-                dateCount="第一天"
-                setDateCount={setDateCount}
-              />
-              <TripDate
-                date="8月6日"
-                dateCount="第二天"
-                setDateCount={setDateCount}
-              />
-              <TripDate
-                date="8月7日"
-                dateCount="第三天"
-                setDateCount={setDateCount}
-              />
+            <div className="relative flex h-14 w-full bg-white">
+              <div
+                onClick={dateScrollToLeft}
+                className="absolute left-0 top-0 z-10 flex h-full items-center justify-center border border-slate-500 bg-white px-1 hover:cursor-pointer hover:border-2 hover:font-bold"
+              >
+                <div>＜</div>
+              </div>
+              <div
+                className="flex h-full w-full overflow-x-hidden scroll-smooth whitespace-nowrap px-7"
+                ref={dateSectionRef}
+              >
+                {dates?.map((date, index) => (
+                  <TripDate
+                    key={index}
+                    date={date}
+                    dateCount={index}
+                    setDateCount={setDateCount}
+                  />
+                ))}
+              </div>
+              <div
+                onClick={dateScrollToRight}
+                className="absolute right-0 top-0 z-10 flex h-full items-center justify-center border border-slate-500 bg-white px-1 hover:cursor-pointer hover:border-2 hover:font-bold"
+              >
+                <div>＞</div>
+              </div>
             </div>
           </div>
           <TripInfoCard dateCount={dateCount} setIsSearching={setIsSearching} />
@@ -59,4 +104,4 @@ const TripEdit = () => {
   );
 };
 
-export default TripEdit;
+export default TripCard;

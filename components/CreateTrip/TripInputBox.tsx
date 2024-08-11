@@ -1,5 +1,8 @@
+"use client";
 import React, { useState } from "react";
-import { createNewTrip } from "@/libs/firebase/createNewTrip";
+import { DB_createNewTrip } from "@/libs/db/CreateTripPage";
+import { useRouter } from "next/navigation";
+import { getDateBetween } from "@/libs/getDatesBetween";
 
 type TripInputProps = {
   userId: string;
@@ -21,6 +24,7 @@ const TripInput = ({
   setDialogBoxDisplay,
   setIsOpenCalendar,
 }: TripInputProps) => {
+  const router = useRouter();
   // 目的地
   const [inputDestinaiton, setInputDestinaiton] = useState<InputContent>(null);
   // 旅程名稱
@@ -57,11 +61,22 @@ const TripInput = ({
     destination: string,
     tripName: string,
   ) => {
-    const tripObject = { userId, startDate, endDate, destination, tripName };
+    const dates = getDateBetween(startDate, endDate);
+    const tripObject = {
+      userId,
+      startDate,
+      endDate,
+      destination,
+      tripName,
+      dates,
+    };
     // newTrip ? setNewTrip([...newTrip, tripObject]) : setNewTrip([tripObject]);
-    let result = await createNewTrip(tripObject);
-    console.log(result);
-    setDialogBoxDisplay();
+    try {
+      const docId = await DB_createNewTrip(tripObject);
+      router.push(`/trips/${docId}`);
+    } catch (e) {
+      console.log(e);
+    }
   };
   return (
     <div className="w-[500px] rounded-lg bg-white p-10">

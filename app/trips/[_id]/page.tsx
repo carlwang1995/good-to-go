@@ -7,16 +7,15 @@ import TripCard from "@/components/Trip/TripCard";
 type ContextContent = {
   setIsShowSearchResult: React.Dispatch<React.SetStateAction<boolean>>;
 };
-export const ShowSearchResultContext = createContext<ContextContent>({
-  setIsShowSearchResult: () => {},
-});
+export const ShowSearchResultContext =
+  createContext<React.Dispatch<React.SetStateAction<boolean>>>();
 
-const Plan = ({ params }: any) => {
+const Plan = ({ params }: { params: { _id: string } }) => {
   const [isShowSearchResult, setIsShowSearchResult] = useState<boolean>(false);
   return (
     <main className="flex h-dvh w-screen pt-[60px]">
       <ShowSearchResultContext.Provider value={setIsShowSearchResult}>
-        <TripCard />
+        <TripCard docId={params._id} />
       </ShowSearchResultContext.Provider>
       {isShowSearchResult ? (
         <SearchResult setIsShowSearchResult={setIsShowSearchResult} />

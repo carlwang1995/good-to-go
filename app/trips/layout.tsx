@@ -10,7 +10,9 @@ const Trips = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  return <>{children}</>;
+  return (
+    <div className="h-screen overflow-x-hidden bg-slate-100">{children}</div>
+  );
 };
 
 export default Trips;

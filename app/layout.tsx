@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Noto_Sans_TC } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
+import Header from "@/components/Header/Header";
+import { UserContextProvider } from "@/contexts/UserAuth";
 
 const notoSansTc = Noto_Sans_TC({ weight: "400", subsets: ["latin"] });
 
@@ -16,11 +17,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-HANT">
-      <body className={notoSansTc.className}>
-        <Header />
-        {children}
-      </body>
-    </html>
+    <UserContextProvider>
+      <html lang="zh-HANT">
+        <body className={notoSansTc.className}>
+          <Header />
+          {children}
+        </body>
+      </html>
+    </UserContextProvider>
   );
 }
