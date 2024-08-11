@@ -36,7 +36,7 @@ const SearchCard = ({
           開始搜尋
         </button>
       </div>
-      <div className="h-[82%] w-full items-center overflow-scroll overflow-x-hidden bg-scroll pl-3 pr-3">
+      <div className="h-full w-full items-center overflow-scroll overflow-x-hidden bg-scroll pl-3 pr-3">
         <SearchList
           name="台北小巨蛋"
           address="台北市南京東路111號"

@@ -1,6 +1,7 @@
 import React from "react";
 
 type TripInfoProps = {
+  number: number;
   stayTime: string;
   startTime: string;
   endTime: string;
@@ -8,6 +9,7 @@ type TripInfoProps = {
   address: string;
 };
 const TripInfo = ({
+  number,
   stayTime,
   startTime,
   endTime,
@@ -18,7 +20,7 @@ const TripInfo = ({
     <div className="flex border-t bg-white p-5 shadow-lg">
       <div className="relative h-20 w-20 bg-slate-400">
         <div className="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center bg-slate-600">
-          <p className="text-white">1</p>
+          <p className="text-white">{String(number + 1)}</p>
         </div>
       </div>
       <div className="ml-2 flex flex-col justify-center">

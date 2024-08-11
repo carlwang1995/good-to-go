@@ -1,10 +1,10 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import TripDate from "./TripDate";
+import TripDateBox from "./TripDateBox";
 import TripInfoCard from "./TripInfoCard";
 import SearchCard from "./Search/SearchCard";
-import { DB_getTripInfoByDocId } from "@/libs/db/EditTripPage";
+import { DB_getTripNameByDocId } from "@/libs/db/EditTripPage";
 
 // type tripInfoType = {
 //   userId: string | undefined;
@@ -15,6 +15,7 @@ import { DB_getTripInfoByDocId } from "@/libs/db/EditTripPage";
 // };
 
 const TripCard = ({ docId }: { docId: string }) => {
+  const [index, setIndex] = useState<number>(0);
   const [dateCount, setDateCount] = useState<string>("第1天");
   const [isSearching, setIsSearching] = useState<boolean>(false);
   const [tripName, setTripName] = useState<string | undefined>(undefined);
@@ -25,7 +26,7 @@ const TripCard = ({ docId }: { docId: string }) => {
   const dateSectionRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    DB_getTripInfoByDocId(docId).then((tripInfo: any) => {
+    DB_getTripNameByDocId(docId).then((tripInfo: any) => {
       // console.log(tripInfo);
       const { tripName, destination, startDate, endDate, dates } = tripInfo;
       setTripName(tripName);
@@ -34,7 +35,7 @@ const TripCard = ({ docId }: { docId: string }) => {
       setEndDate(endDate);
       setDates(dates);
     });
-  }, []);
+  }, [docId]);
 
   const scrollRange = 300;
   const dateScrollToLeft = () => {
@@ -45,12 +46,12 @@ const TripCard = ({ docId }: { docId: string }) => {
   };
 
   return (
-    <div className="h-full bg-slate-50">
+    <div className="min-w-[500px] max-w-[500px] bg-slate-50">
       {isSearching ? (
         <SearchCard setIsSearching={setIsSearching} />
       ) : (
         <>
-          <div className="h-fit w-[500px] shadow-lg">
+          <div className="shadow-lg">
             <div className="flex h-16 w-full items-center bg-black/50 p-3">
               <Link href="/trips">
                 <span className="mr-3 w-8 text-xl text-white hover:font-bold">
@@ -72,7 +73,7 @@ const TripCard = ({ docId }: { docId: string }) => {
             <div className="relative flex h-14 w-full bg-white">
               <div
                 onClick={dateScrollToLeft}
-                className="absolute left-0 top-0 z-10 flex h-full items-center justify-center border border-slate-500 bg-white px-1 hover:cursor-pointer hover:border-2 hover:font-bold"
+                className="absolute left-0 top-0 z-10 flex h-full items-center justify-center border border-white bg-white px-1 hover:cursor-pointer hover:border-slate-500"
               >
                 <div>＜</div>
               </div>
@@ -81,23 +82,29 @@ const TripCard = ({ docId }: { docId: string }) => {
                 ref={dateSectionRef}
               >
                 {dates?.map((date, index) => (
-                  <TripDate
+                  <TripDateBox
                     key={index}
                     date={date}
-                    dateCount={index}
+                    dateNumber={index}
                     setDateCount={setDateCount}
+                    setIndex={setIndex}
                   />
                 ))}
               </div>
               <div
                 onClick={dateScrollToRight}
-                className="absolute right-0 top-0 z-10 flex h-full items-center justify-center border border-slate-500 bg-white px-1 hover:cursor-pointer hover:border-2 hover:font-bold"
+                className="hover: absolute right-0 top-0 z-10 flex h-full items-center justify-center border border-white bg-white px-1 hover:cursor-pointer hover:border-slate-500"
               >
                 <div>＞</div>
               </div>
             </div>
           </div>
-          <TripInfoCard dateCount={dateCount} setIsSearching={setIsSearching} />
+          <TripInfoCard
+            docId={docId}
+            index={index}
+            dateCount={dateCount}
+            setIsSearching={setIsSearching}
+          />
         </>
       )}
     </div>

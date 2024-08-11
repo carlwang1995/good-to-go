@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import CreateTripCard from "@/components/CreateTrip/CreateTripCard";
-import EmptyContent from "@/components/CreateTrip/Empty/EmptyContent";
-import ListContent from "@/components/CreateTrip/List/ListContent";
+import CreateTripCard from "@/components/Trips/CreateTripCard";
+import EmptyContent from "@/components/Trips/Empty/EmptyContent";
+import ListContent from "@/components/Trips/List/ListContent";
 import { DB_getTrips } from "@/libs/db/CreateTripPage";
 import { useUser } from "@/contexts/UserAuth";
 import { useRouter } from "next/navigation";
