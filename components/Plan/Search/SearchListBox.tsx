@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { ShowSearchResultContext } from "@/app/trips/[_id]/page";
+import { ShowSearchResultContext } from "@/contexts/ShowSearchResultContext";
 
 type SearchListProps = {
   name: string;
@@ -10,8 +10,13 @@ const SearchList: React.FC<SearchListProps> = ({
   name,
   address,
 }: SearchListProps) => {
-  const setIsShowSearchResult: any = useContext(ShowSearchResultContext);
-
+  const context = useContext(ShowSearchResultContext);
+  if (context === null || context === undefined) {
+    throw new Error(
+      "SomeChildComponent must be used within a ShowSearchResultContext.Provider",
+    );
+  }
+  const setIsShowSearchResult = context;
   return (
     <div
       className="mb-4 mt-4 flex rounded border border-solid bg-white shadow-lg hover:cursor-pointer"

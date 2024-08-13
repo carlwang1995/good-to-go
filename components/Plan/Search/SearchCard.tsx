@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useContext } from "react";
-import { ShowSearchResultContext } from "@/app/trips/[_id]/page";
+import { ShowSearchResultContext } from "@/contexts/ShowSearchResultContext";
 import SearchListBox from "./SearchListBox";
 
 const SearchCard = ({
@@ -9,7 +9,13 @@ const SearchCard = ({
   setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [input, setInput] = useState<string>("");
-  const setIsShowSearchResult: any = useContext(ShowSearchResultContext);
+  const context = useContext(ShowSearchResultContext);
+  if (context === null || context === undefined) {
+    throw new Error(
+      "SomeChildComponent must be used within a ShowSearchResultContext.Provider",
+    );
+  }
+  const setIsShowSearchResult = context;
   return (
     <>
       <div className="flex h-16 w-[500px] items-center bg-black/50 p-3">

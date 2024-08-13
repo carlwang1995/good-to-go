@@ -3,10 +3,7 @@ import React, { useState, createContext } from "react";
 import Map from "@/components/Plan/Map";
 import SearchResultCard from "@/components/Plan/Search/SearchResultCard";
 import TripContent from "@/components/Plan/TripContent";
-
-export const ShowSearchResultContext = createContext<React.Dispatch<
-  React.SetStateAction<boolean>
-> | null>(null);
+import { ShowSearchResultContext } from "@/contexts/ShowSearchResultContext";
 
 const Plan = ({ params }: { params: { _id: string } }) => {
   const [isShowSearchResult, setIsShowSearchResult] = useState<boolean>(false);
