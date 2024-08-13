@@ -1,12 +1,9 @@
 "use client";
 import React, { useState, createContext } from "react";
 import Map from "@/components/Plan/Map";
-import SearchResult from "@/components/Plan/Search/SearchResult";
+import SearchResultCard from "@/components/Plan/Search/SearchResultCard";
 import TripContent from "@/components/Plan/TripContent";
 
-type ContextContent = {
-  setIsShowSearchResult: React.Dispatch<React.SetStateAction<boolean>>;
-};
 export const ShowSearchResultContext = createContext<React.Dispatch<
   React.SetStateAction<boolean>
 > | null>(null);
@@ -19,7 +16,7 @@ const Plan = ({ params }: { params: { _id: string } }) => {
         <TripContent docId={params._id} />
       </ShowSearchResultContext.Provider>
       {isShowSearchResult ? (
-        <SearchResult setIsShowSearchResult={setIsShowSearchResult} />
+        <SearchResultCard setIsShowSearchResult={setIsShowSearchResult} />
       ) : null}
       <div className="z-0 h-full w-full">
         <Map />

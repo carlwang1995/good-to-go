@@ -1,10 +1,37 @@
+import React, { useState, useEffect } from "react";
 import TripItem from "./TripItem";
-
+type newTripType = {
+  docId: string;
+  tripName: string;
+  startDate: string;
+  endDate: string;
+};
 type ListContentProps = {
   setDialogBoxDisplay: any;
-  newTrip: Array<object>;
+  newTrip: Array<newTripType> | undefined;
 };
 const ListContent = ({ setDialogBoxDisplay, newTrip }: ListContentProps) => {
+  const [tripItemArr, setTripItemArr] = useState<
+    Array<React.JSX.Element> | undefined
+  >(undefined);
+  useEffect(() => {
+    const newArr = [];
+    if (newTrip) {
+      for (let i = 0; i < newTrip.length; i++) {
+        newArr.push(
+          <TripItem
+            key={i}
+            index={i}
+            docId={newTrip[i].docId}
+            tripName={newTrip[i].tripName}
+            startDate={newTrip[i].startDate}
+            endDate={newTrip[i].endDate}
+          />,
+        );
+      }
+      setTripItemArr(newArr);
+    }
+  }, [newTrip]);
   return (
     <>
       <div className="mt-5 flex w-full justify-end">
@@ -15,17 +42,7 @@ const ListContent = ({ setDialogBoxDisplay, newTrip }: ListContentProps) => {
           新增行程
         </button>
       </div>
-      <div className="flex w-full flex-wrap">
-        {newTrip.map((trip: any, index: number) => (
-          <TripItem
-            key={index}
-            docId={trip.docId}
-            tripName={trip.tripName}
-            startDate={trip.startDate}
-            endDate={trip.endDate}
-          />
-        ))}
-      </div>
+      <div className="flex w-full flex-wrap">{tripItemArr}</div>
     </>
   );
 };

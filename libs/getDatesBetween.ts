@@ -13,7 +13,6 @@ const getDateBetween = (startDate: string, endDate: string) => {
     dates.push(`${month}月${day}日`);
     start.setDate(start.getDate() + 1);
   }
-  console.log(dates);
   return dates;
 };
 

@@ -6,7 +6,7 @@ const SearchResult = ({
   setIsShowSearchResult: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   return (
-    <div className="absolute left-[500px] z-20 h-[calc(100%-50px)] w-[380px] bg-white">
+    <div className="absolute left-[500px] z-20 h-full w-[380px] bg-white">
       <div className="flex h-16 items-center justify-end">
         <div
           className="mr-2 p-3 hover:cursor-pointer hover:bg-slate-200"

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useContext } from "react";
 import { ShowSearchResultContext } from "@/app/trips/[_id]/page";
-import SearchList from "./SearchList";
+import SearchListBox from "./SearchListBox";
 
 const SearchCard = ({
   setIsSearching,
@@ -36,21 +36,21 @@ const SearchCard = ({
           開始搜尋
         </button>
       </div>
-      <div className="h-full w-full items-center overflow-scroll overflow-x-hidden bg-scroll pl-3 pr-3">
-        <SearchList
+      <div className="h-[calc(100%-128px)] w-full items-center overflow-scroll overflow-x-hidden bg-scroll pl-3 pr-3">
+        <SearchListBox
           name="台北小巨蛋"
           address="台北市南京東路111號"
           // setIsOpenResult={setIsOpenResult}
         />
-        <SearchList name="台北101" address="台北市信義區101號" />
-        <SearchList name="台北101" address="台北市信義區101號" />
-        <SearchList name="台北101" address="台北市信義區101號" />
-        <SearchList name="台北101" address="台北市信義區101號" />
-        <SearchList name="台北101" address="台北市信義區101號" />
-        <SearchList name="台北101" address="台北市信義區101號" />
-        <SearchList name="台北101" address="台北市信義區101號" />
-        <SearchList name="台北101" address="台北市信義區101號" />
-        <SearchList name="台北小巨蛋" address="台北市南京東路111號" />
+        <SearchListBox name="台北101" address="台北市信義區101號" />
+        <SearchListBox name="台北101" address="台北市信義區101號" />
+        <SearchListBox name="台北101" address="台北市信義區101號" />
+        <SearchListBox name="台北101" address="台北市信義區101號" />
+        <SearchListBox name="台北101" address="台北市信義區101號" />
+        <SearchListBox name="台北101" address="台北市信義區101號" />
+        <SearchListBox name="台北101" address="台北市信義區101號" />
+        <SearchListBox name="台北101" address="台北市信義區101號" />
+        <SearchListBox name="台北小巨蛋" address="台北市南京東路111號" />
       </div>
     </>
   );

@@ -51,7 +51,7 @@ const TripCard = ({ docId }: { docId: string }) => {
         <SearchCard setIsSearching={setIsSearching} />
       ) : (
         <>
-          <div className="shadow-lg">
+          <div className="border-b border-solid border-slate-300 shadow-lg">
             <div className="flex h-16 w-full items-center bg-black/50 p-3">
               <Link href="/trips">
                 <span className="mr-3 w-8 text-xl text-white hover:font-bold">
@@ -75,7 +75,7 @@ const TripCard = ({ docId }: { docId: string }) => {
                 onClick={dateScrollToLeft}
                 className="absolute left-0 top-0 z-10 flex h-full items-center justify-center border border-white bg-white px-1 hover:cursor-pointer hover:border-slate-500"
               >
-                <div>＜</div>
+                <div className="text-2xl">&#10094;</div>
               </div>
               <div
                 className="flex h-full w-full overflow-x-hidden scroll-smooth whitespace-nowrap px-7"
@@ -95,7 +95,7 @@ const TripCard = ({ docId }: { docId: string }) => {
                 onClick={dateScrollToRight}
                 className="hover: absolute right-0 top-0 z-10 flex h-full items-center justify-center border border-white bg-white px-1 hover:cursor-pointer hover:border-slate-500"
               >
-                <div>＞</div>
+                <div className="text-2xl">&#10095;</div>
               </div>
             </div>
           </div>

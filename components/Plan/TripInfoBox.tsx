@@ -1,23 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { addTime } from "@/libs/timeConvertor";
 
 type TripInfoProps = {
   number: number;
+  placeId: string;
+  trafficTime: string;
   stayTime: string;
   startTime: string;
-  endTime: string;
   name: string;
   address: string;
 };
 const TripInfo = ({
   number,
+  placeId,
+  trafficTime,
   stayTime,
   startTime,
-  endTime,
   name,
   address,
 }: TripInfoProps) => {
+  const start = addTime(startTime, trafficTime);
+  const end = addTime(start, stayTime);
   return (
-    <div className="flex border-t bg-white p-5 shadow-lg">
+    <div className="relative z-10 mb-[40px] flex h-[120px] w-full border-t bg-white p-5 shadow-lg">
       <div className="relative h-20 w-20 bg-slate-400">
         <div className="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center bg-slate-600">
           <p className="text-white">{String(number + 1)}</p>
@@ -29,9 +34,7 @@ const TripInfo = ({
             {stayTime}
           </span>
           <> | </>
-          <span>
-            {startTime} - {endTime}
-          </span>
+          <span>{`${start} － ${end}`}</span>
         </div>
         <div className="font-bold">{name}</div>
         <div>{address}</div>

@@ -1,4 +1,4 @@
-import React, { FC, useContext } from "react";
+import React, { useContext } from "react";
 import { ShowSearchResultContext } from "@/app/trips/[_id]/page";
 
 type SearchListProps = {

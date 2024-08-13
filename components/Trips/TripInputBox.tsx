@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { DB_createNewTrip } from "@/libs/db/CreateTripPage";
+import { DB_createNewTrip, DB_createNewPlan } from "@/libs/db/CreateTripPage";
 import { useRouter } from "next/navigation";
 import { getDateBetween } from "@/libs/getDatesBetween";
 
@@ -62,6 +62,7 @@ const TripInput = ({
     tripName: string,
   ) => {
     const dates = getDateBetween(startDate, endDate);
+    let tripsArr = [];
     const tripObject = {
       userId,
       startDate,
@@ -70,12 +71,19 @@ const TripInput = ({
       tripName,
       dates,
     };
-    // newTrip ? setNewTrip([...newTrip, tripObject]) : setNewTrip([tripObject]);
+    for (let i = 0; i < dates.length; i++) {
+      tripsArr.push({ startTime: "08:00", places: [] });
+    }
     try {
       const docId = await DB_createNewTrip(tripObject);
+      const planObject = {
+        docId,
+        trips: tripsArr,
+      };
+      await DB_createNewPlan(planObject);
       router.push(`/trips/${docId}`);
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
   return (
