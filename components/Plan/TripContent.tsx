@@ -6,14 +6,6 @@ import TripInfoCard from "./TripInfoCard";
 import SearchCard from "./Search/SearchCard";
 import { DB_getTripNameByDocId } from "@/libs/db/EditTripPage";
 
-// type tripInfoType = {
-//   userId: string | undefined;
-//   tripName: string | undefined;
-//   destination: string | undefined;
-//   startDate: string | undefined;
-//   endDate: string | undefined;
-// };
-
 const TripCard = ({ docId }: { docId: string }) => {
   const [index, setIndex] = useState<number>(0);
   const [dateCount, setDateCount] = useState<string>("第1天");
@@ -39,10 +31,14 @@ const TripCard = ({ docId }: { docId: string }) => {
 
   const scrollRange = 300;
   const dateScrollToLeft = () => {
-    dateSectionRef.current.scrollLeft -= scrollRange;
+    if (dateSectionRef.current) {
+      dateSectionRef.current.scrollLeft -= scrollRange;
+    }
   };
   const dateScrollToRight = () => {
-    dateSectionRef.current.scrollLeft += scrollRange;
+    if (dateSectionRef.current) {
+      dateSectionRef.current.scrollLeft += scrollRange;
+    }
   };
 
   return (
