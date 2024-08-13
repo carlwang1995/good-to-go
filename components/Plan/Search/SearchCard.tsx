@@ -12,7 +12,7 @@ const SearchCard = ({
   const context = useContext(ShowSearchResultContext);
   if (context === null || context === undefined) {
     throw new Error(
-      "SomeChildComponent must be used within a ShowSearchResultContext.Provider",
+      "ChildComponent must be used within a ShowSearchResultContext.Provider",
     );
   }
   const setIsShowSearchResult = context;

@@ -7,8 +7,9 @@ import { DB_getTrips } from "@/libs/db/CreateTripPage";
 import { useUser } from "@/contexts/UserAuth";
 import { useRouter } from "next/navigation";
 import { DB_deleteTrip, DB_deletePlanByDocId } from "@/libs/db/CreateTripPage";
+import { deleteContext } from "@/contexts/deleteContext";
 
-export const pageContext = createContext<any>(null);
+// export const deleteContext = createContext<any>(null);
 
 type newTripType = {
   docId: string;
@@ -61,12 +62,12 @@ const Trips = () => {
         {newTrip === undefined ? (
           <EmptyContent setDialogBoxDisplay={setDialogBoxDisplay} />
         ) : (
-          <pageContext.Provider value={deleteTrip}>
+          <deleteContext.Provider value={deleteTrip}>
             <ListContent
               setDialogBoxDisplay={setDialogBoxDisplay}
               newTrip={newTrip}
             />
-          </pageContext.Provider>
+          </deleteContext.Provider>
         )}
 
         <CreateTripCard
