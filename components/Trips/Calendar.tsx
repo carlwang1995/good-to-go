@@ -12,6 +12,11 @@ type CalendarCardProps = {
   setIsOpenCalendar: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
+type DateRangeType = {
+  startDate: Date;
+  endDate: Date;
+  key: string;
+};
 const CalendarCard = ({
   setStartDate,
   setEndDate,
@@ -19,7 +24,7 @@ const CalendarCard = ({
 }: CalendarCardProps) => {
   const [pendingStartDate, setPendingStartDate] = useState<string>("");
   const [pendingEndDate, setPendingEndDate] = useState<string>("");
-  const [dateRange, setDateRange] = useState<Array<object>>([
+  const [dateRange, setDateRange] = useState<Array<DateRangeType>>([
     {
       startDate: new Date(),
       endDate: new Date(),
