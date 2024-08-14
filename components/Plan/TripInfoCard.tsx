@@ -1,18 +1,20 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import TripInfoBox from "./TripInfoBox";
 import TrafficTimeBox from "./TrafficTimeBox";
+import SearchCard from "./Search/SearchCard";
 import OpenSearchBtn from "./OpenSearchBtn";
-import { DB_getTripInfo, DB_getPlanByDocId } from "@/libs/db/EditTripPage";
+import { DB_getPlanByDocId } from "@/libs/db/EditTripPage";
 import { addTime } from "@/libs/timeConvertor";
 
-type TripDateCardProps = {
-  docId: string;
+type TripInfoProps = {
   index: number;
+  docId: string;
   dateCount: string;
-  setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
 };
-
+type PlanContentType = {
+  docId: string;
+  trips: Array<{ startTime: string; places: Array<PlacesType> }>;
+};
 type PlacesType = {
   placeId: string;
   name: string;
@@ -20,12 +22,10 @@ type PlacesType = {
   stayTime: string;
 };
 
-const TripInfoCard = ({
-  docId,
-  index,
-  dateCount,
-  setIsSearching,
-}: TripDateCardProps) => {
+const TripInfoCard = ({ index, docId, dateCount }: TripInfoProps) => {
+  const [planDocId, setPlanDocId] = useState<string>("");
+  const [planContent, setPlanContent] = useState<PlanContentType | null>(null);
+  const [isSearching, setIsSearching] = useState<boolean>(false);
   const [startTime, setStartTime] = useState<string>(""); // 某一天的出發時間字串
   const [places, setPlaces] = useState<Array<PlacesType>>(); // 某一天的行程陣列
   const [tripBoxArray, setTripBoxArray] = useState<Array<any> | null>(null);
@@ -36,13 +36,6 @@ const TripInfoCard = ({
   const [trafficTimeObject, setTrafficTimeObject] = useState<{
     [key: string]: string;
   }>({});
-
-  useEffect(() => {
-    DB_getPlanByDocId(docId).then((tripInfo: any) => {
-      setStartTime(tripInfo.trips[index].startTime);
-      setPlaces(tripInfo.trips[index].places);
-    });
-  }, [index]);
 
   const handleTrafficTime = (
     number: string,
@@ -55,6 +48,20 @@ const TripInfoCard = ({
       [`${number}-${departId}-${destinedId}`]: duration,
     }));
   };
+
+  useEffect(() => {
+    DB_getPlanByDocId(docId).then((plan: any) => {
+      setPlanDocId(plan.planDocId);
+      setPlanContent(plan.result);
+    });
+  }, [docId]);
+
+  useEffect(() => {
+    if (planContent) {
+      setStartTime(planContent.trips[index].startTime);
+      setPlaces(planContent.trips[index].places);
+    }
+  }, [planContent, index]);
 
   useEffect(() => {
     if (places && places.length > 0) {
@@ -115,22 +122,33 @@ const TripInfoCard = ({
   }, [places, startTime, trafficTimeObject]);
 
   return (
-    <div className="h-[calc(100%-216px)] overflow-y-auto overflow-x-hidden">
-      <div className="mt-4 flex items-center justify-center bg-slate-300">
-        <p>{dateCount}</p>
+    <>
+      <div className="h-full overflow-y-auto overflow-x-hidden">
+        <div className="mt-4 flex items-center justify-center bg-slate-300">
+          <p>{dateCount}</p>
+        </div>
+        <div className="p-2">
+          <span>出發時間：</span>
+          <span className="underline hover:cursor-pointer hover:font-bold">
+            {startTime}
+          </span>
+        </div>
+        <div className="relative">
+          {tripBoxArray}
+          <div className="absolute top-0 w-full">{trafficBoxArray}</div>
+          <OpenSearchBtn setIsSearching={setIsSearching} />
+        </div>
       </div>
-      <div className="p-2">
-        <span>出發時間：</span>
-        <span className="underline hover:cursor-pointer hover:font-bold">
-          {startTime}
-        </span>
-      </div>
-      <div className="relative">
-        {tripBoxArray}
-        <div className="absolute top-0 w-full">{trafficBoxArray}</div>
-        <OpenSearchBtn setIsSearching={setIsSearching} />
-      </div>
-    </div>
+      {isSearching ? (
+        <SearchCard
+          index={index}
+          planDocId={planDocId}
+          setIsSearching={setIsSearching}
+        />
+      ) : (
+        <></>
+      )}
+    </>
   );
 };
 

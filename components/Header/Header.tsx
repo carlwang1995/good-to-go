@@ -30,7 +30,7 @@ const Header = () => {
         setIsLogin(false);
       }
     });
-  }, [setUserId, setUserName, isLogin, setIsLogin]);
+  }, [isLogin]);
 
   const logOut = () => {
     signOut(auth)

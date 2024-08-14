@@ -11,8 +11,8 @@ import {
 } from "firebase/firestore";
 
 const DB_getTripNameByDocId = async (docId: string) => {
+  const docRef = doc(db, "trips", docId);
   try {
-    const docRef = doc(db, "trips", docId);
     const response = await getDoc(docRef);
     const result = response.data();
     if (result !== undefined) {
@@ -21,7 +21,7 @@ const DB_getTripNameByDocId = async (docId: string) => {
       console.log("查無資料");
     }
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
 };
 
@@ -29,11 +29,15 @@ const DB_getPlanByDocId = async (docId: string) => {
   const q = query(collection(db, "plans"), where("docId", "==", docId));
   try {
     const querySnapshot = await getDocs(q);
-    let result: Array<object> = [];
+    let resultArr: Array<object> = [];
+    let planDocIdArr: Array<any> = [];
     querySnapshot.forEach((doc) => {
-      result.push(doc.data());
+      resultArr.push(doc.data());
+      planDocIdArr.push(doc.id);
     });
-    return result[0];
+    const result = resultArr[0];
+    const planDocId = planDocIdArr[0];
+    return { planDocId, result };
   } catch (e) {
     console.error(e);
   }

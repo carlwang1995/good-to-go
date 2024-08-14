@@ -1,3 +1,3 @@
 import { createContext } from "react";
 
-export const deleteContext = createContext<any>(null);
+export const DeleteContext = createContext<any>(null);

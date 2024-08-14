@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useContext, useState } from "react";
-import { deleteContext } from "@/contexts/deleteContext";
+import { DeleteContext } from "@/contexts/DeleteContext";
 
 type ListCardProps = {
   index: number;
@@ -19,7 +19,7 @@ const TripItem = ({
   endDate,
 }: ListCardProps) => {
   const [showDeleteBtn, setShowDeleteBtn] = useState<boolean>(false);
-  const context = useContext(deleteContext);
+  const context = useContext(DeleteContext);
   if (context === undefined || context === null) {
     throw new Error(
       "ChildComponent must be used within a ShowSearchResultContext.Provider",
