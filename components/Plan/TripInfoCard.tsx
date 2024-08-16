@@ -1,84 +1,101 @@
-import React, { useEffect, useState } from "react";
-import TripInfoBox from "./TripInfoBox";
-import TrafficTimeBox from "./TrafficTimeBox";
-import SearchCard from "./Search/SearchCard";
+import React, { useContext, useEffect, useState, createContext } from "react";
+import PlaceBox from "./PlaceBox";
+import TrafficBox from "./TrafficBox";
+import SearchContent from "./Search/SearchContent";
 import OpenSearchBtn from "./OpenSearchBtn";
+import PlaceCard from "./PlaceCard";
 import { DB_getPlanByDocId } from "@/libs/db/EditTripPage";
 import { addTime } from "@/libs/timeConvertor";
+import { DayIndexContext } from "./PlanContent";
 
-type TripInfoProps = {
-  index: number;
-  docId: string;
-  dateCount: string;
-};
-type PlanContentType = {
-  docId: string;
-  trips: Array<{ startTime: string; places: Array<PlacesType> }>;
-};
-type PlacesType = {
+export const TripContext = createContext<{
+  planDocId: string;
+  setState: React.Dispatch<React.SetStateAction<boolean>>;
+} | null>(null);
+
+interface PlaceType {
+  id: number;
   placeId: string;
   name: string;
   address: string;
+  location: { latitude: number; longitude: number };
   stayTime: string;
+}
+
+interface TripType {
+  startTime: string;
+  places: Array<PlaceType>;
+}
+
+type PlanContentType = {
+  docId: string;
+  trips: { [key: string]: TripType };
 };
 
-const TripInfoCard = ({ index, docId, dateCount }: TripInfoProps) => {
+type TripInfoProps = {
+  docId: string; // 向DB取得PLAN資料
+  dateCount: string; // 渲染第幾天
+};
+const TripInfoCard = ({ docId, dateCount }: TripInfoProps) => {
+  const [state, setState] = useState(false); // 觸發資料庫Reuqest
   const [planDocId, setPlanDocId] = useState<string>("");
   const [planContent, setPlanContent] = useState<PlanContentType | null>(null);
   const [isSearching, setIsSearching] = useState<boolean>(false);
-  const [startTime, setStartTime] = useState<string>(""); // 某一天的出發時間字串
-  const [places, setPlaces] = useState<Array<PlacesType>>(); // 某一天的行程陣列
+  const [trip, setTrip] = useState<TripType | null>(null); // 某一天的行程，包含出發時間字串、行程陣列
   const [tripBoxArray, setTripBoxArray] = useState<Array<any> | null>(null);
   const [trafficBoxArray, setTrafficBoxArray] = useState<Array<any> | null>(
     null,
   );
-  const [departTimeArray, setDepartTimeArray] = useState<Array<string>>([]);
   const [trafficTimeObject, setTrafficTimeObject] = useState<{
     [key: string]: string;
   }>({});
+  const [showPlaceInfo, setShowPlaceInfo] = useState<boolean>(false);
+  const [placeBoxInfo, setPlaceBoxInfo] = useState<PlaceType>();
+  const dayIndex: string = useContext(DayIndexContext);
 
   const handleTrafficTime = (
     number: string,
-    departId: string,
-    destinedId: string,
+    originId: string,
+    destinationId: string,
     duration: string,
   ) => {
     setTrafficTimeObject((pre) => ({
       ...pre,
-      [`${number}-${departId}-${destinedId}`]: duration,
+      [`${number}-${originId}-${destinationId}`]: duration,
     }));
   };
 
   useEffect(() => {
-    DB_getPlanByDocId(docId).then((plan: any) => {
-      setPlanDocId(plan.planDocId);
-      setPlanContent(plan.result);
-    });
-  }, [docId]);
+    DB_getPlanByDocId(docId)
+      .then((plan: any) => {
+        setPlanDocId(plan.planDocId);
+        setPlanContent(plan.planContent);
+      })
+      .catch((e) => console.error(e));
+  }, [docId, state]);
 
   useEffect(() => {
     if (planContent) {
-      setStartTime(planContent.trips[index].startTime);
-      setPlaces(planContent.trips[index].places);
+      setTrip(planContent.trips[dayIndex]);
     }
-  }, [planContent, index]);
+  }, [planContent, dayIndex]);
 
   useEffect(() => {
-    if (places && places.length > 0) {
+    if (trip && trip.places.length > 0) {
       const departArray: Array<string> = [];
       const trafficBoxArray: Array<React.JSX.Element> = [];
       const tripBoxArray: Array<React.JSX.Element> = [];
 
       // 各景點出發時間資訊裝在陣列中
-      for (let i = 0; i < places.length; i++) {
-        if (i === 0) {
-          departArray.push(startTime); // 起點的出發時間必為該日行程的"StartTime"
-        } else if (startTime !== "") {
+      for (let i = 0; i < trip.places.length; i++) {
+        if (trip && i === 0) {
+          departArray.push(trip.startTime); // 起點的出發時間必為該日行程的"StartTime"
+        } else if (trip && trip.startTime !== "") {
           const prevTime = departArray[i - 1]; // 前一景點的開始時間
-          const prevStayTime = places[i - 1].stayTime; // 前一景點的停留時間
+          const prevStayTime = trip.places[i - 1].stayTime; // 前一景點的停留時間
           const trafficTime =
             trafficTimeObject[
-              `${i - 1}-${places[i - 1].placeId}-${places[i].placeId}`
+              `${i - 1}-${trip.places[i - 1].placeId}-${trip.places[i].placeId}`
             ] || "00:00"; // 前一景點的停留時間到本景點的交通時間，預設為"00:00"
           const placeStartTime = addTime(
             addTime(prevTime, prevStayTime),
@@ -89,62 +106,78 @@ const TripInfoCard = ({ index, docId, dateCount }: TripInfoProps) => {
         }
       }
       // 景點資訊組件裝在陣列中
-      for (let i = 0; i < places.length; i++) {
+      for (let i = 0; i < trip.places.length; i++) {
         tripBoxArray.push(
-          <TripInfoBox
+          <PlaceBox
             key={i}
             number={i}
-            placeId={places[i].placeId}
-            stayTime={places[i].stayTime}
-            trafficTime={i === 0 ? "00:00" : "00:00"} //起點的交通時間必為"00:00"
+            place={trip.places[i]}
             startTime={departArray[i]}
-            name={places[i].name}
-            address={places[i].address}
+            setShowPlaceInfo={setShowPlaceInfo}
+            setPlaceBoxInfo={setPlaceBoxInfo}
           />,
         );
       }
       // 交通資訊組件裝在陣列中
-      for (let i = 0; i < places.length - 1; i++) {
+      for (let i = 0; i < trip.places.length - 1; i++) {
         trafficBoxArray.push(
-          <TrafficTimeBox
+          <TrafficBox
             key={i}
             number={i}
-            departId={places[i].placeId}
-            destinedId={places[i + 1].placeId}
+            originId={trip.places[i].placeId}
+            destinationId={trip.places[i + 1].placeId}
             handleTrafficTime={handleTrafficTime}
           />,
         );
       }
-      setDepartTimeArray(departArray);
+      // setDepartTimeArray(departArray);
       setTripBoxArray(tripBoxArray);
       setTrafficBoxArray(trafficBoxArray);
+    } else {
+      setTripBoxArray(null);
+      setTrafficBoxArray(null);
     }
-  }, [places, startTime, trafficTimeObject]);
+  }, [trip, trafficTimeObject]);
 
   return (
     <>
       <div className="h-full overflow-y-auto overflow-x-hidden">
-        <div className="mt-4 flex items-center justify-center bg-slate-300">
-          <p>{dateCount}</p>
+        <div className="mt-2 flex items-center justify-center bg-slate-300">
+          <p className="py-1 text-lg font-bold text-slate-600">{dateCount}</p>
         </div>
-        <div className="p-2">
+        <div className="ml-5 py-2">
           <span>出發時間：</span>
-          <span className="underline hover:cursor-pointer hover:font-bold">
-            {startTime}
+          <span className="font-bold underline hover:cursor-pointer hover:font-bold">
+            {trip ? trip.startTime : null}
           </span>
         </div>
         <div className="relative">
-          {tripBoxArray}
+          <TripContext.Provider
+            value={planDocId != "" ? { planDocId, setState } : null}
+          >
+            {tripBoxArray}
+          </TripContext.Provider>
           <div className="absolute top-0 w-full">{trafficBoxArray}</div>
-          <OpenSearchBtn setIsSearching={setIsSearching} />
+          <OpenSearchBtn
+            setIsSearching={setIsSearching}
+            setShowPlaceInfo={setShowPlaceInfo}
+          />
         </div>
       </div>
-      {isSearching ? (
-        <SearchCard
-          index={index}
-          planDocId={planDocId}
-          setIsSearching={setIsSearching}
-        />
+      <TripContext.Provider
+        value={planDocId != "" ? { planDocId, setState } : null}
+      >
+        {isSearching ? (
+          <SearchContent setIsSearching={setIsSearching} />
+        ) : (
+          <></>
+        )}
+      </TripContext.Provider>
+      {showPlaceInfo ? (
+        <PlaceCard
+          place={placeBoxInfo}
+          setShowPlaceInfo={setShowPlaceInfo}
+        ></PlaceCard>
       ) : (
         <></>
       )}

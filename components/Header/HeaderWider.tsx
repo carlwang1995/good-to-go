@@ -44,7 +44,7 @@ const Header = () => {
   };
   return (
     <div className="fixed z-50 flex h-[60px] w-screen justify-center bg-white shadow-lg">
-      <div className="relative flex h-full w-[1100px]">
+      <div className="relative flex h-full w-full">
         <Link style={{ textDecoration: "none" }} href="/">
           <span className="flex h-full items-center justify-center pl-4 text-3xl font-bold">
             <p>Good to Go</p>

@@ -18,7 +18,7 @@ const DB_createNewTrip = async (trip: object) => {
   }
 };
 
-const DB_createNewPlan = async (plan: object) => {
+const DB_createNewPlan = async (plan: { docId: string; trips: object }) => {
   try {
     let decRef = await addDoc(collection(db, "plans"), plan);
     return decRef.id;

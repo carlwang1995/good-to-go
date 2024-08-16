@@ -1,32 +1,29 @@
-import React, { useContext } from "react";
-import SearchResultCard from "./SearchResultCard";
+import React from "react";
 
-type PlaceResultType = {
+type PlaceType = {
   placeId: string;
   name: string;
   address: string;
   location: { latitude: number; longitude: number };
 };
 
-type SearchListBoxProps = {
+type ResultListBoxProps = {
   placeId: string;
   name: string;
   address: string;
   location: { latitude: number; longitude: number };
-  setSelectedPlace: React.Dispatch<
-    React.SetStateAction<PlaceResultType | null>
-  >;
+  setSelectedPlace: React.Dispatch<React.SetStateAction<PlaceType | null>>;
   setIsShowSearchResult: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const SearchListBox: React.FC<SearchListBoxProps> = ({
+const ResultListBox: React.FC<ResultListBoxProps> = ({
   placeId,
   name,
   address,
   location,
   setSelectedPlace,
   setIsShowSearchResult,
-}: SearchListBoxProps) => {
+}: ResultListBoxProps) => {
   return (
     <>
       <div
@@ -52,4 +49,4 @@ const SearchListBox: React.FC<SearchListBoxProps> = ({
   );
 };
 
-export default SearchListBox;
+export default ResultListBox;

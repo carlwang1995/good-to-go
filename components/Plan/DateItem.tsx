@@ -1,25 +1,26 @@
 import React from "react";
 
-type TripDateProps = {
+type DateItemProps = {
   date: string;
   dateNumber: number;
   setDateCount: React.Dispatch<React.SetStateAction<string>>;
-  setIndex: React.Dispatch<React.SetStateAction<number>>;
+  setDayIndex: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const TripDate = ({
+const DateItem = ({
   date,
   dateNumber,
   setDateCount,
-  setIndex,
-}: TripDateProps) => {
+  setDayIndex,
+}: DateItemProps) => {
   const dateCountString = `第${String(dateNumber + 1)}天`;
   return (
     <div
       className="flex h-full min-w-24 flex-col items-center justify-center border-r bg-white hover:cursor-pointer hover:font-bold"
       onClick={() => {
         setDateCount(dateCountString);
-        setIndex(dateNumber);
+        const dayIndex: string = "day" + String(dateNumber + 1);
+        setDayIndex(dayIndex);
       }}
     >
       <p>{date}</p>
@@ -28,4 +29,4 @@ const TripDate = ({
   );
 };
 
-export default TripDate;
+export default DateItem;

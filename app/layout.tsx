@@ -19,10 +19,7 @@ export default function RootLayout({
   return (
     <UserContextProvider>
       <html lang="zh-HANT">
-        <body className={notoSansTc.className}>
-          <Header />
-          {children}
-        </body>
+        <body className={notoSansTc.className}>{children}</body>
       </html>
     </UserContextProvider>
   );

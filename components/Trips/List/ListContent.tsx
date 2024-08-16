@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import TripItem from "./TripItem";
+import ListItem from "./ListItem";
 type newTripType = {
   docId: string;
   tripName: string;
@@ -19,7 +19,7 @@ const ListContent = ({ setDialogBoxDisplay, newTrip }: ListContentProps) => {
     if (newTrip) {
       for (let i = 0; i < newTrip.length; i++) {
         newArr.push(
-          <TripItem
+          <ListItem
             key={i}
             index={i}
             docId={newTrip[i].docId}

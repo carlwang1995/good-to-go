@@ -1,4 +1,5 @@
 import { db } from "@/config/firebase";
+import firebase from "firebase/compat/app";
 import {
   collection,
   addDoc,
@@ -8,6 +9,10 @@ import {
   orderBy,
   doc,
   getDoc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+  Firestore,
 } from "firebase/firestore";
 
 const DB_getTripNameByDocId = async (docId: string) => {
@@ -35,69 +40,59 @@ const DB_getPlanByDocId = async (docId: string) => {
       resultArr.push(doc.data());
       planDocIdArr.push(doc.id);
     });
-    const result = resultArr[0];
-    const planDocId = planDocIdArr[0];
-    return { planDocId, result };
+    const planDocId: string = planDocIdArr[0];
+    const planContent: object = resultArr[0];
+    return { planDocId, planContent };
   } catch (e) {
     console.error(e);
   }
 };
 
-const DB_getTripInfo = async () => {
-  const data = {
-    docId: "6mNLLq2srPuWGXx3a2Uc",
-    trips: [
-      {
-        // 第1天
-        startTime: "08:00",
-        places: [
-          {
-            placeId: "aaaa",
-            name: "台北小巨蛋",
-            address: "台北市南京東路",
-            stayTime: "00:30",
-          },
-          {
-            placeId: "bbbb",
-            name: "台北101",
-            address: "台北市信義路101號",
-            stayTime: "00:40",
-          },
-          {
-            placeId: "cccc",
-            name: "松山機場",
-            address: "松山路123號",
-            stayTime: "00:50",
-          },
-        ],
-      },
-      {
-        // 第2天
-        startTime: "10:00",
-        places: [
-          {
-            placeId: "dddd",
-            name: "台北火車站",
-            address: "台北市忠孝西路1號",
-            stayTime: "01:00",
-          },
-          {
-            placeId: "eeee",
-            name: "中山捷運站",
-            address: "中山路1111號",
-            stayTime: "01:00",
-          },
-          {
-            placeId: "ffff",
-            name: "西門町",
-            address: "中華路一段123號",
-            stayTime: "01:00",
-          },
-        ],
-      },
-    ],
-  };
-  return data;
+type PlaceType = {
+  id?: number;
+  placeId: string;
+  name: string;
+  address: string;
+  location: { latitude: number; longitude: number };
+  stayTime?: string;
+};
+const DB_updateTripPlan = async (
+  dayIndex: string,
+  docId: string,
+  place: PlaceType,
+) => {
+  const docRef = doc(db, "plans", docId);
+  try {
+    await updateDoc(docRef, {
+      [`trips.${dayIndex}.places`]: arrayUnion(place),
+    });
+    return true;
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
 };
 
-export { DB_getTripNameByDocId, DB_getPlanByDocId, DB_getTripInfo };
+const DB_deleteTripPlanPlace = async (
+  dayIndex: string,
+  docId: string,
+  place: PlaceType,
+) => {
+  const docRef = doc(db, "plans", docId);
+  try {
+    await updateDoc(docRef, {
+      [`trips.${dayIndex}.places`]: arrayRemove(place),
+    });
+    return true;
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+};
+
+export {
+  DB_getTripNameByDocId,
+  DB_getPlanByDocId,
+  DB_updateTripPlan,
+  DB_deleteTripPlanPlace,
+};

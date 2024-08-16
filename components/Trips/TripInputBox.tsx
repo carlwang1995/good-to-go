@@ -55,6 +55,10 @@ const TripInput = ({
   };
 
   // 建立新行程
+  interface Trip {
+    startTime: string;
+    places: any[];
+  }
   const createTrip = async (
     startDate: string,
     endDate: string,
@@ -62,7 +66,7 @@ const TripInput = ({
     tripName: string,
   ) => {
     const dates = getDateBetween(startDate, endDate);
-    let tripsArr = [];
+    let tripsObj: { [key: string]: Trip } = {};
     const tripObject = {
       userId,
       startDate,
@@ -71,17 +75,21 @@ const TripInput = ({
       tripName,
       dates,
     };
-    for (let i = 0; i < dates.length; i++) {
-      tripsArr.push({ startTime: "08:00", places: [] });
+    for (let i: number = 0; i < dates.length; i++) {
+      tripsObj[`day${i + 1}`] = { startTime: "08:00", places: [] };
     }
     try {
       const docId = await DB_createNewTrip(tripObject);
-      const planObject = {
-        docId,
-        trips: tripsArr,
-      };
-      await DB_createNewPlan(planObject);
-      router.push(`/trips/${docId}`);
+
+      if (docId) {
+        const planObject = {
+          docId,
+          trips: tripsObj,
+        };
+        await DB_createNewPlan(planObject);
+      }
+
+      router.push(`/plan/${docId}`);
     } catch (e) {
       console.error(e);
     }

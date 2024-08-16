@@ -20,4 +20,13 @@ const addTime = (time1: string, time2: string) => {
   return formattedTime;
 };
 
-export { stringToTime, addTime };
+const convertTimeString = (timeString: string): string => {
+  const hourMatch = timeString.match(/(\d+)\s*小時/);
+  const minuteMatch = timeString.match(/(\d+)\s*分鐘/);
+  const hour: string = hourMatch ? hourMatch[1].padStart(2, "0") : "00";
+  const minute: string = minuteMatch ? minuteMatch[1].padStart(2, "0") : "00";
+  const formattedTime = `${hour}:${minute}`;
+  return formattedTime;
+};
+
+export { stringToTime, addTime, convertTimeString };

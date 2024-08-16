@@ -1,12 +1,15 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, createContext } from "react";
 import Link from "next/link";
-import TripDateBox from "./TripDateBox";
+import DateItem from "./DateItem";
 import TripInfoCard from "./TripInfoCard";
 import { DB_getTripNameByDocId } from "@/libs/db/EditTripPage";
 
-const TripContent = ({ docId }: { docId: string }) => {
-  const [index, setIndex] = useState<number>(0);
+export const DayIndexContext = createContext<string>("");
+export const DestinationContext = createContext<string>("");
+
+const PlanContent = ({ docId }: { docId: string }) => {
+  const [dayIndex, setDayIndex] = useState<string>("day1");
   const [dateCount, setDateCount] = useState<string>("第1天");
   const [tripName, setTripName] = useState<string | undefined>(undefined);
   const [destination, setDestination] = useState<string | undefined>(undefined);
@@ -17,7 +20,6 @@ const TripContent = ({ docId }: { docId: string }) => {
 
   useEffect(() => {
     DB_getTripNameByDocId(docId).then((tripInfo: any) => {
-      // console.log(tripInfo);
       const { tripName, destination, startDate, endDate, dates } = tripInfo;
       setTripName(tripName);
       setDestination(destination);
@@ -40,7 +42,7 @@ const TripContent = ({ docId }: { docId: string }) => {
   };
 
   return (
-    <div className="flex h-full min-w-[500px] max-w-[500px] flex-col bg-slate-50">
+    <div className="flex h-full min-w-[500px] max-w-[500px] flex-col border-r border-slate-200 bg-slate-50">
       <div className="border-b border-solid border-slate-300 shadow-lg">
         <div className="flex h-16 w-full items-center bg-black/50 p-3">
           <Link href="/trips">
@@ -72,12 +74,12 @@ const TripContent = ({ docId }: { docId: string }) => {
             ref={dateSectionRef}
           >
             {dates?.map((date, index) => (
-              <TripDateBox
+              <DateItem
                 key={index}
                 date={date}
                 dateNumber={index}
                 setDateCount={setDateCount}
-                setIndex={setIndex}
+                setDayIndex={setDayIndex}
               />
             ))}
           </div>
@@ -89,9 +91,13 @@ const TripContent = ({ docId }: { docId: string }) => {
           </div>
         </div>
       </div>
-      <TripInfoCard index={index} docId={docId} dateCount={dateCount} />
+      <DayIndexContext.Provider value={dayIndex}>
+        <DestinationContext.Provider value={destination ? destination : ""}>
+          <TripInfoCard docId={docId} dateCount={dateCount} />
+        </DestinationContext.Provider>
+      </DayIndexContext.Provider>
     </div>
   );
 };
 
-export default TripContent;
+export default PlanContent;

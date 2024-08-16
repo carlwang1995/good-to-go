@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Header from "@/components/Header/Header";
 
 export const metadata: Metadata = {
   title: "我的行程 | Good to Go",
@@ -10,7 +11,12 @@ const Trips = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  return <div className="overflow-x-hidden">{children}</div>;
+  return (
+    <>
+      <Header />
+      <div className="overflow-x-hidden">{children}</div>
+    </>
+  );
 };
 
 export default Trips;
