@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
-import styles from "./login.module.scss";
 import Image from "next/image";
 import GoogleIcon from "@/public/icons8-google.svg";
 import { signInWithGoogle } from "@/libs/auth/signIn";
@@ -17,7 +16,7 @@ const Login = () => {
     }
   };
   return (
-    <main className="flex h-screen w-screen items-center justify-center pt-[50px]">
+    <main className="flex h-screen w-screen items-center justify-center pt-[60px]">
       <div className="flex flex-col items-center rounded-xl border-[1px] border-solid border-black p-10 shadow">
         <h2 className="p-0 text-2xl">登入帳號</h2>
         <button

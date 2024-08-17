@@ -1,89 +1,78 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
+import CreateTripCard from "@/components/Trips/CreateTripCard";
+import EmptyContent from "@/components/Trips/Empty/EmptyContent";
+import ListContent from "@/components/Trips/List/ListContent";
+import { DB_getTrips } from "@/libs/db/CreateTripPage";
+import { useUser } from "@/contexts/UserAuth";
+import { DeleteContext } from "@/contexts/ContextProvider";
 import { useRouter } from "next/navigation";
-import { auth } from "@/config/firebase";
-import { onAuthStateChanged } from "firebase/auth";
-import Link from "next/link";
+import { DB_deleteTrip, DB_deletePlanByDocId } from "@/libs/db/CreateTripPage";
 
+type newTripType = {
+  docId: string;
+  tripName: string;
+  startDate: string;
+  endDate: string;
+};
 const Trips = () => {
-  // const [loading, setLoading] = useState<boolean>(true);
-  const [userName, setUserName] = useState<string>("");
+  const { isLogin, userName, userId } = useUser();
   const [display, setDisplay] = useState<boolean>(false);
-
+  const [newTrip, setNewTrip] = useState<Array<newTripType> | undefined>(
+    undefined,
+  );
+  const [state, setState] = useState<boolean>(false);
   const router = useRouter();
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUserName(String(user.displayName));
-        // console.log(user);
-      } else {
-        router.push("/");
-      }
-    });
-  }, [router]);
 
-  const setDialogBoxDisplay = () => {
+  const deleteTrip = async (docId: string): Promise<void> => {
+    try {
+      let result = await DB_deleteTrip(docId);
+      if (result) {
+        DB_deletePlanByDocId(docId);
+        setState((pre) => !pre);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  useEffect(() => {
+    isLogin
+      ? DB_getTrips(userId).then((result: any) => {
+          if (result.length !== 0) {
+            setNewTrip(result);
+          } else {
+            setNewTrip(undefined);
+          }
+        })
+      : router.push("/");
+  }, [isLogin, userId, state]);
+
+  const setDialogBoxDisplay = (): void => {
     setDisplay(!display);
   };
 
   return (
-    <main className="flex h-screen w-screen justify-center pt-[50px]">
+    <main className="flex h-full w-screen justify-center pt-[60px]">
       <div className="mx-10 w-[1100px] p-4">
-        <div className="mb-5 text-3xl font-bold">HI! {userName}</div>
-        <div className="mb-5 text-2xl">您已規劃的行程如下：</div>
-        <hr />
-        <div className="m-8 w-full">
-          <div className="flex flex-col items-center">
-            <div className="text-xl">
-              <p>立即規劃行程，為旅遊輕鬆做準備</p>
-            </div>
-            <button
-              onClick={setDialogBoxDisplay}
-              className="mt-5 rounded border-[1px] border-solid border-black p-2 text-xl hover:cursor-pointer hover:bg-slate-200"
-            >
-              開始規劃
-            </button>
-          </div>
-        </div>
-        <div
-          className="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-black/80"
-          style={display ? { display: "flex" } : { display: "none" }}
-        >
-          <div className="w-[500px] rounded-lg bg-white p-10">
-            <h2>建立行程</h2>
-            <br />
-            <h3>旅遊日期</h3>
-            <div className="mx-2 flex w-full border-[1px] border-solid border-black p-2">
-              <div className="ml-2 flex-auto">2024/08/05</div>
-              <div>→</div>
-              <div className="ml-2 flex-auto">2024/08/07</div>
-            </div>
-            <br />
-            <h3>目的地</h3>
-            <div className="mx-2 flex w-full border-[1px] border-solid border-black p-2">
-              <span>台北市</span>
-            </div>
-            <br />
-            <h3>旅程名稱</h3>
-            <div className="mx-2 flex w-full border-[1px] border-solid border-black p-2">
-              <span>台北一日遊</span>
-            </div>
-            <br />
-            <div className="flex justify-end">
-              <button
-                onClick={setDialogBoxDisplay}
-                className="mr-3 mt-5 rounded border-[1px] border-solid border-black p-1 text-lg hover:cursor-pointer hover:bg-slate-200"
-              >
-                返回
-              </button>
-              <Link href="/trips/66ac9fee9d031371f0d9d976">
-                <button className="mt-5 rounded border-[1px] border-solid border-black p-1 text-lg hover:cursor-pointer hover:bg-slate-200">
-                  完成
-                </button>
-              </Link>
-            </div>
-          </div>
-        </div>
+        <div className="my-5 text-3xl font-bold">Hi, {userName}</div>
+        <div className="mb-5 text-xl">您已規劃的行程如下</div>
+        <hr className="border-slate-400" />
+        {newTrip === undefined ? (
+          <EmptyContent setDialogBoxDisplay={setDialogBoxDisplay} />
+        ) : (
+          <DeleteContext.Provider value={deleteTrip}>
+            <ListContent
+              setDialogBoxDisplay={setDialogBoxDisplay}
+              newTrip={newTrip}
+            />
+          </DeleteContext.Provider>
+        )}
+
+        <CreateTripCard
+          userId={userId}
+          display={display}
+          setDialogBoxDisplay={setDialogBoxDisplay}
+        />
       </div>
     </main>
   );

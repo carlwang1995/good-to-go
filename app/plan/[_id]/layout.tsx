@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Header from "@/components/Header/HeaderWider";
 
 export const metadata: Metadata = {
   title: "規劃行程 | Good to Go",
@@ -10,7 +11,12 @@ const Plan = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  return <>{children}</>;
+  return (
+    <>
+      <Header />
+      {children}
+    </>
+  );
 };
 
 export default Plan;

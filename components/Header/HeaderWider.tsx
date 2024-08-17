@@ -4,82 +4,100 @@ import Link from "next/link";
 import Image from "next/image";
 import { auth } from "@/config/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import { useUser } from "@/contexts/UserAuth";
+import UserSetting from "./UserSetting";
 
 const Header = () => {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [loginState, setLoginState] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isOpenSetting, setIsOpenSetting] = useState<boolean>(false);
   const [photoUrl, setPhotoUrl] = useState<string>("");
-  const [userName, setUserName] = useState<string>("");
+  const [userEmail, setUserEmail] = useState<string>("");
+  const { isLogin, userId, userName, setIsLogin, setUserId, setUserName } =
+    useUser();
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        setLoading(false);
-        setLoginState(true);
+        // console.log(user);
+        setIsLoading(false);
+        setIsLogin(true);
         setPhotoUrl(String(user.photoURL));
+        setUserId(String(user.uid));
         setUserName(String(user.displayName));
+        setUserEmail(String(user.email));
       } else {
-        setLoading(false);
-        setLoginState(false);
+        setIsLoading(false);
+        setIsLogin(false);
       }
     });
-  }, []);
+  }, [isLogin]);
 
   const logOut = () => {
     signOut(auth)
       .then(() => {
-        setLoginState(false);
+        setIsLogin(false);
+        setIsOpenSetting(false);
       })
       .catch((error) => {
         console.log(error);
       });
   };
   return (
-    <div className="fixed z-50 flex h-[50px] w-screen justify-center shadow-lg">
-      <div className="relative flex h-full w-[1100px]">
+    <div className="fixed z-50 flex h-[60px] w-screen justify-center bg-white shadow-lg">
+      <div className="relative flex h-full w-full">
         <Link style={{ textDecoration: "none" }} href="/">
           <span className="flex h-full items-center justify-center pl-4 text-3xl font-bold">
             <p>Good to Go</p>
           </span>
         </Link>
         <div className="absolute right-0 top-0 flex h-full items-center">
-          {loading ? (
+          {isLoading ? (
             <div className="mx-3 flex h-screen items-center justify-center text-xl hover:font-bold">
               <p>載入中...</p>
             </div>
-          ) : loginState ? (
+          ) : isLogin ? (
             <>
               <div className="mx-3 flex items-center justify-center text-xl hover:cursor-pointer hover:font-bold">
                 <Link style={{ textDecoration: "none" }} href="/trips">
-                  <p>行程規劃</p>
+                  <p>開始規劃</p>
                 </Link>
               </div>
-              <div className="mx-3 flex items-center justify-center text-base hover:cursor-pointer">
+              <div className="relative mx-3 flex items-center justify-center text-base">
                 <Image
-                  className="mr-1 rounded-full border-[1px] border-solid border-black"
+                  className="mr-1 rounded-full border-4 border-double border-slate-600 hover:cursor-pointer hover:border-2 hover:border-solid"
                   src={photoUrl}
                   alt="member"
                   width={35}
                   height={35}
+                  onClick={() => setIsOpenSetting(!isOpenSetting)}
                 ></Image>
-                <p>{userName}</p>
-              </div>
-              <div
-                className="mx-3 flex items-center justify-center text-xl hover:cursor-pointer hover:font-bold"
-                onClick={logOut}
-              >
-                <p>登出</p>
+                {isOpenSetting ? (
+                  <>
+                    <UserSetting
+                      userName={userName}
+                      userEmail={userEmail}
+                      photoUrl={photoUrl}
+                      logOut={logOut}
+                    />
+                    <div
+                      className="fixed left-0 top-0 z-0 h-screen w-screen bg-black/80"
+                      onClick={() => setIsOpenSetting(false)}
+                    ></div>
+                  </>
+                ) : (
+                  <></>
+                )}
               </div>
             </>
           ) : (
             <>
               <Link style={{ textDecoration: "none" }} href="/login">
-                <div className="hover:pointer mx-3 flex h-screen items-center justify-center text-xl hover:font-bold">
+                <div className="hover:pointer mx-3 flex h-full items-center justify-center text-xl hover:font-bold">
                   <p>開始規劃</p>
                 </div>
               </Link>
               <Link style={{ textDecoration: "none" }} href="/login">
-                <div className="hover:pointer mx-3 flex h-screen items-center justify-center text-xl hover:font-bold">
+                <div className="hover:pointer mx-3 flex h-full items-center justify-center text-xl hover:font-bold">
                   <p>登入</p>
                 </div>
               </Link>
