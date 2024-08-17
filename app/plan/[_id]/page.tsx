@@ -5,10 +5,11 @@ import PlanContent from "@/components/Plan/PlanContent";
 import { MarkerContext } from "@/contexts/ContextProvider";
 import { useUser } from "@/contexts/UserAuth";
 import { useRouter } from "next/navigation";
+import { LatLngExpression } from "leaflet";
 
 const Plan = ({ params }: { params: { _id: string } }) => {
   const { isLogin, userName, userId } = useUser();
-  const [markers, setMarkers] = useState<Array<number[]>>([]);
+  const [markers, setMarkers] = useState<LatLngExpression[]>([]);
   const [placeLatLng, setPlaceLatLng] = useState<number[] | null>(null);
   const router = useRouter();
 
