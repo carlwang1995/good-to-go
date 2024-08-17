@@ -130,7 +130,7 @@ const TripInput = ({
       <h3>目的地</h3>
       <input
         className="flex w-full rounded border-[1px] border-solid border-black p-2 placeholder:text-[#8e8e8e]"
-        placeholder="請輸入目的地名稱"
+        placeholder="請輸入城市名稱(例如:台北市、高雄市 等)"
         onChange={(e) => setInputDestinaiton(e.target.value)}
         value={!inputDestinaiton ? "" : inputDestinaiton}
       ></input>
@@ -143,14 +143,14 @@ const TripInput = ({
       <h3>旅程名稱</h3>
       <input
         className="flex w-full rounded border-[1px] border-solid border-black p-2 placeholder:text-[#8e8e8e]"
-        placeholder="請輸入旅程名稱"
+        placeholder="請輸入行程名稱"
         onChange={(e) => setInputTripName(e.target.value)}
         value={!inputTripName ? "" : inputTripName}
       ></input>
       {isTripName ? (
         <></>
       ) : (
-        <p className="text-sm text-red-500">請輸入旅程名稱</p>
+        <p className="text-sm text-red-500">請輸入行程名稱</p>
       )}
       <br />
       <div className="flex justify-end">

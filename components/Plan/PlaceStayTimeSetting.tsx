@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { DayIndexContext } from "./PlanContent";
+import { DayIndexContext } from "@/contexts/ContextProvider";
 import { DB_upadateTripStayTime } from "@/libs/db/EditTripPage";
 
 interface PlaceType {

@@ -3,7 +3,7 @@ import ResultListBox from "./ResultListBox";
 import PlaceInfoCard from "./PlaceInfoCard";
 import Image from "next/image";
 import textSearch from "@/libs/google/textSearch";
-import { DestinationContext } from "../PlanContent";
+import { DestinationContext } from "@/contexts/ContextProvider";
 
 type PlaceInfoType = {
   id: string;
@@ -54,7 +54,7 @@ const SearchContent = ({
 
   useEffect(() => {
     const newArr = [];
-    if (results.length > 0) {
+    if (results && results.length > 0) {
       for (let i = 0; i < results.length; i++) {
         newArr.push(
           <ResultListBox

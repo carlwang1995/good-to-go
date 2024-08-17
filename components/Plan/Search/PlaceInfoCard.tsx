@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { DayIndexContext } from "../PlanContent";
-import { TripContext } from "../TripInfoCard";
+import React, { useContext } from "react";
+import { DayIndexContext, TripContext } from "@/contexts/ContextProvider";
 import { DB_updateTripPlan } from "@/libs/db/EditTripPage";
 
 type PlaceType = {

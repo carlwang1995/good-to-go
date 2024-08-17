@@ -1,7 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
 import Image from "next/image";
-import { DayIndexContext } from "./PlanContent";
-import { TripContext } from "./TripInfoCard";
+import {
+  DayIndexContext,
+  TripContext,
+  MarkerContext,
+} from "@/contexts/ContextProvider";
 import { addTime } from "@/libs/timeConvertor";
 import { DB_deleteTripPlanPlace } from "@/libs/db/EditTripPage";
 import StayTimeSetting from "./PlaceStayTimeSetting";
@@ -41,6 +44,7 @@ const PlaceBox = ({
   const [showStayTimeSetting, setShowStaySetting] = useState<boolean>(false);
   const { id, placeId, stayTime, name, address, location } = place;
 
+  const { setMarkers, setPlaceLatLng } = useContext(MarkerContext);
   const dayIndex = useContext(DayIndexContext);
   const context = useContext(TripContext);
   if (!context) {
@@ -75,15 +79,16 @@ const PlaceBox = ({
   return (
     <>
       <div
-        className="relative z-10 mb-[40px] flex h-[120px] w-full border-t bg-white p-5 shadow-lg hover:cursor-pointer"
+        className="relative z-10 mb-[40px] flex h-[120px] w-full border-t bg-white p-5 shadow-lg"
         onMouseEnter={() => setShowDeleteBtn((pre) => !pre)}
         onMouseLeave={() => setShowDeleteBtn((pre) => !pre)}
       >
         <div
-          className="w-ful relative flex h-full"
+          className="w-ful relative flex h-full hover:cursor-pointer"
           onClick={() => {
             setPlaceBoxInfo(place);
             setShowPlaceInfo(true);
+            setPlaceLatLng([place.location.latitude, place.location.longitude]);
           }}
         >
           <div className="relative min-h-20 min-w-20 bg-slate-400">

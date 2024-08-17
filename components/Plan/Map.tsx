@@ -5,36 +5,17 @@ import {
   TileLayer,
   Popup,
   useMapEvent,
+  useMap,
+  Polyline,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Icon } from "leaflet";
-import { useState, useRef } from "react";
-import { useMapEvents } from "react-leaflet";
+import { useState, useRef, useEffect } from "react";
 
 const myIcon = new Icon({
-  // iconUrl: require("../public/location2.png"),
-  iconUrl: "https://cdn-icons-png.flaticon.com/512/4284/4284108.png",
-  iconSize: [50, 50],
+  iconUrl: "/placeholder.png",
+  iconSize: [35, 35],
 });
-
-// function LocationMarker() {
-//   const [position, setPosition] = useState(null);
-//   const map = useMapEvents({
-//     click() {
-//       map.locate();
-//     },
-//     locationfound(e) {
-//       setPosition(e.latlng);
-//       map.flyTo(e.latlng, map.getZoom());
-//     },
-//   });
-
-//   return position === null ? null : (
-//     <Marker position={position} icon={myIcon}>
-//       <Popup>You are here</Popup>
-//     </Marker>
-//   );
-// }
 
 function SetViewOnClick({ animateRef }: any) {
   const map = useMapEvent("click", (e) => {
@@ -42,21 +23,68 @@ function SetViewOnClick({ animateRef }: any) {
       animate: animateRef.current,
     });
   });
-
   return null;
 }
 
-const LeafletMap = (props: any) => {
+function SetPlaceView({ latlng }: { latlng: any | null }) {
+  const map = useMap();
+  useEffect(() => {
+    if (latlng) {
+      map.setView(latlng, map.getZoom());
+    }
+  }, [latlng, map]);
+  return null;
+}
+
+const RecenterMap = ({ center }: { center: any }) => {
+  const map = useMap();
+  useEffect(() => {
+    if (center && !isNaN(center[0]) && !isNaN(center[1])) {
+      map.setView(center, map.getZoom());
+    }
+  }, [center, map]);
+
+  return null;
+};
+
+type LeafletMapProps = {
+  markers: number[][];
+  placeLatLng: number[] | null;
+};
+const LeafletMap = ({ markers, placeLatLng }: LeafletMapProps) => {
   const animateRef = useRef(true);
-  const markers: object[] = [
-    { geocode: [25.038345, 121.537754], popUp: "1" },
-    { geocode: [25.051663, 121.550023], popUp: "2" },
-    { geocode: [25.054308, 121.567306], popUp: "3" },
-  ];
+  const [center, setCenter] = useState<number[] | null>(null);
+
+  const mapMarkers = markers.map((location: number[]) => {
+    return {
+      geocode: [location[0], location[1]],
+    };
+  });
+
+  // 計算中心點
+  useEffect(() => {
+    let newCenter = [0, 0];
+    if (markers.length > 0) {
+      markers.forEach((location) => {
+        newCenter[0] += location[0];
+        newCenter[1] += location[1];
+      });
+    }
+    newCenter[0] = newCenter[0] / markers.length;
+    newCenter[1] = newCenter[1] / markers.length;
+    setCenter(newCenter);
+  }, [markers]);
+
+  // const markers: object[] = [
+  //   { geocode: [25.038345, 121.537754], popUp: "1" },
+  //   { geocode: [25.051663, 121.550023], popUp: "2" },
+  //   { geocode: [25.054308, 121.567306], popUp: "3" },
+  // ];
+  const blueOptions = { color: "rgb(0,110,255,0.4)", weight: 6 };
   return (
     <MapContainer
       center={[25.051663, 121.550023]}
-      zoom={14}
+      zoom={13}
       scrollWheelZoom={true}
       className="h-full w-full"
     >
@@ -64,15 +92,18 @@ const LeafletMap = (props: any) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {markers.map((marker: any, index: number) => (
+      {mapMarkers.map((marker: any, index: number) => (
         <Marker position={marker.geocode} key={index} icon={myIcon}>
-          <Popup>
+          {/* <Popup>
             <h1 className="text-center font-bold">{marker.popUp}</h1>
-          </Popup>
+          </Popup> */}
         </Marker>
       ))}
       {/* <LocationMarker /> */}
       <SetViewOnClick animateRef={animateRef} />
+      <RecenterMap center={center} />
+      <SetPlaceView latlng={placeLatLng} />
+      <Polyline pathOptions={blueOptions} positions={markers} />
     </MapContainer>
   );
 };

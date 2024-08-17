@@ -46,7 +46,7 @@ const CalendarCard = ({
   };
 
   return (
-    <div className="h-fit w-fit rounded-lg bg-white p-10">
+    <div className="absolute z-10 h-fit w-fit rounded-lg bg-white p-10">
       <DateRange
         editableDateInputs={true}
         onChange={(item: any) => setDateRange([item.selection])}

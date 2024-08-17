@@ -1,12 +1,13 @@
 "use client";
-import React, { useState, useEffect, useRef, createContext } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import DateItem from "./DateItem";
 import TripInfoCard from "./TripInfoCard";
 import { DB_getTripNameByDocId } from "@/libs/db/EditTripPage";
-
-export const DayIndexContext = createContext<string>("");
-export const DestinationContext = createContext<string>("");
+import {
+  DayIndexContext,
+  DestinationContext,
+} from "@/contexts/ContextProvider";
 
 const PlanContent = ({ docId }: { docId: string }) => {
   const [dayIndex, setDayIndex] = useState<string>("day1");

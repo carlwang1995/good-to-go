@@ -1,15 +1,13 @@
 "use client";
-import React, { useState, useEffect, createContext } from "react";
+import React, { useState, useEffect } from "react";
 import CreateTripCard from "@/components/Trips/CreateTripCard";
 import EmptyContent from "@/components/Trips/Empty/EmptyContent";
 import ListContent from "@/components/Trips/List/ListContent";
 import { DB_getTrips } from "@/libs/db/CreateTripPage";
 import { useUser } from "@/contexts/UserAuth";
-import { DeleteContext } from "@/contexts/DeleteContext";
+import { DeleteContext } from "@/contexts/ContextProvider";
 import { useRouter } from "next/navigation";
 import { DB_deleteTrip, DB_deletePlanByDocId } from "@/libs/db/CreateTripPage";
-
-// export const deleteContext = createContext<any>(null);
 
 type newTripType = {
   docId: string;

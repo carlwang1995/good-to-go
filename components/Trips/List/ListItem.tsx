@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useContext, useState } from "react";
-import { DeleteContext } from "@/contexts/DeleteContext";
+import { DeleteContext } from "@/contexts/ContextProvider";
 
 type ListItemProps = {
   index: number;

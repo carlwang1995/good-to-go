@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, createContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PlaceBox from "./PlaceBox";
 import TrafficBox from "./TrafficBox";
 import SearchContent from "./Search/SearchContent";
@@ -7,12 +7,11 @@ import PlaceCard from "./PlaceCard";
 import StartTimeSetting from "./StartTimeSetting";
 import { DB_getPlanByDocId } from "@/libs/db/EditTripPage";
 import { addTime } from "@/libs/timeConvertor";
-import { DayIndexContext } from "./PlanContent";
-
-export const TripContext = createContext<{
-  planDocId: string;
-  setState: React.Dispatch<React.SetStateAction<boolean>>;
-} | null>(null);
+import {
+  DayIndexContext,
+  MarkerContext,
+  TripContext,
+} from "@/contexts/ContextProvider";
 
 interface PlaceType {
   id: number;
@@ -56,6 +55,7 @@ const TripInfoCard = ({ docId, dateCount }: TripInfoProps) => {
     useState<boolean>(false);
 
   const dayIndex: string = useContext(DayIndexContext);
+  const { setMarkers, setPlaceLatLng } = useContext(MarkerContext);
 
   const handleTrafficTime = (
     number: string,
@@ -89,6 +89,7 @@ const TripInfoCard = ({ docId, dateCount }: TripInfoProps) => {
       const departArray: Array<string> = [];
       const trafficBoxArray: Array<React.JSX.Element> = [];
       const tripBoxArray: Array<React.JSX.Element> = [];
+      const markersArray: Array<number[]> = [];
 
       // 各景點出發時間資訊裝在陣列中
       for (let i = 0; i < trip.places.length; i++) {
@@ -135,12 +136,20 @@ const TripInfoCard = ({ docId, dateCount }: TripInfoProps) => {
           />,
         );
       }
-      // setDepartTimeArray(departArray);
+      // 所有景點座標裝在陣列中
+      for (let i = 0; i < trip.places.length; i++) {
+        markersArray.push([
+          trip.places[i].location.latitude,
+          trip.places[i].location.longitude,
+        ]);
+      }
       setTripBoxArray(tripBoxArray);
       setTrafficBoxArray(trafficBoxArray);
+      setMarkers(markersArray);
     } else {
       setTripBoxArray(null);
       setTrafficBoxArray(null);
+      setMarkers([]);
     }
   }, [trip, trafficTimeObject]);
 
