@@ -1,3 +1,4 @@
+import Header from "@/components/Header/Header";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -10,7 +11,12 @@ const Login = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  return <>{children}</>;
+  return (
+    <>
+      <Header />
+      {children}
+    </>
+  );
 };
 
 export default Login;

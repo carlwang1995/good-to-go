@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
-import styles from "./login.module.scss";
 import Image from "next/image";
 import GoogleIcon from "@/public/icons8-google.svg";
 import { signInWithGoogle } from "@/libs/auth/signIn";

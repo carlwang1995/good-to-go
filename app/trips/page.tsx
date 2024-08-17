@@ -1,51 +1,75 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
+import CreateTripCard from "@/components/Trips/CreateTripCard";
+import EmptyContent from "@/components/Trips/Empty/EmptyContent";
+import ListContent from "@/components/Trips/List/ListContent";
+import { DB_getTrips } from "@/libs/db/CreateTripPage";
+import { useUser } from "@/contexts/UserAuth";
+import { DeleteContext } from "@/contexts/ContextProvider";
 import { useRouter } from "next/navigation";
-import { auth } from "@/config/firebase";
-import { onAuthStateChanged } from "firebase/auth";
-import CreateTripCard from "@/components/CreateTripCard";
+import { DB_deleteTrip, DB_deletePlanByDocId } from "@/libs/db/CreateTripPage";
 
+type newTripType = {
+  docId: string;
+  tripName: string;
+  startDate: string;
+  endDate: string;
+};
 const Trips = () => {
-  // const [loading, setLoading] = useState<boolean>(true);
-  const [userName, setUserName] = useState<string>("");
+  const { isLogin, userName, userId } = useUser();
   const [display, setDisplay] = useState<boolean>(false);
-
+  const [newTrip, setNewTrip] = useState<Array<newTripType> | undefined>(
+    undefined,
+  );
+  const [state, setState] = useState<boolean>(false);
   const router = useRouter();
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUserName(String(user.displayName));
-        // console.log(user);
-      } else {
-        router.push("/");
-      }
-    });
-  }, [router]);
 
-  const setDialogBoxDisplay = () => {
+  const deleteTrip = async (docId: string): Promise<void> => {
+    try {
+      let result = await DB_deleteTrip(docId);
+      if (result) {
+        DB_deletePlanByDocId(docId);
+        setState((pre) => !pre);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  useEffect(() => {
+    isLogin
+      ? DB_getTrips(userId).then((result: any) => {
+          if (result.length !== 0) {
+            setNewTrip(result);
+          } else {
+            setNewTrip(undefined);
+          }
+        })
+      : router.push("/");
+  }, [isLogin, userId, state]);
+
+  const setDialogBoxDisplay = (): void => {
     setDisplay(!display);
   };
 
   return (
-    <main className="flex h-screen w-screen justify-center pt-[60px]">
+    <main className="flex h-full w-screen justify-center pt-[60px]">
       <div className="mx-10 w-[1100px] p-4">
-        <div className="mb-5 text-3xl font-bold">HI! {userName}</div>
-        <div className="mb-5 text-2xl">您已規劃的行程如下：</div>
-        <hr />
-        <div className="m-8 w-full">
-          <div className="flex flex-col items-center">
-            <div className="text-xl">
-              <p>立即規劃行程，為旅遊輕鬆做準備</p>
-            </div>
-            <button
-              onClick={setDialogBoxDisplay}
-              className="mt-5 rounded border-[1px] border-solid border-black p-2 text-xl hover:cursor-pointer hover:bg-slate-200"
-            >
-              開始規劃
-            </button>
-          </div>
-        </div>
+        <div className="my-5 text-3xl font-bold">Hi, {userName}</div>
+        <div className="mb-5 text-xl">您已規劃的行程如下</div>
+        <hr className="border-slate-400" />
+        {newTrip === undefined ? (
+          <EmptyContent setDialogBoxDisplay={setDialogBoxDisplay} />
+        ) : (
+          <DeleteContext.Provider value={deleteTrip}>
+            <ListContent
+              setDialogBoxDisplay={setDialogBoxDisplay}
+              newTrip={newTrip}
+            />
+          </DeleteContext.Provider>
+        )}
+
         <CreateTripCard
+          userId={userId}
           display={display}
           setDialogBoxDisplay={setDialogBoxDisplay}
         />
