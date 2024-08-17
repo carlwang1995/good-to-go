@@ -25,16 +25,16 @@ const SearchContent = ({
   setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [isShowSearchResult, setIsShowSearchResult] = useState<boolean>(false);
-  const [input, setInput] = useState<string>("景點");
+  const [input, setInput] = useState<string>("");
   const [results, setResults] = useState<Array<PlaceInfoType>>([]);
   const [searchListBoxArr, setSearchListBoxArr] = useState<
     Array<React.JSX.Element>
   >([]);
   const [selectedPlace, setSelectedPlace] = useState<PlaceType | null>(null);
-
+  const [addDone, setAddDone] = useState(false);
   const searchPlaces = async (destination: string, input: string) => {
     if (input) {
-      let result = await textSearch(destination + input);
+      let result = await textSearch(destination + " " + input);
       setResults(result.places);
     } else {
       alert("請輸入查詢資料");
@@ -63,6 +63,7 @@ const SearchContent = ({
             name={results[i].displayName.text}
             address={results[i].formattedAddress}
             location={results[i].location}
+            setAddDone={setAddDone}
             setSelectedPlace={setSelectedPlace}
             setIsShowSearchResult={setIsShowSearchResult}
           />,
@@ -98,7 +99,9 @@ const SearchContent = ({
           />
           <button
             className="flex h-full items-center justify-center text-nowrap rounded-r border-l bg-white p-2 hover:bg-slate-200"
-            onClick={() => searchPlaces(destinationName, input)}
+            onClick={() =>
+              searchPlaces(destinationName, input === "" ? "景點" : input)
+            }
           >
             <Image
               src="/search.png"
@@ -112,7 +115,13 @@ const SearchContent = ({
           {searchListBoxArr.length > 0 ? (
             <div className="mt-2 text-lg">
               以下是在<span className="font-bold">「{destinationName}」</span>
-              搜尋<span className="font-bold">「{input}」</span>的結果:
+              搜尋
+              {input === "" ? (
+                <span>景點後</span>
+              ) : (
+                <span className="font-bold">「{input}」</span>
+              )}
+              的結果:
             </div>
           ) : (
             <></>
@@ -129,6 +138,8 @@ const SearchContent = ({
       </div>
       {isShowSearchResult ? (
         <PlaceInfoCard
+          addDone={addDone}
+          setAddDone={setAddDone}
           selectedPlace={selectedPlace}
           setIsShowSearchResult={setIsShowSearchResult}
         />

@@ -4,6 +4,7 @@ import TrafficBox from "./TrafficBox";
 import SearchContent from "./Search/SearchContent";
 import OpenSearchBtn from "./OpenSearchBtn";
 import PlaceCard from "./PlaceCard";
+import StartTimeSetting from "./StartTimeSetting";
 import { DB_getPlanByDocId } from "@/libs/db/EditTripPage";
 import { addTime } from "@/libs/timeConvertor";
 import { DayIndexContext } from "./PlanContent";
@@ -51,6 +52,9 @@ const TripInfoCard = ({ docId, dateCount }: TripInfoProps) => {
   }>({});
   const [showPlaceInfo, setShowPlaceInfo] = useState<boolean>(false);
   const [placeBoxInfo, setPlaceBoxInfo] = useState<PlaceType>();
+  const [showStartTimeSetting, setShowStartTimeSetting] =
+    useState<boolean>(false);
+
   const dayIndex: string = useContext(DayIndexContext);
 
   const handleTrafficTime = (
@@ -111,6 +115,7 @@ const TripInfoCard = ({ docId, dateCount }: TripInfoProps) => {
           <PlaceBox
             key={i}
             number={i}
+            trip={trip}
             place={trip.places[i]}
             startTime={departArray[i]}
             setShowPlaceInfo={setShowPlaceInfo}
@@ -147,7 +152,10 @@ const TripInfoCard = ({ docId, dateCount }: TripInfoProps) => {
         </div>
         <div className="ml-5 py-2">
           <span>出發時間：</span>
-          <span className="font-bold underline hover:cursor-pointer hover:font-bold">
+          <span
+            onClick={() => setShowStartTimeSetting(true)}
+            className="font-bold underline hover:cursor-pointer hover:bg-slate-200"
+          >
             {trip ? trip.startTime : null}
           </span>
         </div>
@@ -178,6 +186,16 @@ const TripInfoCard = ({ docId, dateCount }: TripInfoProps) => {
           place={placeBoxInfo}
           setShowPlaceInfo={setShowPlaceInfo}
         ></PlaceCard>
+      ) : (
+        <></>
+      )}
+      {showStartTimeSetting ? (
+        <StartTimeSetting
+          planDocId={planDocId}
+          trip={trip}
+          setState={setState}
+          setShowStartTimeSetting={setShowStartTimeSetting}
+        ></StartTimeSetting>
       ) : (
         <></>
       )}

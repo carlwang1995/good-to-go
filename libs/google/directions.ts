@@ -11,6 +11,7 @@ export default async function get_directions(
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
+    console.log("發出directions fetch");
     const { distance, duration } = data.routes[0].legs[0];
     return { distance, duration };
   } catch (e) {

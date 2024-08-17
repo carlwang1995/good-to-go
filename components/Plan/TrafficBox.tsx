@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import get_directions from "@/libs/google/directions";
 import { convertTimeString } from "@/libs/timeConvertor";
+import Image from "next/image";
 
 type TrafficBoxProps = {
   number: number;
@@ -27,12 +28,11 @@ const TrafficBox = ({
 
   useEffect(() => {
     handleTrafficTime(String(number), originId, destinationId, durationTime);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [originId, destinationId, durationTime]);
 
-  useEffect(() => {
-    console.log(`TrafficBox-${number}被渲染`);
-  }, []);
+  // useEffect(() => {
+  //   console.log(`TrafficBox-${number}被渲染`);
+  // }, []);
 
   const fakeDirections = {
     distance: {
@@ -45,38 +45,44 @@ const TrafficBox = ({
     },
   };
 
+  // 真實資料，會計費
+  // useEffect(() => {
+  //   get_directions(originId, destinationId, mode).then((direction) => {
+  //     if (direction) {
+  //       const { distance, duration } = direction;
+  //       setDistance(distance.text);
+  //       setDurationText(duration.text);
+  //       const formattedTime = convertTimeString(duration.text);
+  //       setDurationTime(formattedTime);
+  //     }
+  //   });
+  // }, [mode, destinationId]);
+
+  // 假的資料
   useEffect(() => {
-    // get_directions(originId, destinationId, mode).then((direction) => {
-    //   if (direction) {
-    //     const { distance, duration } = direction;
-    //     setDistance(distance.text);
-    //     setDurationText(duration.text);
-    //     const formattedTime = convertTimeString(duration.text);
-    //     setDurationTime(formattedTime);
-    //   }
-    // });
     const { distance, duration } = fakeDirections;
     setDistance(distance.text);
     setDurationText(duration.text);
     const formattedTime = convertTimeString(duration.text);
     setDurationTime(formattedTime);
-  }, [mode, destinationId]);
+  }, []);
 
   return (
     <div
-      // onClick={() => setDuration("00:40")}
-      className="mt-[120px] flex h-[40px] w-full items-center justify-between hover:cursor-pointer hover:bg-slate-200"
+      // hover:cursor-pointer hover:bg-slate-200
+      className="mt-[120px] flex h-[40px] w-full items-center justify-between"
     >
       <div className="flex h-full items-center">
         <div className="ml-14 h-full border-l-4 border-dotted border-slate-400"></div>
 
         <div className="ml-[40px] pl-2 pr-2">
-          {mode === "driving" ? "開車" : "其它"}
+          {/* {mode === "driving" ? "開車" : "其它"} */}
+          <Image src="/car.png" alt="car" width={24} height={24}></Image>
         </div>
         <div className="pl-2 pr-2">{distance},</div>
         <div className="pl-2 pr-2">約 {durationText}</div>
       </div>
-      <div className="mr-5">&#10095;</div>
+      {/* <div className="mr-5">&#10095;</div> */}
     </div>
   );
 };

@@ -13,6 +13,7 @@ import {
   arrayUnion,
   arrayRemove,
   Firestore,
+  setDoc,
 } from "firebase/firestore";
 
 const DB_getTripNameByDocId = async (docId: string) => {
@@ -90,9 +91,44 @@ const DB_deleteTripPlanPlace = async (
   }
 };
 
+const DB_updateTripStartTime = async (
+  docId: string,
+  dayIndex: string,
+  startTime: string,
+) => {
+  const docRef = doc(db, "plans", docId);
+  try {
+    await updateDoc(docRef, { [`trips.${dayIndex}.startTime`]: startTime });
+    return true;
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+};
+
+const DB_upadateTripStayTime = async (
+  docId: string,
+  dayIndex: string,
+  newPlaces: Array<object>,
+) => {
+  const docRef = doc(db, "plans", docId);
+  const fieldPath = `trips.${dayIndex}.places`;
+  try {
+    await updateDoc(docRef, {
+      [fieldPath]: newPlaces,
+    });
+    return true;
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+};
+
 export {
   DB_getTripNameByDocId,
   DB_getPlanByDocId,
   DB_updateTripPlan,
   DB_deleteTripPlanPlace,
+  DB_updateTripStartTime,
+  DB_upadateTripStayTime,
 };

@@ -13,9 +13,13 @@ type PlaceType = {
 };
 
 const PlaceInfoCard = ({
+  addDone,
+  setAddDone,
   selectedPlace,
   setIsShowSearchResult,
 }: {
+  addDone: boolean;
+  setAddDone: React.Dispatch<React.SetStateAction<boolean>>;
   selectedPlace: PlaceType | null;
   setIsShowSearchResult: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
@@ -45,7 +49,7 @@ const PlaceInfoCard = ({
         const result = await DB_updateTripPlan(dayIndex, planDocId, newPlace);
         if (result) {
           setState((prev) => !prev);
-          alert("Success:行程資料更新成功!");
+          setAddDone(true);
         }
       } catch (e) {
         alert("Error:行程資料更新失敗!");
@@ -59,7 +63,10 @@ const PlaceInfoCard = ({
       <div className="flex h-16 items-center justify-end">
         <div
           className="m-4 px-1 text-xl hover:cursor-pointer hover:bg-slate-200"
-          onClick={() => setIsShowSearchResult(false)}
+          onClick={() => {
+            setIsShowSearchResult(false);
+            setAddDone(false);
+          }}
         >
           &#10006;
         </div>
@@ -74,12 +81,16 @@ const PlaceInfoCard = ({
         </p>
       </div>
       <div className="flex items-center justify-center">
-        <button
-          onClick={() => addPlace(selectedPlace, planDocId)}
-          className="mt-4 rounded border-[1px] border-solid border-black p-2 text-xl hover:cursor-pointer hover:bg-slate-200"
-        >
-          + 加入行程
-        </button>
+        {addDone ? (
+          <div className="mt-4 p-2 text-xl text-green-500">加入成功！</div>
+        ) : (
+          <button
+            onClick={() => addPlace(selectedPlace, planDocId)}
+            className="mt-4 rounded border border-solid border-black p-2 text-xl hover:cursor-pointer hover:bg-slate-200"
+          >
+            + 加入行程
+          </button>
+        )}
       </div>
     </div>
   );

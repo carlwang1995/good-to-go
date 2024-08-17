@@ -12,6 +12,7 @@ type ResultListBoxProps = {
   name: string;
   address: string;
   location: { latitude: number; longitude: number };
+  setAddDone: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedPlace: React.Dispatch<React.SetStateAction<PlaceType | null>>;
   setIsShowSearchResult: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -21,6 +22,7 @@ const ResultListBox: React.FC<ResultListBoxProps> = ({
   name,
   address,
   location,
+  setAddDone,
   setSelectedPlace,
   setIsShowSearchResult,
 }: ResultListBoxProps) => {
@@ -31,6 +33,7 @@ const ResultListBox: React.FC<ResultListBoxProps> = ({
         onClick={() => {
           setSelectedPlace({ placeId, name, address, location });
           setIsShowSearchResult(true);
+          setAddDone(false);
         }}
       >
         <div className="m-2 flex">

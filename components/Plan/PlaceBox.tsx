@@ -4,6 +4,7 @@ import { DayIndexContext } from "./PlanContent";
 import { TripContext } from "./TripInfoCard";
 import { addTime } from "@/libs/timeConvertor";
 import { DB_deleteTripPlanPlace } from "@/libs/db/EditTripPage";
+import StayTimeSetting from "./PlaceStayTimeSetting";
 
 interface PlaceType {
   id: number;
@@ -13,8 +14,15 @@ interface PlaceType {
   location: { latitude: number; longitude: number };
   stayTime: string;
 }
+
+interface TripType {
+  startTime: string;
+  places: Array<PlaceType>;
+}
+
 type PlaceBoxProps = {
   number: number;
+  trip: TripType;
   place: PlaceType;
   startTime: string;
   setShowPlaceInfo: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,13 +31,16 @@ type PlaceBoxProps = {
 
 const PlaceBox = ({
   number,
+  trip,
   place,
   startTime,
   setShowPlaceInfo,
   setPlaceBoxInfo,
 }: PlaceBoxProps) => {
   const [showDeleteBtn, setShowDeleteBtn] = useState<boolean>(false);
+  const [showStayTimeSetting, setShowStaySetting] = useState<boolean>(false);
   const { id, placeId, stayTime, name, address, location } = place;
+
   const dayIndex = useContext(DayIndexContext);
   const context = useContext(TripContext);
   if (!context) {
@@ -58,9 +69,9 @@ const PlaceBox = ({
       console.error(e);
     }
   };
-  useEffect(() => {
-    console.log(`PlaceBox-${number}被渲染`);
-  }, []);
+  // useEffect(() => {
+  //   console.log(`PlaceBox-${number}被渲染`);
+  // }, []);
   return (
     <>
       <div
@@ -82,10 +93,17 @@ const PlaceBox = ({
           </div>
           <div className="ml-2 flex w-full flex-col justify-center">
             <div>
-              <span className="underline hover:cursor-pointer hover:font-bold">
+              <span
+                onClick={() => {
+                  setShowStaySetting(true);
+                }}
+                className="underline hover:cursor-pointer hover:bg-slate-200 hover:font-bold"
+              >
                 {stayTimeMinute === "00"
                   ? stayTimeHour + "小時"
-                  : stayTimeHour + "小時" + stayTimeMinute + "分鐘"}
+                  : stayTimeHour === "0"
+                    ? stayTimeMinute + "分鐘"
+                    : stayTimeHour + "時" + stayTimeMinute + "分"}
               </span>
               <> | </>
               <span>{`${startTime} － ${endTime}`}</span>
@@ -114,6 +132,18 @@ const PlaceBox = ({
           <></>
         )}
       </div>
+      {showStayTimeSetting ? (
+        <StayTimeSetting
+          planDocId={planDocId}
+          number={number}
+          trip={trip}
+          place={place}
+          setState={setState}
+          setShowStaySetting={setShowStaySetting}
+        ></StayTimeSetting>
+      ) : (
+        <></>
+      )}
     </>
   );
 };

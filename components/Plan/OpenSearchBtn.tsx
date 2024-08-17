@@ -7,7 +7,7 @@ const OpenSearchBtn = ({
   setShowPlaceInfo: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   return (
-    <div className="flex items-center justify-center pb-[40px]">
+    <div className="flex flex-col items-center justify-center pb-[40px]">
       <button
         className="flex h-12 w-12 items-center justify-center rounded-full border border-solid border-slate-500 bg-white p-2 hover:cursor-pointer hover:bg-slate-200"
         onClick={() => {
@@ -17,6 +17,7 @@ const OpenSearchBtn = ({
       >
         <p className="text-2xl text-slate-500">+</p>
       </button>
+      <div className="text-slate-500">加入景點</div>
     </div>
   );
 };
