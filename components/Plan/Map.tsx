@@ -9,7 +9,7 @@ import {
   Polyline,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { Icon } from "leaflet";
+import { Icon, LatLngExpression } from "leaflet";
 import { useState, useRef, useEffect } from "react";
 
 const myIcon = new Icon({
@@ -48,14 +48,14 @@ const RecenterMap = ({ center }: { center: any }) => {
 };
 
 type LeafletMapProps = {
-  markers: number[][];
+  markers: LatLngExpression[];
   placeLatLng: number[] | null;
 };
 const LeafletMap = ({ markers, placeLatLng }: LeafletMapProps) => {
   const animateRef = useRef(true);
   const [center, setCenter] = useState<number[] | null>(null);
 
-  const mapMarkers = markers.map((location: number[]) => {
+  const mapMarkers = markers.map((location: any) => {
     return {
       geocode: [location[0], location[1]],
     };
@@ -65,7 +65,7 @@ const LeafletMap = ({ markers, placeLatLng }: LeafletMapProps) => {
   useEffect(() => {
     let newCenter = [0, 0];
     if (markers.length > 0) {
-      markers.forEach((location) => {
+      markers.forEach((location: any) => {
         newCenter[0] += location[0];
         newCenter[1] += location[1];
       });
