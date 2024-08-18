@@ -47,7 +47,7 @@ const Header = () => {
       <div className="relative flex h-full w-full">
         <Link style={{ textDecoration: "none" }} href="/">
           <span className="flex h-full items-center justify-center pl-4 text-3xl font-bold">
-            <p>Good to Go</p>
+            <p>Good to GO</p>
           </span>
         </Link>
         <div className="absolute right-0 top-0 flex h-full items-center">
