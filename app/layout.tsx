@@ -7,7 +7,7 @@ import { UserContextProvider } from "@/contexts/UserAuth";
 const notoSansTc = Noto_Sans_TC({ weight: "400", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "旅遊行程規劃 | Good to Go",
+  title: "旅遊行程規劃 | Good to GO",
   description: "線上旅遊規劃工具",
 };
 

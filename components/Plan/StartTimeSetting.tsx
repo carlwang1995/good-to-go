@@ -26,7 +26,7 @@ const StartTimeSetting = ({
   useEffect(() => {
     if (trip) {
       let [hour, minute] = trip.startTime.split(":");
-      if (Number(hour) > 12) {
+      if (Number(hour) >= 12) {
         setPeriod("PM");
         setHour(String(Number(hour) - 12).padStart(2, "0"));
         setMinute(minute);
