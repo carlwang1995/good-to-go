@@ -1,19 +1,14 @@
 import { db } from "@/config/firebase";
-import firebase from "firebase/compat/app";
 import {
   collection,
-  addDoc,
   query,
   where,
   getDocs,
-  orderBy,
   doc,
   getDoc,
   updateDoc,
   arrayUnion,
   arrayRemove,
-  Firestore,
-  setDoc,
 } from "firebase/firestore";
 
 const DB_getTripNameByDocId = async (docId: string) => {

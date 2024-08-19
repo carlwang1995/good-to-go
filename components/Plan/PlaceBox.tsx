@@ -97,7 +97,14 @@ const PlaceBox = ({
             </div>
           </div>
           <div className="ml-2 flex w-full flex-col justify-center">
-            <div>
+            <div className="flex items-center">
+              <Image
+                className="mr-1 h-[15px]"
+                src="/stay-time-icon.png"
+                alt="stayTimeIcon"
+                width={15}
+                height={15}
+              ></Image>
               <span
                 onClick={() => {
                   setShowStaySetting(true);
@@ -110,7 +117,7 @@ const PlaceBox = ({
                     ? stayTimeMinute + "分鐘"
                     : stayTimeHour + "時" + stayTimeMinute + "分"}
               </span>
-              <> | </>
+              <span className="mx-1">|</span>
               <span>{`${startTime} － ${endTime}`}</span>
             </div>
             <div className="max-w-[355px] overflow-hidden text-ellipsis text-nowrap font-bold">

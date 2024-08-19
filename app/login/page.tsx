@@ -18,7 +18,21 @@ const Login = () => {
   return (
     <main className="flex h-screen w-screen items-center justify-center pt-[60px]">
       <div className="flex flex-col items-center rounded-xl border-[1px] border-solid border-black p-10 shadow">
-        <h2 className="p-0 text-2xl">登入帳號</h2>
+        <h2 className="mb-2 text-2xl">登入帳號</h2>
+        <div className="flex p-2">
+          <label htmlFor="">帳號：</label>
+          <input
+            type="text"
+            className="rounded border border-solid border-black"
+          />
+        </div>
+        <div className="flex">
+          <label htmlFor="">密碼：</label>
+          <input
+            className="rounded border border-solid border-black"
+            type="text"
+          />
+        </div>
         <button
           className="mt-8 flex items-center rounded-xl border-[1.5px] border-black p-5 text-xl transition hover:cursor-pointer hover:bg-slate-200"
           onClick={signIn}

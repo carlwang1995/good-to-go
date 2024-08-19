@@ -45,12 +45,6 @@ const SearchContent = ({
   if (!destinationName) {
     throw new Error("SearchContent.tsx不是DestinationContext的子組件。");
   }
-  // 渲染後立刻查詢預設項目(會打兩次API)
-  // useEffect(() => {
-  //   if (destinationName) {
-  //     searchPlaces(`${destinationName}${input}`);
-  //   }
-  // }, [destinationName]);
 
   useEffect(() => {
     const newArr = [];
@@ -89,6 +83,12 @@ const SearchContent = ({
         </div>
         <div className="flex max-h-16 min-h-16 w-full items-center bg-slate-400 p-3">
           <input
+            autoFocus
+            onKeyDown={(e) => {
+              if (e.key == "Enter") {
+                searchPlaces(destinationName, input === "" ? "景點" : input);
+              }
+            }}
             type="text"
             className="h-full w-full rounded-l bg-white p-4"
             onChange={(e) => {

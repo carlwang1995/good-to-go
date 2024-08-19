@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import PlaceBox from "./PlaceBox";
 import TrafficBox from "./TrafficBox";
-import SearchContent from "./Search/SearchContent";
+import SearchContent from "../Search/SearchContent";
 import OpenSearchBtn from "./OpenSearchBtn";
 import PlaceCard from "./PlaceCard";
 import StartTimeSetting from "./StartTimeSetting";
