@@ -101,7 +101,7 @@ const DB_updateTripStartTime = async (
   }
 };
 
-const DB_upadateTripStayTime = async (
+const DB_upadatePlaceInfo = async (
   docId: string,
   dayIndex: string,
   newPlaces: Array<object>,
@@ -125,5 +125,5 @@ export {
   DB_updateTripPlan,
   DB_deleteTripPlanPlace,
   DB_updateTripStartTime,
-  DB_upadateTripStayTime,
+  DB_upadatePlaceInfo,
 };

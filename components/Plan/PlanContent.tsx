@@ -13,7 +13,10 @@ const PlanContent = ({ docId }: { docId: string }) => {
   const [dayIndex, setDayIndex] = useState<string>("day1");
   const [dateCount, setDateCount] = useState<string>("第1天");
   const [tripName, setTripName] = useState<string | undefined>(undefined);
-  const [destination, setDestination] = useState<string | undefined>(undefined);
+  const [destinationArr, setDestinationArr] = useState<
+    Array<string> | undefined
+  >();
+  const [destinations, setDestinations] = useState<string>("");
   const [startDate, setStartDate] = useState<string | undefined>(undefined);
   const [endDate, setEndDate] = useState<string | undefined>(undefined);
   const [dates, setDates] = useState<Array<string>>();
@@ -22,13 +25,27 @@ const PlanContent = ({ docId }: { docId: string }) => {
   useEffect(() => {
     DB_getTripNameByDocId(docId).then((tripInfo: any) => {
       const { tripName, destination, startDate, endDate, dates } = tripInfo;
+      setDestinationArr(destination);
       setTripName(tripName);
-      setDestination(destination);
       setStartDate(startDate);
       setEndDate(endDate);
       setDates(dates);
     });
   }, [docId]);
+
+  useEffect(() => {
+    let destinationName = "";
+    if (destinationArr) {
+      for (let i = 0; i < destinationArr.length; i++) {
+        if (i === destinationArr.length - 1) {
+          destinationName += destinationArr[i];
+        } else {
+          destinationName += `${destinationArr[i]}, `;
+        }
+      }
+    }
+    setDestinations(destinationName);
+  }, [destinationArr]);
 
   const scrollRange = 300;
   const dateScrollToLeft = () => {
@@ -59,8 +76,8 @@ const PlanContent = ({ docId }: { docId: string }) => {
             <span className="text-white"> - </span>
             <span className="text-white">{endDate}</span>
           </div>
-          <div className="w-full">
-            <p className="text-white">{destination}</p>
+          <div className="mt-1 w-full">
+            <p className="text-white">{destinations}</p>
           </div>
         </div>
         <div className="relative flex h-14 w-full bg-white">
@@ -93,7 +110,9 @@ const PlanContent = ({ docId }: { docId: string }) => {
         </div>
       </div>
       <DayIndexContext.Provider value={dayIndex}>
-        <DestinationContext.Provider value={destination ? destination : ""}>
+        <DestinationContext.Provider
+          value={destinationArr ? destinationArr : []}
+        >
           <TripInfoCard docId={docId} dateCount={dateCount} />
         </DestinationContext.Provider>
       </DayIndexContext.Provider>

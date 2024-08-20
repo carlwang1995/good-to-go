@@ -1,5 +1,8 @@
 import React, { useState, useContext } from "react";
-import { DayIndexContext, TripContext } from "@/contexts/ContextProvider";
+import {
+  DayIndexContext,
+  ReloadStateContext,
+} from "@/contexts/ContextProvider";
 import { DB_updateTripPlan } from "@/libs/db/EditTripPage";
 import Image from "next/image";
 
@@ -10,6 +13,7 @@ type PlaceType = {
   address: string;
   location: { latitude: number; longitude: number };
   stayTime?: string;
+  trafficMode?: string;
 };
 
 const PlaceInfoCard = ({
@@ -26,7 +30,7 @@ const PlaceInfoCard = ({
   const [hour, setHour] = useState<string>("00");
   const [minute, setMinute] = useState<string>("30");
   const dayIndex = useContext(DayIndexContext); // day1,day2,day3 ...
-  const context = useContext(TripContext);
+  const context = useContext(ReloadStateContext);
 
   if (!context) {
     throw new Error("組件不屬於Context的子組件。");
@@ -47,6 +51,7 @@ const PlaceInfoCard = ({
         ...selectedPlace,
         stayTime: `${hour}:${minute}`,
         id: id,
+        trafficMode: "driving",
       };
       try {
         const result = await DB_updateTripPlan(dayIndex, planDocId, newPlace);

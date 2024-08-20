@@ -4,13 +4,11 @@ import TripInputBox from "./TripInputBox";
 
 type CreateTripCardProps = {
   userId: string;
-  display: boolean;
   setDialogBoxDisplay: () => void;
 };
 
 const CreateTripCard = ({
   userId,
-  display,
   setDialogBoxDisplay,
 }: CreateTripCardProps) => {
   const [startDate, setStartDate] = useState<string>("出發日期");
@@ -20,7 +18,7 @@ const CreateTripCard = ({
   return (
     <div
       className="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-black/80"
-      style={display ? { display: "flex" } : { display: "none" }}
+      // style={display ? { display: "flex" } : { display: "none" }}
     >
       <TripInputBox
         userId={userId}

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { DB_createNewTrip, DB_createNewPlan } from "@/libs/db/CreateTripPage";
 import { useRouter } from "next/navigation";
 import { getDateBetween } from "@/libs/getDatesBetween";
+import TargetItem from "./TargetItem";
 
 type TripInputProps = {
   userId: string;
@@ -26,7 +27,7 @@ const TripInput = ({
 }: TripInputProps) => {
   const router = useRouter();
   // 目的地
-  const [inputDestinaiton, setInputDestinaiton] = useState<InputContent>(null);
+  const [inputDestinaiton, setInputDestinaiton] = useState<Array<string>>([]);
   // 旅程名稱
   const [inputTripName, setInputTripName] = useState<InputContent>(null);
   // 判斷邏輯
@@ -38,7 +39,7 @@ const TripInput = ({
   const cancelEdit = (): void => {
     setStartDate("出發日期");
     setEndDate("結束日期");
-    setInputDestinaiton(null);
+    setInputDestinaiton([]);
     setInputTripName(null);
     setIsDateSelect(true);
     setIsDestination(true);
@@ -50,7 +51,9 @@ const TripInput = ({
     startDate === "出發日期" || endDate === "結束日期"
       ? setIsDateSelect(false)
       : setIsDateSelect(true);
-    !inputDestinaiton ? setIsDestination(false) : setIsDestination(true);
+    inputDestinaiton.length > 0
+      ? setIsDestination(true)
+      : setIsDestination(false);
     !inputTripName ? setIsTripName(false) : setIsTripName(true);
   };
 
@@ -62,7 +65,7 @@ const TripInput = ({
   const createTrip = async (
     startDate: string,
     endDate: string,
-    destination: string,
+    destination: Array<string>,
     tripName: string,
   ) => {
     const dates = getDateBetween(startDate, endDate);
@@ -128,25 +131,51 @@ const TripInput = ({
       )}
       <br />
       <h3>目的地</h3>
-      <input
-        className="flex w-full rounded border-[1px] border-solid border-black p-2 placeholder:text-[#8e8e8e]"
-        placeholder="請輸入城市名稱(例如:台北市、高雄市 等)"
-        onChange={(e) => setInputDestinaiton(e.target.value)}
-        value={!inputDestinaiton ? "" : inputDestinaiton}
-      ></input>
+      <div className="w-full rounded border border-solid border-black p-2">
+        <div className="flex flex-wrap">
+          {inputDestinaiton.length > 0 ? (
+            inputDestinaiton.map((target, index) => (
+              <TargetItem
+                key={index}
+                number={index}
+                target={target}
+                inputDestinaiton={inputDestinaiton}
+                setInputDestinaiton={setInputDestinaiton}
+              />
+            ))
+          ) : (
+            <></>
+          )}
+        </div>
+        <input
+          autoFocus
+          className="w-full outline-none placeholder:text-[#8e8e8e]"
+          placeholder="輸入後按下「Enter」，加入多個城市"
+          onKeyDown={(e: any) => {
+            if (e.key === "Enter") {
+              const target: string = e.target.value;
+              setInputDestinaiton((prev) => [...prev, target]);
+              e.target.value = "";
+            }
+          }}
+          // value={!inputDestinaiton ? "" : inputDestinaiton}
+        ></input>
+      </div>
       {isDestinaiton ? (
         <></>
       ) : (
-        <p className="text-sm text-red-500">請輸入目的地名稱</p>
+        <p className="text-sm text-red-500">請加入目的地(如:台北、高雄)</p>
       )}
       <br />
       <h3>旅程名稱</h3>
-      <input
-        className="flex w-full rounded border-[1px] border-solid border-black p-2 placeholder:text-[#8e8e8e]"
-        placeholder="請輸入行程名稱"
-        onChange={(e) => setInputTripName(e.target.value)}
-        value={!inputTripName ? "" : inputTripName}
-      ></input>
+      <div className="flex w-full rounded border border-solid border-black p-2">
+        <input
+          className="w-full outline-none placeholder:text-[#8e8e8e]"
+          placeholder="輸入行程名稱"
+          onChange={(e) => setInputTripName(e.target.value)}
+          value={!inputTripName ? "" : inputTripName}
+        ></input>
+      </div>
       {isTripName ? (
         <></>
       ) : (

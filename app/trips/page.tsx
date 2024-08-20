@@ -48,7 +48,7 @@ const Trips = () => {
   }, [isLogin, userId, state]);
 
   const setDialogBoxDisplay = (): void => {
-    setDisplay(!display);
+    setDisplay((prev) => !prev);
   };
 
   return (
@@ -67,12 +67,14 @@ const Trips = () => {
             />
           </DeleteContext.Provider>
         )}
-
-        <CreateTripCard
-          userId={userId}
-          display={display}
-          setDialogBoxDisplay={setDialogBoxDisplay}
-        />
+        {display ? (
+          <CreateTripCard
+            userId={userId}
+            setDialogBoxDisplay={setDialogBoxDisplay}
+          />
+        ) : (
+          <></>
+        )}
       </div>
     </main>
   );

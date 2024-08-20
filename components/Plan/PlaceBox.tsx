@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import Image from "next/image";
 import {
   DayIndexContext,
-  TripContext,
+  ReloadStateContext,
   MarkerContext,
 } from "@/contexts/ContextProvider";
 import { addTime } from "@/libs/timeConvertor";
@@ -16,6 +16,7 @@ interface PlaceType {
   address: string;
   location: { latitude: number; longitude: number };
   stayTime: string;
+  trafficMode: string;
 }
 
 interface TripType {
@@ -42,11 +43,11 @@ const PlaceBox = ({
 }: PlaceBoxProps) => {
   const [showDeleteBtn, setShowDeleteBtn] = useState<boolean>(false);
   const [showStayTimeSetting, setShowStaySetting] = useState<boolean>(false);
-  const { id, placeId, stayTime, name, address, location } = place;
+  const { id, placeId, stayTime, name, address, location, trafficMode } = place;
 
   const { setMarkers, setPlaceLatLng } = useContext(MarkerContext);
   const dayIndex = useContext(DayIndexContext);
-  const context = useContext(TripContext);
+  const context = useContext(ReloadStateContext);
   if (!context) {
     throw new Error("找不到context");
   }
@@ -152,7 +153,7 @@ const PlaceBox = ({
           place={place}
           setState={setState}
           setShowStaySetting={setShowStaySetting}
-        ></StayTimeSetting>
+        />
       ) : (
         <></>
       )}
