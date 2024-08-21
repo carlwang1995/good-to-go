@@ -1,5 +1,5 @@
 import { auth, provider } from "@/config/firebase";
-import { signInWithPopup } from "firebase/auth";
+import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
 
 const signInWithGoogle = async () => {
   try {
@@ -8,9 +8,27 @@ const signInWithGoogle = async () => {
       return true;
     }
   } catch (e) {
-    console.log(e);
+    console.error(e);
     return false;
   }
 };
 
-export { signInWithGoogle };
+const signInWithUserEmailAndPassword = async (
+  email: string,
+  password: string,
+) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password,
+    );
+    const user = userCredential.user;
+    return true;
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+};
+
+export { signInWithGoogle, signInWithUserEmailAndPassword };

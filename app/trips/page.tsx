@@ -48,13 +48,15 @@ const Trips = () => {
   }, [isLogin, userId, state]);
 
   const setDialogBoxDisplay = (): void => {
-    setDisplay(!display);
+    setDisplay((prev) => !prev);
   };
 
   return (
     <main className="flex h-full w-screen justify-center pt-[60px]">
       <div className="mx-10 w-[1100px] p-4">
-        <div className="my-5 text-3xl font-bold">Hi, {userName}</div>
+        <div className="my-5 text-3xl font-bold">
+          Hi, {userName ? userName : "使用者"}
+        </div>
         <div className="mb-5 text-xl">您已規劃的行程如下</div>
         <hr className="border-slate-400" />
         {newTrip === undefined ? (
@@ -67,12 +69,14 @@ const Trips = () => {
             />
           </DeleteContext.Provider>
         )}
-
-        <CreateTripCard
-          userId={userId}
-          display={display}
-          setDialogBoxDisplay={setDialogBoxDisplay}
-        />
+        {display ? (
+          <CreateTripCard
+            userId={userId}
+            setDialogBoxDisplay={setDialogBoxDisplay}
+          />
+        ) : (
+          <></>
+        )}
       </div>
     </main>
   );

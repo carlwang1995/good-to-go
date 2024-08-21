@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import PlaceBox from "./PlaceBox";
 import TrafficBox from "./TrafficBox";
-import SearchContent from "./Search/SearchContent";
+import SearchContent from "../Search/SearchContent";
 import OpenSearchBtn from "./OpenSearchBtn";
 import PlaceCard from "./PlaceCard";
 import StartTimeSetting from "./StartTimeSetting";
@@ -10,7 +10,7 @@ import { addTime } from "@/libs/timeConvertor";
 import {
   DayIndexContext,
   MarkerContext,
-  TripContext,
+  ReloadStateContext,
 } from "@/contexts/ContextProvider";
 
 interface PlaceType {
@@ -20,6 +20,7 @@ interface PlaceType {
   address: string;
   location: { latitude: number; longitude: number };
   stayTime: string;
+  trafficMode: string;
 }
 
 interface TripType {
@@ -130,9 +131,11 @@ const TripInfoCard = ({ docId, dateCount }: TripInfoProps) => {
           <TrafficBox
             key={i}
             number={i}
+            trip={trip}
             originId={trip.places[i].placeId}
             destinationId={trip.places[i + 1].placeId}
             handleTrafficTime={handleTrafficTime}
+            mode={trip.places[i].trafficMode}
           />,
         );
       }
@@ -154,7 +157,9 @@ const TripInfoCard = ({ docId, dateCount }: TripInfoProps) => {
   }, [trip, trafficTimeObject]);
 
   return (
-    <>
+    <ReloadStateContext.Provider
+      value={planDocId != "" ? { planDocId, setState } : null}
+    >
       <div className="h-full overflow-y-auto overflow-x-hidden">
         <div className="mt-2 flex items-center justify-center bg-slate-300">
           <p className="py-1 text-lg font-bold text-slate-600">{dateCount}</p>
@@ -169,11 +174,7 @@ const TripInfoCard = ({ docId, dateCount }: TripInfoProps) => {
           </span>
         </div>
         <div className="relative">
-          <TripContext.Provider
-            value={planDocId != "" ? { planDocId, setState } : null}
-          >
-            {tripBoxArray}
-          </TripContext.Provider>
+          {tripBoxArray}
           <div className="absolute top-0 w-full">{trafficBoxArray}</div>
           <OpenSearchBtn
             setIsSearching={setIsSearching}
@@ -181,20 +182,9 @@ const TripInfoCard = ({ docId, dateCount }: TripInfoProps) => {
           />
         </div>
       </div>
-      <TripContext.Provider
-        value={planDocId != "" ? { planDocId, setState } : null}
-      >
-        {isSearching ? (
-          <SearchContent setIsSearching={setIsSearching} />
-        ) : (
-          <></>
-        )}
-      </TripContext.Provider>
+      {isSearching ? <SearchContent setIsSearching={setIsSearching} /> : <></>}
       {showPlaceInfo ? (
-        <PlaceCard
-          place={placeBoxInfo}
-          setShowPlaceInfo={setShowPlaceInfo}
-        ></PlaceCard>
+        <PlaceCard place={placeBoxInfo} setShowPlaceInfo={setShowPlaceInfo} />
       ) : (
         <></>
       )}
@@ -204,11 +194,11 @@ const TripInfoCard = ({ docId, dateCount }: TripInfoProps) => {
           trip={trip}
           setState={setState}
           setShowStartTimeSetting={setShowStartTimeSetting}
-        ></StartTimeSetting>
+        />
       ) : (
         <></>
       )}
-    </>
+    </ReloadStateContext.Provider>
   );
 };
 

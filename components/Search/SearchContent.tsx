@@ -32,25 +32,30 @@ const SearchContent = ({
   >([]);
   const [selectedPlace, setSelectedPlace] = useState<PlaceType | null>(null);
   const [addDone, setAddDone] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [destinationName, setDestinationName] = useState("");
+
+  // 搜尋景點
   const searchPlaces = async (destination: string, input: string) => {
+    setIsLoading(true);
     if (input) {
       let result = await textSearch(destination + " " + input);
       setResults(result.places);
     } else {
       alert("請輸入查詢資料");
     }
+    setIsLoading(false);
   };
-  const destinationName = useContext(DestinationContext);
+  const destinationArr = useContext(DestinationContext);
 
-  if (!destinationName) {
+  if (!destinationArr) {
     throw new Error("SearchContent.tsx不是DestinationContext的子組件。");
   }
-  // 渲染後立刻查詢預設項目(會打兩次API)
-  // useEffect(() => {
-  //   if (destinationName) {
-  //     searchPlaces(`${destinationName}${input}`);
-  //   }
-  // }, [destinationName]);
+  useEffect(() => {
+    if (destinationArr) {
+      setDestinationName(destinationArr[0]);
+    }
+  }, []);
 
   useEffect(() => {
     const newArr = [];
@@ -89,8 +94,14 @@ const SearchContent = ({
         </div>
         <div className="flex max-h-16 min-h-16 w-full items-center bg-slate-400 p-3">
           <input
+            autoFocus
+            onKeyDown={(e) => {
+              if (e.key == "Enter") {
+                searchPlaces(destinationName, input === "" ? "景點" : input);
+              }
+            }}
             type="text"
-            className="h-full w-full rounded-l bg-white p-4"
+            className="h-full w-full rounded-l bg-white p-4 outline-none"
             onChange={(e) => {
               setInput(e.target.value);
               setSearchListBoxArr([]);
@@ -111,17 +122,18 @@ const SearchContent = ({
             ></Image>
           </button>
         </div>
-        <div className="relative h-full w-full items-center overflow-y-auto overflow-x-hidden bg-scroll pl-3 pr-3">
+        <div className="relative h-full max-w-[500px] items-center overflow-y-auto overflow-x-hidden bg-scroll pl-3 pr-3">
           {searchListBoxArr.length > 0 ? (
-            <div className="mt-2 text-lg">
-              以下是在<span className="font-bold">「{destinationName}」</span>
-              搜尋
+            <div className="mt-2 flex w-full flex-wrap items-center text-lg">
+              <span>以下是在</span>
+              <span className="font-bold">「{destinationName}」</span>
+              <span>搜尋</span>
               {input === "" ? (
                 <span>景點後</span>
               ) : (
                 <span className="font-bold">「{input}」</span>
               )}
-              的結果:
+              <span>的結果</span>
             </div>
           ) : (
             <></>
@@ -130,9 +142,38 @@ const SearchContent = ({
             searchListBoxArr
           ) : (
             <div className="mt-2 text-lg">
-              開始在<span className="font-bold">「{destinationName}」</span>
-              探索吧！
+              在
+              {destinationArr.length > 1 ? (
+                <select
+                  value={destinationName}
+                  onChange={(e) => setDestinationName(e.target.value)}
+                  className="mx-1 rounded-md border border-solid border-slate-500"
+                >
+                  {destinationArr.map((location, index) => {
+                    return (
+                      <option key={index} value={location}>
+                        {location}
+                      </option>
+                    );
+                  })}
+                </select>
+              ) : (
+                <span className="mx-1 font-bold">「{destinationArr[0]}」</span>
+              )}
+              盡情探索吧！
             </div>
+          )}
+          {isLoading ? (
+            <div className="mt-4 flex w-full justify-center">
+              <Image
+                src="/loading.gif"
+                alt="loading"
+                width={50}
+                height={50}
+              ></Image>
+            </div>
+          ) : (
+            <></>
           )}
         </div>
       </div>

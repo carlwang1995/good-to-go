@@ -1,19 +1,14 @@
 import { db } from "@/config/firebase";
-import firebase from "firebase/compat/app";
 import {
   collection,
-  addDoc,
   query,
   where,
   getDocs,
-  orderBy,
   doc,
   getDoc,
   updateDoc,
   arrayUnion,
   arrayRemove,
-  Firestore,
-  setDoc,
 } from "firebase/firestore";
 
 const DB_getTripNameByDocId = async (docId: string) => {
@@ -106,7 +101,7 @@ const DB_updateTripStartTime = async (
   }
 };
 
-const DB_upadateTripStayTime = async (
+const DB_upadatePlaceInfo = async (
   docId: string,
   dayIndex: string,
   newPlaces: Array<object>,
@@ -130,5 +125,5 @@ export {
   DB_updateTripPlan,
   DB_deleteTripPlanPlace,
   DB_updateTripStartTime,
-  DB_upadateTripStayTime,
+  DB_upadatePlaceInfo,
 };

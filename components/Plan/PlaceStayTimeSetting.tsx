@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { DayIndexContext } from "@/contexts/ContextProvider";
-import { DB_upadateTripStayTime } from "@/libs/db/EditTripPage";
+import { DB_upadatePlaceInfo } from "@/libs/db/EditTripPage";
 
 interface PlaceType {
   id: number;
@@ -57,7 +57,7 @@ const PlaceStayTimeSetting = ({
     const newPlaces = [...trip.places];
     newPlaces[number].stayTime = newStayTime;
     // console.log(newPlaces);
-    const result = await DB_upadateTripStayTime(docId, dayIndex, newPlaces);
+    const result = await DB_upadatePlaceInfo(docId, dayIndex, newPlaces);
     if (result) {
       setState((prev) => !prev);
       setShowStaySetting(false);
@@ -139,7 +139,7 @@ const PlaceStayTimeSetting = ({
               onClick={() => updateStaytTime(planDocId, dayIndex, number)}
               className="mr-2 rounded border-[1px] border-solid border-black px-2 py-1 text-lg hover:cursor-pointer hover:bg-slate-200"
             >
-              完成
+              確認變更
             </button>
           </div>
         </div>

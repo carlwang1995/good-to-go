@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import Image from "next/image";
 import {
   DayIndexContext,
-  TripContext,
+  ReloadStateContext,
   MarkerContext,
 } from "@/contexts/ContextProvider";
 import { addTime } from "@/libs/timeConvertor";
@@ -16,6 +16,7 @@ interface PlaceType {
   address: string;
   location: { latitude: number; longitude: number };
   stayTime: string;
+  trafficMode: string;
 }
 
 interface TripType {
@@ -42,11 +43,11 @@ const PlaceBox = ({
 }: PlaceBoxProps) => {
   const [showDeleteBtn, setShowDeleteBtn] = useState<boolean>(false);
   const [showStayTimeSetting, setShowStaySetting] = useState<boolean>(false);
-  const { id, placeId, stayTime, name, address, location } = place;
+  const { id, placeId, stayTime, name, address, location, trafficMode } = place;
 
   const { setMarkers, setPlaceLatLng } = useContext(MarkerContext);
   const dayIndex = useContext(DayIndexContext);
-  const context = useContext(TripContext);
+  const context = useContext(ReloadStateContext);
   if (!context) {
     throw new Error("找不到context");
   }
@@ -97,7 +98,14 @@ const PlaceBox = ({
             </div>
           </div>
           <div className="ml-2 flex w-full flex-col justify-center">
-            <div>
+            <div className="flex items-center">
+              <Image
+                className="mr-1 h-[15px]"
+                src="/stay-time-icon.png"
+                alt="stayTimeIcon"
+                width={15}
+                height={15}
+              ></Image>
               <span
                 onClick={() => {
                   setShowStaySetting(true);
@@ -110,7 +118,7 @@ const PlaceBox = ({
                     ? stayTimeMinute + "分鐘"
                     : stayTimeHour + "時" + stayTimeMinute + "分"}
               </span>
-              <> | </>
+              <span className="mx-1">|</span>
               <span>{`${startTime} － ${endTime}`}</span>
             </div>
             <div className="max-w-[355px] overflow-hidden text-ellipsis text-nowrap font-bold">
@@ -145,7 +153,7 @@ const PlaceBox = ({
           place={place}
           setState={setState}
           setShowStaySetting={setShowStaySetting}
-        ></StayTimeSetting>
+        />
       ) : (
         <></>
       )}
