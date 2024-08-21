@@ -21,10 +21,18 @@ const Header = () => {
         // console.log(user);
         setIsLoading(false);
         setIsLogin(true);
-        setPhotoUrl(String(user.photoURL));
         setUserId(String(user.uid));
-        setUserName(String(user.displayName));
         setUserEmail(String(user.email));
+        if (user.photoURL) {
+          setPhotoUrl(String(user.photoURL));
+        } else {
+          setPhotoUrl("/user.png");
+        }
+        if (user.displayName) {
+          setUserName(String(user.displayName));
+        } else {
+          setUserName("使用者");
+        }
       } else {
         setIsLoading(false);
         setIsLogin(false);
