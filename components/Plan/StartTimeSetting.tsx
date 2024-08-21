@@ -121,7 +121,7 @@ const StartTimeSetting = ({
               onClick={() => updateStartTime(planDocId, dayIndex)}
               className="mr-2 rounded border-[1px] border-solid border-black px-2 py-1 text-lg hover:cursor-pointer hover:bg-slate-200"
             >
-              完成
+              確認變更
             </button>
           </div>
         </div>
