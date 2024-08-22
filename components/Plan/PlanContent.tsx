@@ -70,6 +70,7 @@ const PlanContent = ({ docId }: { docId: string }) => {
           <Image
             priority={true}
             fill={true}
+            sizes="(max-width: 500px)"
             src={tripPhoto}
             alt="background"
             className="absolute left-0 top-0 z-0 h-40 w-full"
@@ -108,7 +109,7 @@ const PlanContent = ({ docId }: { docId: string }) => {
         <div className="relative flex h-14 w-full bg-white">
           <div
             onClick={dateScrollToLeft}
-            className="absolute left-0 top-0 z-10 flex h-full items-center justify-center border border-white bg-white px-1 hover:cursor-pointer hover:border-slate-500"
+            className="absolute left-0 top-0 z-10 flex h-full items-center justify-center border border-white bg-white px-1 hover:cursor-pointer hover:border-slate-300"
           >
             <div className="text-2xl">&#10094;</div>
           </div>
@@ -121,6 +122,7 @@ const PlanContent = ({ docId }: { docId: string }) => {
                 key={index}
                 date={date}
                 dateNumber={index}
+                dayIndex={dayIndex}
                 setDateCount={setDateCount}
                 setDayIndex={setDayIndex}
               />
@@ -128,7 +130,7 @@ const PlanContent = ({ docId }: { docId: string }) => {
           </div>
           <div
             onClick={dateScrollToRight}
-            className="hover: absolute right-0 top-0 z-10 flex h-full items-center justify-center border border-white bg-white px-1 hover:cursor-pointer hover:border-slate-500"
+            className="hover: absolute right-0 top-0 z-10 flex h-full items-center justify-center border border-white bg-white px-1 hover:cursor-pointer hover:border-slate-300"
           >
             <div className="text-2xl">&#10095;</div>
           </div>

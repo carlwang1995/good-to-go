@@ -87,7 +87,10 @@ const UploadCard = ({
   };
   return (
     <div className="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-black/80">
-      <div className="absolute h-full w-full items-center justify-center"></div>
+      <div
+        onClick={() => setShowUpload(false)}
+        className="absolute h-full w-full items-center justify-center"
+      ></div>
       <div className="z-50 h-fit min-w-[380px] rounded-lg bg-slate-100">
         <div className="flex h-full w-full flex-col p-4">
           <div className="flex justify-center"></div>

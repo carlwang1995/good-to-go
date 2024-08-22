@@ -5,6 +5,7 @@ import {
 } from "@/contexts/ContextProvider";
 import { DB_updateTripPlan } from "@/libs/db/EditTripPage";
 import Image from "next/image";
+import { currentOpeningHours } from "@/libs/fakeData";
 
 type PlaceType = {
   id?: number;
@@ -87,6 +88,26 @@ const PlaceInfoCard = ({
         <p className="mt-4 px-3 text-lg">
           {selectedPlace ? selectedPlace.address : null}
         </p>
+        <>
+          <div className="mt-4 flex justify-center px-3">
+            <hr className="w-full border-slate-300" />
+          </div>
+          <div className="mt-4 flex px-3 text-lg">
+            營業現況：
+            {currentOpeningHours.openNow ? (
+              <p className="text-green-500">營業中</p>
+            ) : (
+              <p className="text-red-500">休息中</p>
+            )}
+          </div>
+          <div className="felx-col flexr my-4 px-3">
+            {currentOpeningHours.weekdayDescriptions.map((weekday, index) => (
+              <p key={index} className="mt-1">
+                {weekday}
+              </p>
+            ))}
+          </div>
+        </>
       </div>
       <div className="absolute bottom-0 min-h-[150px] w-full pb-1 shadow-[0_-2px_10px_2px_rgba(0,0,0,0.1)]">
         <div className="flex w-full items-center justify-center px-3">
