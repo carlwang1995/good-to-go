@@ -19,8 +19,10 @@ const TargetItem = ({
     setDestinaitonArray(newArray);
   };
   return (
-    <div className="mb-2 mr-2 flex items-center justify-center border border-solid border-slate-400 px-2 py-1">
-      <p className="mr-2">{target}</p>
+    <div className="relative mb-2 mr-2 flex items-center justify-center border border-solid border-slate-400 px-2 py-1">
+      <p className="mr-2 max-w-[360px] overflow-hidden text-ellipsis text-nowrap">
+        {target}
+      </p>
       <span
         onClick={() => {
           removeTarget(number);

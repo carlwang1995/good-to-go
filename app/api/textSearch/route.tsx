@@ -20,9 +20,8 @@ export async function POST(request: Request) {
         headers: {
           "Content-Type": "application/json",
           "X-Goog-Api-Key": API_KEY,
-          // "X-Goog-FieldMask": "places.id,nextPageToken",
           "X-Goog-FieldMask":
-            "places.id,nextPageToken,places.displayName,places.formattedAddress,places.location",
+            "places.id,nextPageToken,places.displayName,places.formattedAddress,places.location,places.photos",
           "Accept-Language": "zh-TW",
         },
       },

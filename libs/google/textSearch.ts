@@ -12,6 +12,7 @@ export default async function textSearch(input: string) {
     }
     console.log("發出testSearch fetch");
     const data = await response.json();
+    console.log(data);
     return data;
   } catch (e) {
     console.error(e);
