@@ -3,20 +3,20 @@ import React from "react";
 type TargetItemProps = {
   number: number;
   target: string;
-  inputDestinaiton: Array<string>;
-  setInputDestinaiton: React.Dispatch<React.SetStateAction<Array<string>>>;
+  destinaitonArray: Array<string>;
+  setDestinaitonArray: React.Dispatch<React.SetStateAction<Array<string>>>;
 };
 
 const TargetItem = ({
   number,
   target,
-  inputDestinaiton,
-  setInputDestinaiton,
+  destinaitonArray,
+  setDestinaitonArray,
 }: TargetItemProps) => {
   const removeTarget = (index: number) => {
-    const newArray = [...inputDestinaiton];
+    const newArray = [...destinaitonArray];
     newArray.splice(index, 1);
-    setInputDestinaiton(newArray);
+    setDestinaitonArray(newArray);
   };
   return (
     <div className="mb-2 mr-2 flex items-center justify-center border border-solid border-slate-400 px-2 py-1">

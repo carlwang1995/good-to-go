@@ -7,6 +7,7 @@ import {
   getDocs,
   orderBy,
   deleteDoc,
+  updateDoc,
   doc,
 } from "firebase/firestore";
 const DB_createNewTrip = async (trip: object) => {
@@ -70,10 +71,27 @@ const DB_deletePlanByDocId = async (docId: string) => {
   }
 };
 
+const DB_updateTripPhotoByDocId = async (
+  docId: string,
+  photoObj: { fileName: string; photoUrl: string },
+) => {
+  const docRef = doc(db, "trips", docId);
+  try {
+    await updateDoc(docRef, {
+      photo: photoObj,
+    });
+    return true;
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+};
+
 export {
   DB_createNewTrip,
   DB_createNewPlan,
   DB_getTrips,
   DB_deleteTrip,
   DB_deletePlanByDocId,
+  DB_updateTripPhotoByDocId,
 };

@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import DateItem from "./DateItem";
 import TripInfoCard from "./TripInfoCard";
@@ -21,15 +22,18 @@ const PlanContent = ({ docId }: { docId: string }) => {
   const [endDate, setEndDate] = useState<string | undefined>(undefined);
   const [dates, setDates] = useState<Array<string>>();
   const dateSectionRef = useRef<HTMLDivElement | null>(null);
+  const [tripPhoto, setTripPhoto] = useState<string | undefined>();
 
   useEffect(() => {
     DB_getTripNameByDocId(docId).then((tripInfo: any) => {
-      const { tripName, destination, startDate, endDate, dates } = tripInfo;
+      const { tripName, destination, startDate, endDate, dates, photo } =
+        tripInfo;
       setDestinationArr(destination);
       setTripName(tripName);
       setStartDate(startDate);
       setEndDate(endDate);
       setDates(dates);
+      setTripPhoto(photo.photoUrl);
     });
   }, [docId]);
 
@@ -61,25 +65,46 @@ const PlanContent = ({ docId }: { docId: string }) => {
 
   return (
     <div className="flex h-full min-w-[500px] max-w-[500px] flex-col border-r border-slate-200 bg-slate-50">
-      <div className="border-b border-solid border-slate-300 shadow-lg">
-        <div className="flex h-16 w-full items-center bg-black/50 p-3">
-          <Link href="/trips">
-            <span className="mr-3 w-8 text-xl text-white hover:font-bold">
-              ←
-            </span>
-          </Link>
-          <span className="text-xl text-white">{tripName}</span>
-        </div>
-        <div className="flex h-24 w-full flex-col items-center justify-center bg-slate-500 p-3">
-          <div className="w-full">
-            <span className="text-white">{startDate}</span>
-            <span className="text-white"> - </span>
-            <span className="text-white">{endDate}</span>
+      <div className="relative border-b border-solid border-slate-300 shadow-lg">
+        {tripPhoto ? (
+          <Image
+            priority={true}
+            fill={true}
+            src={tripPhoto}
+            alt="background"
+            className="absolute left-0 top-0 z-0 h-40 w-full"
+          ></Image>
+        ) : (
+          <div className="absolute left-0 top-0 z-0 flex h-40 w-full items-center justify-center">
+            <Image
+              src="/loading.gif"
+              alt="loading"
+              width={50}
+              height={50}
+            ></Image>
           </div>
-          <div className="mt-1 w-full">
-            <p className="text-white">{destinations}</p>
+        )}
+        <div className="relative z-10 bg-black/30">
+          <div className="flex h-16 w-full items-center bg-black/60 p-3">
+            <Link href="/trips">
+              <span className="mr-3 w-8 text-xl text-white hover:font-bold">
+                ←
+              </span>
+            </Link>
+            <span className="text-xl text-white">{tripName}</span>
+          </div>
+          <div className="flex h-24 w-full flex-col items-center justify-center p-3">
+            <div className="w-full">
+              <span className="text-white">{startDate}</span>
+              <span className="text-white"> - </span>
+              <span className="text-white">{endDate}</span>
+            </div>
+            <div className="mt-1 w-full">
+              <p className="text-white">{destinations}</p>
+            </div>
           </div>
         </div>
+
         <div className="relative flex h-14 w-full bg-white">
           <div
             onClick={dateScrollToLeft}

@@ -8,6 +8,9 @@ const ReloadStateContext = createContext<{
   planDocId: string;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
 } | null>(null);
+const StateContext = createContext<React.Dispatch<
+  React.SetStateAction<boolean>
+> | null>(null);
 
 export {
   DeleteContext,
@@ -15,4 +18,5 @@ export {
   DestinationContext,
   MarkerContext,
   ReloadStateContext,
+  StateContext,
 };
