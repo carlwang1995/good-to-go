@@ -3,6 +3,7 @@ import get_directions from "@/libs/google/directions";
 import { convertTimeString } from "@/libs/timeConvertor";
 import Image from "next/image";
 import TrafficModeSetting from "./TrafficModeSetting";
+import { directionsData } from "@/libs/fakeData";
 
 interface PlaceType {
   id: number;
@@ -54,17 +55,6 @@ const TrafficBox = ({
   //   console.log(`TrafficBox-${number}被渲染`);
   // }, []);
 
-  const fakeDirections = {
-    distance: {
-      text: "4.8 公里",
-      value: 4802,
-    },
-    duration: {
-      text: "19 分鐘",
-      value: 929,
-    },
-  };
-
   // 真實資料，會計費
   // useEffect(() => {
   //   get_directions(originId, destinationId, mode).then((direction) => {
@@ -80,7 +70,7 @@ const TrafficBox = ({
 
   // 假的資料
   useEffect(() => {
-    const { distance, duration } = fakeDirections;
+    const { distance, duration } = directionsData;
     setDistance(distance.text);
     setDurationText(duration.text);
     const formattedTime = convertTimeString(duration.text);
