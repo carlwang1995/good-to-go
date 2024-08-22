@@ -149,11 +149,13 @@ const SignIn = ({
           >
             <span>登入</span>
           </button>
-          <div
-            onClick={() => switchToSignUp((prev) => !prev)}
-            className="my-2 w-full text-center text-lg hover:cursor-pointer hover:text-blue-600 hover:underline"
-          >
-            沒有帳號，進行註冊
+          <div className="my-2 flex w-full justify-center">
+            <p
+              onClick={() => switchToSignUp((prev) => !prev)}
+              className="text-center text-lg hover:cursor-pointer hover:text-blue-600 hover:underline"
+            >
+              沒有帳號，進行註冊
+            </p>
           </div>
           <button
             onClick={() => {

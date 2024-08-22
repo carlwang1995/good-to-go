@@ -4,6 +4,7 @@ import { DB_createNewTrip, DB_createNewPlan } from "@/libs/db/CreateTripPage";
 import { useRouter } from "next/navigation";
 import { getDateBetween } from "@/libs/getDatesBetween";
 import TargetItem from "./TargetItem";
+import { photos } from "@/libs/photosArr";
 
 type TripInputProps = {
   userId: string;
@@ -14,7 +15,6 @@ type TripInputProps = {
   setDialogBoxDisplay: () => void;
   setIsOpenCalendar: React.Dispatch<React.SetStateAction<boolean>>;
 };
-type InputContent = string | null;
 
 const TripInput = ({
   userId,
@@ -27,9 +27,10 @@ const TripInput = ({
 }: TripInputProps) => {
   const router = useRouter();
   // 目的地
-  const [inputDestinaiton, setInputDestinaiton] = useState<Array<string>>([]);
+  const [inputDestination, setInputDestination] = useState<string>("");
+  const [destinaitonArray, setDestinaitonArray] = useState<Array<string>>([]);
   // 旅程名稱
-  const [inputTripName, setInputTripName] = useState<InputContent>(null);
+  const [inputTripName, setInputTripName] = useState<string>("");
   // 判斷邏輯
   const [isDateSelect, setIsDateSelect] = useState<boolean>(true);
   const [isDestinaiton, setIsDestination] = useState<boolean>(true);
@@ -39,8 +40,8 @@ const TripInput = ({
   const cancelEdit = (): void => {
     setStartDate("出發日期");
     setEndDate("結束日期");
-    setInputDestinaiton([]);
-    setInputTripName(null);
+    setDestinaitonArray([]);
+    setInputTripName("");
     setIsDateSelect(true);
     setIsDestination(true);
     setIsTripName(true);
@@ -51,7 +52,7 @@ const TripInput = ({
     startDate === "出發日期" || endDate === "結束日期"
       ? setIsDateSelect(false)
       : setIsDateSelect(true);
-    inputDestinaiton.length > 0
+    destinaitonArray.length > 0
       ? setIsDestination(true)
       : setIsDestination(false);
     !inputTripName ? setIsTripName(false) : setIsTripName(true);
@@ -77,6 +78,10 @@ const TripInput = ({
       destination,
       tripName,
       dates,
+      photo: {
+        fileName: "default",
+        photoUrl: `/background/${photos[Math.floor(Math.random() * photos.length)]}`,
+      },
     };
     for (let i: number = 0; i < dates.length; i++) {
       tripsObj[`day${i + 1}`] = { startTime: "08:00", places: [] };
@@ -133,33 +138,48 @@ const TripInput = ({
       <h3>目的地</h3>
       <div className="w-full rounded border border-solid border-black p-2">
         <div className="flex flex-wrap">
-          {inputDestinaiton.length > 0 ? (
-            inputDestinaiton.map((target, index) => (
+          {destinaitonArray.length > 0 ? (
+            destinaitonArray.map((target, index) => (
               <TargetItem
                 key={index}
                 number={index}
                 target={target}
-                inputDestinaiton={inputDestinaiton}
-                setInputDestinaiton={setInputDestinaiton}
+                destinaitonArray={destinaitonArray}
+                setDestinaitonArray={setDestinaitonArray}
               />
             ))
           ) : (
             <></>
           )}
         </div>
-        <input
-          autoFocus
-          className="w-full outline-none placeholder:text-[#8e8e8e]"
-          placeholder="輸入後按下「Enter」，加入多個城市"
-          onKeyDown={(e: any) => {
-            if (e.key === "Enter") {
-              const target: string = e.target.value;
-              setInputDestinaiton((prev) => [...prev, target]);
-              e.target.value = "";
-            }
-          }}
-          // value={!inputDestinaiton ? "" : inputDestinaiton}
-        ></input>
+        <div className="relative flex w-full">
+          <input
+            autoFocus
+            className="w-full outline-none placeholder:text-[#8e8e8e]"
+            placeholder="輸入後按下「Enter」，加入多個城市"
+            value={inputDestination}
+            onChange={(e: any) => {
+              setInputDestination(e.target.value);
+            }}
+            onKeyDown={(e: any) => {
+              if (e.key === "Enter" && inputDestination) {
+                setDestinaitonArray((prev) => [...prev, inputDestination]);
+                setInputDestination("");
+              }
+            }}
+          ></input>
+          <button
+            onClick={() => {
+              if (inputDestination) {
+                setDestinaitonArray((prev) => [...prev, inputDestination]);
+                setInputDestination("");
+              }
+            }}
+            className="text-nowrap rounded border border-solid border-slate-500 px-4 text-xl hover:bg-slate-200"
+          >
+            &#43;
+          </button>
+        </div>
       </div>
       {isDestinaiton ? (
         <></>
@@ -173,7 +193,7 @@ const TripInput = ({
           className="w-full outline-none placeholder:text-[#8e8e8e]"
           placeholder="輸入行程名稱"
           onChange={(e) => setInputTripName(e.target.value)}
-          value={!inputTripName ? "" : inputTripName}
+          value={inputTripName}
         ></input>
       </div>
       {isTripName ? (
@@ -197,7 +217,7 @@ const TripInput = ({
           >
             完成
           </button>
-        ) : !inputDestinaiton ? (
+        ) : destinaitonArray.length === 0 ? (
           <button
             onClick={checkInput}
             className="mt-5 rounded border-[1px] border-solid border-black px-2 py-1 text-lg hover:cursor-pointer hover:bg-slate-200"
@@ -215,7 +235,7 @@ const TripInput = ({
           <button
             onClick={() => {
               checkInput();
-              createTrip(startDate, endDate, inputDestinaiton, inputTripName);
+              createTrip(startDate, endDate, destinaitonArray, inputTripName);
               cancelEdit();
             }}
             className="mt-5 rounded border-[1px] border-solid border-black px-2 py-1 text-lg hover:cursor-pointer hover:bg-slate-200"

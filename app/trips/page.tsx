@@ -5,7 +5,7 @@ import EmptyContent from "@/components/Trips/Empty/EmptyContent";
 import ListContent from "@/components/Trips/List/ListContent";
 import { DB_getTrips } from "@/libs/db/CreateTripPage";
 import { useUser } from "@/contexts/UserAuth";
-import { DeleteContext } from "@/contexts/ContextProvider";
+import { DeleteContext, StateContext } from "@/contexts/ContextProvider";
 import { useRouter } from "next/navigation";
 import { DB_deleteTrip, DB_deletePlanByDocId } from "@/libs/db/CreateTripPage";
 
@@ -14,6 +14,7 @@ type newTripType = {
   tripName: string;
   startDate: string;
   endDate: string;
+  photo: { fileName: string; photoUrl: string };
 };
 const Trips = () => {
   const { isLogin, userName, userId } = useUser();
@@ -62,12 +63,14 @@ const Trips = () => {
         {newTrip === undefined ? (
           <EmptyContent setDialogBoxDisplay={setDialogBoxDisplay} />
         ) : (
-          <DeleteContext.Provider value={deleteTrip}>
-            <ListContent
-              setDialogBoxDisplay={setDialogBoxDisplay}
-              newTrip={newTrip}
-            />
-          </DeleteContext.Provider>
+          <StateContext.Provider value={setState}>
+            <DeleteContext.Provider value={deleteTrip}>
+              <ListContent
+                setDialogBoxDisplay={setDialogBoxDisplay}
+                newTrip={newTrip}
+              />
+            </DeleteContext.Provider>
+          </StateContext.Provider>
         )}
         {display ? (
           <CreateTripCard

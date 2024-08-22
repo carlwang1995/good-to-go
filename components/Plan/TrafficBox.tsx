@@ -66,26 +66,26 @@ const TrafficBox = ({
   };
 
   // 真實資料，會計費
-  useEffect(() => {
-    get_directions(originId, destinationId, mode).then((direction) => {
-      if (direction) {
-        const { distance, duration } = direction;
-        setDistance(distance.text);
-        setDurationText(duration.text);
-        const formattedTime = convertTimeString(duration.text);
-        setDurationTime(formattedTime);
-      }
-    });
-  }, [mode, destinationId]);
+  // useEffect(() => {
+  //   get_directions(originId, destinationId, mode).then((direction) => {
+  //     if (direction) {
+  //       const { distance, duration } = direction;
+  //       setDistance(distance.text);
+  //       setDurationText(duration.text);
+  //       const formattedTime = convertTimeString(duration.text);
+  //       setDurationTime(formattedTime);
+  //     }
+  //   });
+  // }, [mode, destinationId]);
 
   // 假的資料
-  // useEffect(() => {
-  //   const { distance, duration } = fakeDirections;
-  //   setDistance(distance.text);
-  //   setDurationText(duration.text);
-  //   const formattedTime = convertTimeString(duration.text);
-  //   setDurationTime(formattedTime);
-  // }, []);
+  useEffect(() => {
+    const { distance, duration } = fakeDirections;
+    setDistance(distance.text);
+    setDurationText(duration.text);
+    const formattedTime = convertTimeString(duration.text);
+    setDurationTime(formattedTime);
+  }, []);
 
   return (
     <>
