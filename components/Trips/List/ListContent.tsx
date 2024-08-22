@@ -5,6 +5,7 @@ type newTripType = {
   tripName: string;
   startDate: string;
   endDate: string;
+  photo: { fileName: string; photoUrl: string };
 };
 type ListContentProps = {
   setDialogBoxDisplay: any;
@@ -26,6 +27,8 @@ const ListContent = ({ setDialogBoxDisplay, newTrip }: ListContentProps) => {
             tripName={newTrip[i].tripName}
             startDate={newTrip[i].startDate}
             endDate={newTrip[i].endDate}
+            photoName={newTrip[i].photo.fileName}
+            photoUrl={newTrip[i].photo.photoUrl}
           />,
         );
       }
