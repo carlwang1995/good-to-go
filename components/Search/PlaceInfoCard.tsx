@@ -1,11 +1,12 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   DayIndexContext,
   ReloadStateContext,
+  MarkerContext,
 } from "@/contexts/ContextProvider";
 import { DB_updateTripPlan } from "@/libs/db/EditTripPage";
 import Image from "next/image";
-import { currentOpeningHours } from "@/libs/fakeData";
+import get_photo from "@/libs/google/getPhoto";
 
 type PlaceType = {
   id?: number;
@@ -13,6 +14,11 @@ type PlaceType = {
   name: string;
   address: string;
   location: { latitude: number; longitude: number };
+  openTime: Array<string>;
+  openNow?: boolean;
+  rating?: number;
+  ratingCount?: number;
+  photos?: Array<{ name: string; heightPx: number; widthPx: number }>;
   stayTime?: string;
   trafficMode?: string;
 };
@@ -30,8 +36,10 @@ const PlaceInfoCard = ({
 }) => {
   const [hour, setHour] = useState<string>("00");
   const [minute, setMinute] = useState<string>("30");
+  const [photoUri, setPhotoUri] = useState<string>("");
   const dayIndex = useContext(DayIndexContext); // day1,day2,day3 ...
   const context = useContext(ReloadStateContext);
+  const { setPlaceLatLng } = useContext(MarkerContext);
 
   if (!context) {
     throw new Error("組件不屬於Context的子組件。");
@@ -41,6 +49,18 @@ const PlaceInfoCard = ({
   const setState: React.Dispatch<React.SetStateAction<boolean>> =
     context.setState;
 
+  useEffect(() => {
+    if (selectedPlace && selectedPlace.photos) {
+      get_photo(selectedPlace.photos[0].name, 300, 400)
+        .then((uri) => {
+          setPhotoUri(uri);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [selectedPlace]);
+
   // 新增景點
   const addPlace = async (
     selectedPlace: PlaceType | null,
@@ -48,11 +68,16 @@ const PlaceInfoCard = ({
   ) => {
     const id = new Date().getTime();
     if (selectedPlace) {
-      const newPlace: PlaceType = {
-        ...selectedPlace,
+      const newPlace = {
+        placeId: selectedPlace.placeId,
+        name: selectedPlace.name,
+        address: selectedPlace.address,
+        location: selectedPlace.location,
+        openTime: selectedPlace.openTime,
         stayTime: `${hour}:${minute}`,
         id: id,
         trafficMode: "driving",
+        photos: photoUri,
       };
       try {
         const result = await DB_updateTripPlan(dayIndex, planDocId, newPlace);
@@ -75,33 +100,59 @@ const PlaceInfoCard = ({
           onClick={() => {
             setIsShowSearchResult(false);
             setAddDone(false);
+            setPlaceLatLng(null);
           }}
         >
           &#10006;
         </div>
       </div>
-      <div className="mb-[150px] h-full overflow-y-auto">
-        <div className="min-h-64 w-full bg-slate-400"></div>
+      <div className="mb-[150px] h-full overflow-y-auto overflow-x-hidden">
+        <div className="flex min-h-64 w-full flex-col">
+          {photoUri ? (
+            <Image
+              src={photoUri}
+              alt="place's photo"
+              width={400}
+              height={300}
+            ></Image>
+          ) : (
+            <></>
+          )}
+        </div>
         <p className="mt-4 px-3 text-2xl font-bold">
           {selectedPlace ? selectedPlace.name : null}
         </p>
+        <>
+          <div className="mt-2 flex px-3">
+            <p className="mr-1">評價：</p>
+            <p className="mr-1">
+              {selectedPlace ? selectedPlace.rating : null}
+            </p>
+            <p>
+              {selectedPlace
+                ? "(" + String(selectedPlace.ratingCount) + ")"
+                : null}
+            </p>
+          </div>
+        </>
         <p className="mt-4 px-3 text-lg">
           {selectedPlace ? selectedPlace.address : null}
         </p>
+
         <>
           <div className="mt-4 flex justify-center px-3">
             <hr className="w-full border-slate-300" />
           </div>
           <div className="mt-4 flex px-3 text-lg">
             營業現況：
-            {currentOpeningHours.openNow ? (
+            {selectedPlace?.openNow ? (
               <p className="text-green-500">營業中</p>
             ) : (
               <p className="text-red-500">休息中</p>
             )}
           </div>
           <div className="felx-col flexr my-4 px-3">
-            {currentOpeningHours.weekdayDescriptions.map((weekday, index) => (
+            {selectedPlace?.openTime.map((weekday, index) => (
               <p key={index} className="mt-1">
                 {weekday}
               </p>
@@ -175,7 +226,10 @@ const PlaceInfoCard = ({
             <div className="mt-4 p-2 text-xl text-green-500">加入成功！</div>
           ) : (
             <button
-              onClick={() => addPlace(selectedPlace, planDocId)}
+              onClick={() => {
+                addPlace(selectedPlace, planDocId);
+                setPlaceLatLng(null);
+              }}
               className="mt-2 rounded border border-solid border-black p-2 text-xl hover:cursor-pointer hover:bg-slate-200"
             >
               + 加入行程

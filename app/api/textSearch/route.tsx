@@ -2,11 +2,13 @@ import axios from "axios";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
-  const { textQuery } = await request.json();
+  const { textQuery, languageCode } = await request.json();
 
-  if (!textQuery) {
+  if (!textQuery || !languageCode) {
     return NextResponse.json({ error: "Input is required." }, { status: 400 });
   }
+
+  // console.log(textQuery, languageCode);
 
   const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
   const BASE_URL = "https://places.googleapis.com/v1/places:searchText";
@@ -15,13 +17,14 @@ export async function POST(request: Request) {
       BASE_URL,
       {
         textQuery,
+        languageCode,
       },
       {
         headers: {
           "Content-Type": "application/json",
           "X-Goog-Api-Key": API_KEY,
           "X-Goog-FieldMask":
-            "places.id,nextPageToken,places.displayName,places.formattedAddress,places.location,places.photos",
+            "places.id,nextPageToken,places.displayName,places.formattedAddress,places.location,places.photos,places.currentOpeningHours,places.types,places.rating,places.userRatingCount",
           "Accept-Language": "zh-TW",
         },
       },

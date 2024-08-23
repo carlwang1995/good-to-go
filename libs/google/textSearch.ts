@@ -5,14 +5,14 @@ export default async function textSearch(input: string) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ textQuery: input }),
+      body: JSON.stringify({ textQuery: input, languageCode: "zh-TW" }),
     });
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     console.log("發出testSearch fetch");
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (e) {
     console.error(e);

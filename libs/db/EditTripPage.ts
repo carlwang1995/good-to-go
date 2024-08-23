@@ -50,7 +50,10 @@ type PlaceType = {
   name: string;
   address: string;
   location: { latitude: number; longitude: number };
+  openTime: Array<string>;
+  openNow?: boolean;
   stayTime?: string;
+  trafficMode?: string;
 };
 const DB_updateTripPlan = async (
   dayIndex: string,
