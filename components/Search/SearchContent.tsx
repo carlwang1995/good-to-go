@@ -3,13 +3,23 @@ import ResultListBox from "./ResultListBox";
 import PlaceInfoCard from "./PlaceInfoCard";
 import Image from "next/image";
 import textSearch from "@/libs/google/textSearch";
-import { DestinationContext } from "@/contexts/ContextProvider";
+import { DestinationContext, MarkerContext } from "@/contexts/ContextProvider";
+
+type OpenHoursType = {
+  openNow: boolean;
+  period: object[];
+  weekdayDescriptions: Array<string>;
+};
 
 type PlaceInfoType = {
   id: string;
   displayName: { text: string; languageCode: string };
   formattedAddress: string;
   location: { latitude: number; longitude: number };
+  currentOpeningHours: OpenHoursType;
+  rating: number;
+  userRatingCount: number;
+  photos: Array<{ name: string; heightPx: number; widthPx: number }>;
 };
 
 type PlaceType = {
@@ -17,6 +27,11 @@ type PlaceType = {
   name: string;
   address: string;
   location: { latitude: number; longitude: number };
+  openNow: boolean;
+  openTime: Array<string>;
+  rating: number;
+  ratingCount: number;
+  photos: Array<{ name: string; heightPx: number; widthPx: number }>;
 };
 
 const SearchContent = ({
@@ -39,14 +54,19 @@ const SearchContent = ({
   const searchPlaces = async (destination: string, input: string) => {
     setIsLoading(true);
     if (input) {
-      let result = await textSearch(destination + " " + input);
-      setResults(result.places);
+      const result = await textSearch(destination + " " + input);
+      if (result) {
+        setResults(result.places);
+      } else {
+        throw new Error("Nothing return from textSearch API.");
+      }
     } else {
       alert("請輸入查詢資料");
     }
     setIsLoading(false);
   };
   const destinationArr = useContext(DestinationContext);
+  const { setPlaceLatLng } = useContext(MarkerContext);
 
   if (!destinationArr) {
     throw new Error("SearchContent.tsx不是DestinationContext的子組件。");
@@ -68,6 +88,11 @@ const SearchContent = ({
             name={results[i].displayName.text}
             address={results[i].formattedAddress}
             location={results[i].location}
+            openNow={results[i].currentOpeningHours?.openNow}
+            openTime={results[i].currentOpeningHours?.weekdayDescriptions}
+            rating={results[i].rating}
+            ratingCount={results[i].userRatingCount}
+            photos={results[i].photos}
             setAddDone={setAddDone}
             setSelectedPlace={setSelectedPlace}
             setIsShowSearchResult={setIsShowSearchResult}
@@ -87,6 +112,7 @@ const SearchContent = ({
               setIsSearching(false);
               setIsShowSearchResult(false);
               setResults([]);
+              setPlaceLatLng(null);
             }}
           >
             ←

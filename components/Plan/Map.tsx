@@ -17,6 +17,11 @@ const myIcon = new Icon({
   iconSize: [35, 35],
 });
 
+const selectIcon = new Icon({
+  iconUrl: "/placeholder2.png",
+  iconSize: [60, 60],
+});
+
 function SetViewOnClick({ animateRef }: any) {
   const map = useMapEvent("click", (e) => {
     map.setView(e.latlng, map.getZoom(), {
@@ -33,7 +38,13 @@ function SetPlaceView({ latlng }: { latlng: any | null }) {
       map.setView(latlng, map.getZoom());
     }
   }, [latlng, map]);
-  return null;
+  return (
+    <>
+      {latlng ? (
+        <Marker position={latlng} icon={selectIcon} zIndexOffset={10}></Marker>
+      ) : null}
+    </>
+  );
 }
 
 const RecenterMap = ({ center }: { center: any }) => {
@@ -99,7 +110,6 @@ const LeafletMap = ({ markers, placeLatLng }: LeafletMapProps) => {
           </Popup> */}
         </Marker>
       ))}
-      {/* <LocationMarker /> */}
       <SetViewOnClick animateRef={animateRef} />
       <RecenterMap center={center} />
       <SetPlaceView latlng={placeLatLng} />

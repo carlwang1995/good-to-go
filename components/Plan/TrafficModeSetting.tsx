@@ -11,6 +11,7 @@ interface PlaceType {
   name: string;
   address: string;
   location: { latitude: number; longitude: number };
+  openTime: Array<string>;
   stayTime: string;
   trafficMode: string;
 }

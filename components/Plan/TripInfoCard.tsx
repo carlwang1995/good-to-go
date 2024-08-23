@@ -19,8 +19,10 @@ interface PlaceType {
   name: string;
   address: string;
   location: { latitude: number; longitude: number };
+  openTime: Array<string>;
   stayTime: string;
   trafficMode: string;
+  photos: string;
 }
 
 interface TripType {
@@ -56,7 +58,7 @@ const TripInfoCard = ({ docId, dateCount }: TripInfoProps) => {
     useState<boolean>(false);
 
   const dayIndex: string = useContext(DayIndexContext);
-  const { setMarkers, setPlaceLatLng } = useContext(MarkerContext);
+  const { setMarkers } = useContext(MarkerContext);
 
   const handleTrafficTime = (
     number: string,
