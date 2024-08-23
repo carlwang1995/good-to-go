@@ -45,10 +45,11 @@ const TripInfoCard = ({ docId, dateCount }: TripInfoProps) => {
   const [planContent, setPlanContent] = useState<PlanContentType | null>(null);
   const [isSearching, setIsSearching] = useState<boolean>(false);
   const [trip, setTrip] = useState<TripType | null>(null); // 某一天的行程，包含出發時間字串、行程陣列
-  const [tripBoxArray, setTripBoxArray] = useState<Array<any> | null>(null);
+  const [placeBoxArray, setPlaceBoxArray] = useState<Array<any> | null>(null);
   const [trafficBoxArray, setTrafficBoxArray] = useState<Array<any> | null>(
     null,
   );
+  // const [departArray, setDepartArray] = useState<Array<string> | null>(null);
   const [trafficTimeObject, setTrafficTimeObject] = useState<{
     [key: string]: string;
   }>({});
@@ -89,17 +90,17 @@ const TripInfoCard = ({ docId, dateCount }: TripInfoProps) => {
 
   useEffect(() => {
     if (trip && trip.places.length > 0) {
-      const departArray: Array<string> = [];
-      const trafficBoxArray: Array<React.JSX.Element> = [];
-      const tripBoxArray: Array<React.JSX.Element> = [];
-      const markersArray: Array<number[]> = [];
+      const newDepartArray: Array<string> = [];
+      const newPlaceBoxArray: Array<React.JSX.Element> = [];
+      const newTrafficBoxArray: Array<React.JSX.Element> = [];
+      const newMarkersArray: Array<number[]> = [];
 
       // 各景點出發時間資訊裝在陣列中
       for (let i = 0; i < trip.places.length; i++) {
         if (trip && i === 0) {
-          departArray.push(trip.startTime); // 起點的出發時間必為該日行程的"StartTime"
+          newDepartArray.push(trip.startTime); // 起點的出發時間必為該日行程的"StartTime"
         } else if (trip && trip.startTime !== "") {
-          const prevTime = departArray[i - 1]; // 前一景點的開始時間
+          const prevTime = newDepartArray[i - 1]; // 前一景點的開始時間
           const prevStayTime = trip.places[i - 1].stayTime; // 前一景點的停留時間
           const trafficTime =
             trafficTimeObject[
@@ -109,19 +110,19 @@ const TripInfoCard = ({ docId, dateCount }: TripInfoProps) => {
             addTime(prevTime, prevStayTime),
             trafficTime,
           );
-
-          departArray.push(placeStartTime); //各景點的出發時間為前一行程的"StartTime+StayTime"
+          newDepartArray.push(placeStartTime); //各景點的出發時間為前一行程的"StartTime+StayTime"
+          // setDepartArray(newDepartArray);
         }
       }
       // 景點資訊組件裝在陣列中
       for (let i = 0; i < trip.places.length; i++) {
-        tripBoxArray.push(
+        newPlaceBoxArray.push(
           <PlaceBox
             key={i}
             number={i}
             trip={trip}
             place={trip.places[i]}
-            startTime={departArray[i]}
+            startTime={newDepartArray[i]}
             setShowPlaceInfo={setShowPlaceInfo}
             setPlaceBoxInfo={setPlaceBoxInfo}
           />,
@@ -129,7 +130,7 @@ const TripInfoCard = ({ docId, dateCount }: TripInfoProps) => {
       }
       // 交通資訊組件裝在陣列中
       for (let i = 0; i < trip.places.length - 1; i++) {
-        trafficBoxArray.push(
+        newTrafficBoxArray.push(
           <TrafficBox
             key={i}
             number={i}
@@ -143,16 +144,16 @@ const TripInfoCard = ({ docId, dateCount }: TripInfoProps) => {
       }
       // 所有景點座標裝在陣列中
       for (let i = 0; i < trip.places.length; i++) {
-        markersArray.push([
+        newMarkersArray.push([
           trip.places[i].location.latitude,
           trip.places[i].location.longitude,
         ]);
       }
-      setTripBoxArray(tripBoxArray);
-      setTrafficBoxArray(trafficBoxArray);
-      setMarkers(markersArray);
+      setPlaceBoxArray(newPlaceBoxArray);
+      setTrafficBoxArray(newTrafficBoxArray);
+      setMarkers(newMarkersArray);
     } else {
-      setTripBoxArray(null);
+      setPlaceBoxArray(null);
       setTrafficBoxArray(null);
       setMarkers([]);
     }
@@ -176,7 +177,19 @@ const TripInfoCard = ({ docId, dateCount }: TripInfoProps) => {
           </span>
         </div>
         <div className="relative">
-          {tripBoxArray}
+          {placeBoxArray}
+          {/* {departArray &&
+            trip?.places.map((place, index) => (
+              <PlaceBox
+                key={index}
+                number={index}
+                trip={trip}
+                place={place}
+                startTime={departArray[index]}
+                setShowPlaceInfo={setShowPlaceInfo}
+                setPlaceBoxInfo={setPlaceBoxInfo}
+              />
+            ))} */}
           <div className="absolute top-0 w-full">{trafficBoxArray}</div>
           <OpenSearchBtn
             setIsSearching={setIsSearching}
