@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import Image from "next/image";
 import {
   DayIndexContext,
@@ -15,8 +15,10 @@ interface PlaceType {
   name: string;
   address: string;
   location: { latitude: number; longitude: number };
+  openTime: Array<string>;
   stayTime: string;
   trafficMode: string;
+  photos: string;
 }
 
 interface TripType {
@@ -43,7 +45,16 @@ const PlaceBox = ({
 }: PlaceBoxProps) => {
   const [showDeleteBtn, setShowDeleteBtn] = useState<boolean>(false);
   const [showStayTimeSetting, setShowStaySetting] = useState<boolean>(false);
-  const { id, placeId, stayTime, name, address, location, trafficMode } = place;
+  const {
+    id,
+    placeId,
+    stayTime,
+    name,
+    address,
+    openTime,
+    location,
+    trafficMode,
+  } = place;
 
   const { setMarkers, setPlaceLatLng } = useContext(MarkerContext);
   const dayIndex = useContext(DayIndexContext);
@@ -51,6 +62,7 @@ const PlaceBox = ({
   if (!context) {
     throw new Error("找不到context");
   }
+
   const planDocId: string = context.planDocId;
   const setState: React.Dispatch<React.SetStateAction<boolean>> =
     context.setState;
@@ -60,6 +72,7 @@ const PlaceBox = ({
   if (stayTimeHour[0] === "0") {
     stayTimeHour = stayTimeHour[1];
   }
+  // 刪除景點
   const deleteTripInfoBox = async (
     dayIndex: string,
     planDocId: string,
@@ -74,9 +87,7 @@ const PlaceBox = ({
       console.error(e);
     }
   };
-  // useEffect(() => {
-  //   console.log(`PlaceBox-${number}被渲染`);
-  // }, []);
+
   return (
     <>
       <div
@@ -93,8 +104,14 @@ const PlaceBox = ({
           }}
         >
           <div className="relative min-h-20 min-w-20 bg-slate-400">
-            <div className="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center bg-slate-600">
-              <p className="text-white">{String(number + 1)}</p>
+            <Image
+              src={place.photos}
+              alt="place's image"
+              fill={true}
+              sizes="min-width:80px"
+            ></Image>
+            <div className="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center bg-slate-500/60">
+              <p className="font-semibold text-white">{String(number + 1)}</p>
             </div>
           </div>
           <div className="ml-2 flex w-full flex-col justify-center">
@@ -131,7 +148,11 @@ const PlaceBox = ({
         </div>
         {showDeleteBtn ? (
           <div
-            onClick={() => deleteTripInfoBox(dayIndex, planDocId, place)}
+            onClick={async () => {
+              await deleteTripInfoBox(dayIndex, planDocId, place);
+              setPlaceLatLng(null);
+              setShowPlaceInfo(false);
+            }}
             className="absolute right-0 top-0 rounded bg-slate-100 p-1 text-2xl hover:cursor-pointer hover:bg-slate-200 hover:font-bold"
           >
             <Image

@@ -11,6 +11,7 @@ interface PlaceType {
   name: string;
   address: string;
   location: { latitude: number; longitude: number };
+  openTime: Array<string>;
   stayTime: string;
   trafficMode: string;
 }
@@ -56,25 +57,29 @@ const TrafficBox = ({
   // }, []);
 
   // 真實資料，會計費
-  // useEffect(() => {
-  //   get_directions(originId, destinationId, mode).then((direction) => {
-  //     if (direction) {
-  //       const { distance, duration } = direction;
-  //       setDistance(distance.text);
-  //       setDurationText(duration.text);
-  //       const formattedTime = convertTimeString(duration.text);
-  //       setDurationTime(formattedTime);
-  //     }
-  //   });
-  // }, [mode, destinationId]);
+  useEffect(() => {
+    if (process.env.NODE_ENV === "production") {
+      get_directions(originId, destinationId, mode).then((direction) => {
+        if (direction) {
+          const { distance, duration } = direction;
+          setDistance(distance.text);
+          setDurationText(duration.text);
+          const formattedTime = convertTimeString(duration.text);
+          setDurationTime(formattedTime);
+        }
+      });
+    }
+  }, [mode, destinationId]);
 
   // 假的資料
   useEffect(() => {
-    const { distance, duration } = directionsData;
-    setDistance(distance.text);
-    setDurationText(duration.text);
-    const formattedTime = convertTimeString(duration.text);
-    setDurationTime(formattedTime);
+    if (process.env.NODE_ENV === "development") {
+      const { distance, duration } = directionsData;
+      setDistance(distance.text);
+      setDurationText(duration.text);
+      const formattedTime = convertTimeString(duration.text);
+      setDurationTime(formattedTime);
+    }
   }, []);
 
   return (

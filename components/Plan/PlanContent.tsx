@@ -70,7 +70,7 @@ const PlanContent = ({ docId }: { docId: string }) => {
           <Image
             priority={true}
             fill={true}
-            sizes="(max-width: 500px)"
+            sizes="min-width:500px"
             src={tripPhoto}
             alt="background"
             className="absolute left-0 top-0 z-0 h-40 w-full"
