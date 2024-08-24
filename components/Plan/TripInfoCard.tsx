@@ -13,6 +13,7 @@ import {
   ReloadStateContext,
 } from "@/contexts/ContextProvider";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
+import Image from "next/image";
 
 interface PlaceType {
   id: number;
@@ -204,7 +205,7 @@ const TripInfoCard = ({ docId, dateCount }: TripInfoProps) => {
           <span>出發時間：</span>
           <span
             onClick={() => setShowStartTimeSetting(true)}
-            className="font-bold underline hover:cursor-pointer hover:bg-slate-200"
+            className="underline hover:cursor-pointer hover:font-bold"
           >
             {trip ? trip.startTime : null}
           </span>
@@ -225,9 +226,17 @@ const TripInfoCard = ({ docId, dateCount }: TripInfoProps) => {
                         <div
                           ref={provided.innerRef}
                           {...provided.draggableProps}
-                          {...provided.dragHandleProps}
+                          className="relative"
                         >
-                          {placeBox}
+                          <Image
+                            {...provided.dragHandleProps}
+                            src="/two-direction-arrows.png"
+                            alt="arrow"
+                            width={30}
+                            height={30}
+                            className="absolute bottom-10 right-0 z-20 hover:cursor-move"
+                          ></Image>
+                          <div>{placeBox}</div>
                         </div>
                       )}
                     </Draggable>

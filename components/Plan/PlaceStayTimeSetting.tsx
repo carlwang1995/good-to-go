@@ -58,7 +58,6 @@ const PlaceStayTimeSetting = ({
     const newStayTime = `${hh}:${mm}`;
     const newPlaces = [...trip.places];
     newPlaces[number].stayTime = newStayTime;
-    // console.log(newPlaces);
     const result = await DB_upadatePlaceInfo(docId, dayIndex, newPlaces);
     if (result) {
       setState((prev) => !prev);
