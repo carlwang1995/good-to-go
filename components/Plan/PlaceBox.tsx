@@ -96,13 +96,14 @@ const PlaceBox = ({
         onMouseLeave={() => setShowDeleteBtn((pre) => !pre)}
       >
         <div
-          className="w-ful relative flex h-full hover:cursor-pointer"
           onClick={() => {
             setPlaceBoxInfo(place);
             setShowPlaceInfo(true);
             setPlaceLatLng([place.location.latitude, place.location.longitude]);
           }}
-        >
+          className="absolute left-0 top-0 z-10 h-full w-full hover:cursor-pointer"
+        ></div>
+        <div className="w-ful relative flex h-full">
           <div className="relative min-h-20 min-w-20 bg-slate-400">
             <Image
               src={place.photos}
@@ -127,7 +128,7 @@ const PlaceBox = ({
                 onClick={() => {
                   setShowStaySetting(true);
                 }}
-                className="underline hover:cursor-pointer hover:bg-slate-200 hover:font-bold"
+                className="relative z-30 underline hover:cursor-pointer hover:font-bold"
               >
                 {stayTimeMinute === "00"
                   ? stayTimeHour + "小時"
@@ -153,14 +154,9 @@ const PlaceBox = ({
               setPlaceLatLng(null);
               setShowPlaceInfo(false);
             }}
-            className="absolute right-0 top-0 rounded bg-slate-100 p-1 text-2xl hover:cursor-pointer hover:bg-slate-200 hover:font-bold"
+            className="absolute right-0 top-0 z-30 rounded p-1 text-2xl hover:cursor-pointer"
           >
-            <Image
-              src="/trash-can.png"
-              alt="trash"
-              width={20}
-              height={20}
-            ></Image>
+            <Image src="/close.png" alt="trash" width={15} height={15}></Image>
           </div>
         ) : (
           <></>
