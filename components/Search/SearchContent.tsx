@@ -75,7 +75,7 @@ const SearchContent = ({
     if (destinationArr) {
       setDestinationName(destinationArr[0]);
     }
-  }, []);
+  }, [destinationArr]);
 
   useEffect(() => {
     const newArr = [];
@@ -126,7 +126,7 @@ const SearchContent = ({
                 searchPlaces(destinationName, input === "" ? "景點" : input);
               }
             }}
-            type="text"
+            type="search"
             className="h-full w-full rounded-l bg-white p-4 outline-none"
             onChange={(e) => {
               setInput(e.target.value);

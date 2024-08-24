@@ -1,10 +1,10 @@
 const directionsData = {
   distance: {
-    text: "4.8 公里",
+    text: "5.0 公里",
     value: 4802,
   },
   duration: {
-    text: "19 分鐘",
+    text: "20 分鐘",
     value: 929,
   },
 };
