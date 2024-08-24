@@ -104,7 +104,7 @@ const SearchContent = ({
   }, [results]);
   return (
     <>
-      <div className="absolute left-0 top-0 z-10 flex h-full flex-col bg-white">
+      <div className="absolute left-0 top-0 z-30 flex h-full flex-col bg-white">
         <div className="flex max-h-16 min-h-16 w-[500px] items-center bg-black/50 p-3">
           <span
             className="mr-3 w-8 text-xl text-white hover:cursor-pointer hover:font-bold"

@@ -96,7 +96,7 @@ const PlaceInfoCard = ({
     <div className="absolute left-[500px] top-0 z-20 flex h-full w-[380px] flex-col overflow-y-auto overflow-x-hidden border-l border-slate-300 bg-white">
       <div className="flex h-16 items-center justify-end">
         <div
-          className="m-4 px-1 text-xl hover:cursor-pointer hover:bg-slate-200"
+          className="m-4 px-1 text-xl hover:cursor-pointer hover:font-bold"
           onClick={() => {
             setIsShowSearchResult(false);
             setAddDone(false);
