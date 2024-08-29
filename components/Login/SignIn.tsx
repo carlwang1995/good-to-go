@@ -33,8 +33,8 @@ const SignIn = ({
         const email = result.message.user.email;
         const photoUrl = result.message.user.photoURL;
         const checkIsExist = await DB_getUserInfoByUserId(userId);
-        if (checkIsExist) {
-          const docId = checkIsExist.docId;
+        if (checkIsExist!.docId) {
+          const docId = checkIsExist!.docId;
           const upadeGoogleInfo = await DB_updateUserInfo(docId, {
             userId,
             userName,

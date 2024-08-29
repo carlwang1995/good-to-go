@@ -4,14 +4,10 @@ import {
   addDoc,
   query,
   where,
-  getDoc,
   getDocs,
-  deleteDoc,
   updateDoc,
   doc,
 } from "firebase/firestore";
-import { userAgent } from "next/server";
-import { userInfo } from "os";
 const DB_createNewMember = async (
   userId: string,
   userName: string,
