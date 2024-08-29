@@ -136,7 +136,7 @@ const UploadCard = ({
                 上傳
               </button>
             ) : (
-              <button className="mr-2 rounded border-[1px] border-solid border-slate-400 bg-gray-200 px-2 py-1 text-lg text-gray-400 hover:cursor-default">
+              <button className="mr-2 rounded border border-solid border-slate-400 bg-gray-200 px-2 py-1 text-lg text-gray-400 hover:cursor-default">
                 上傳
               </button>
             )}

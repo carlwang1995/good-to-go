@@ -127,6 +127,7 @@ const PlanContent = ({ docId }: { docId: string }) => {
             src={tripPhoto}
             alt="background"
             className="absolute left-0 top-0 z-0 h-40 w-full"
+            style={{ objectFit: "cover" }}
           ></Image>
         ) : (
           <div className="absolute left-0 top-0 z-0 flex h-40 w-full items-center justify-center">
