@@ -2,8 +2,10 @@ import React, { useState, useContext } from "react";
 import Image from "next/image";
 import {
   DayIndexContext,
-  ReloadStateContext,
   MarkerContext,
+  StateContext,
+  DocIdContext,
+  EditableContext,
 } from "@/contexts/ContextProvider";
 import { addTime } from "@/libs/timeConvertor";
 import { DB_deleteTripPlanPlace } from "@/libs/db/EditTripPage";
@@ -32,7 +34,7 @@ type PlaceBoxProps = {
   place: PlaceType;
   startTime: string;
   setShowPlaceInfo: React.Dispatch<React.SetStateAction<boolean>>;
-  setPlaceBoxInfo: React.Dispatch<React.SetStateAction<PlaceType | undefined>>;
+  setPlaceInfo: React.Dispatch<React.SetStateAction<PlaceType | undefined>>;
 };
 
 const PlaceBox = ({
@@ -41,31 +43,34 @@ const PlaceBox = ({
   place,
   startTime,
   setShowPlaceInfo,
-  setPlaceBoxInfo,
+  setPlaceInfo,
 }: PlaceBoxProps) => {
   const [showDeleteBtn, setShowDeleteBtn] = useState<boolean>(false);
   const [showStayTimeSetting, setShowStaySetting] = useState<boolean>(false);
-  const {
-    id,
-    placeId,
-    stayTime,
-    name,
-    address,
-    openTime,
-    location,
-    trafficMode,
-  } = place;
+  const { stayTime, name, address, location, photos } = place;
 
-  const { setMarkers, setPlaceLatLng } = useContext(MarkerContext);
   const dayIndex = useContext(DayIndexContext);
-  const context = useContext(ReloadStateContext);
-  if (!context) {
-    throw new Error("找不到context");
+  const setState = useContext(StateContext);
+  const planDocId = useContext(DocIdContext);
+  const { setPlaceLatLng } = useContext(MarkerContext);
+  const isEditable = useContext(EditableContext);
+
+  if (!dayIndex) {
+    throw new Error("Can't access DayIndexContext.");
+  }
+  if (!setState) {
+    throw new Error("Can't access StateContext.");
+  }
+  if (!planDocId) {
+    throw new Error("Can't access DocIdContext.");
+  }
+  if (!setPlaceLatLng) {
+    throw new Error("Can't access MarkerContext.");
+  }
+  if (isEditable === undefined) {
+    throw new Error("Can't access MarkerContext.");
   }
 
-  const planDocId: string = context.planDocId;
-  const setState: React.Dispatch<React.SetStateAction<boolean>> =
-    context.setState;
   const endTime = addTime(startTime, stayTime);
   // 停留時間轉成XX小時XX分鐘格式
   let [stayTimeHour, stayTimeMinute] = stayTime.split(":");
@@ -78,6 +83,9 @@ const PlaceBox = ({
     planDocId: string,
     place: PlaceType,
   ) => {
+    if (!isEditable) {
+      return;
+    }
     try {
       const result = await DB_deleteTripPlanPlace(dayIndex, planDocId, place);
       if (result) {
@@ -91,27 +99,30 @@ const PlaceBox = ({
   return (
     <>
       <div
-        className="relative z-10 mb-[40px] flex h-[120px] w-full border-t bg-white p-5 shadow-lg"
+        className="relative z-10 mb-[40px] flex h-[120px] w-full border-t border-solid border-gray-200 bg-white p-5 shadow-md transition hover:shadow-lg"
         onMouseEnter={() => setShowDeleteBtn((pre) => !pre)}
         onMouseLeave={() => setShowDeleteBtn((pre) => !pre)}
       >
         <div
           onClick={() => {
-            setPlaceBoxInfo(place);
+            setPlaceInfo(place);
             setShowPlaceInfo(true);
-            setPlaceLatLng([place.location.latitude, place.location.longitude]);
+            setPlaceLatLng({
+              number: number + 1,
+              position: [location.latitude, location.longitude],
+            });
           }}
           className="absolute left-0 top-0 z-10 h-full w-full hover:cursor-pointer"
         ></div>
         <div className="w-ful relative flex h-full">
           <div className="relative min-h-20 min-w-20 bg-slate-400">
             <Image
-              src={place.photos}
+              src={photos ? photos : "/mountain.png"}
               alt="place's image"
               fill={true}
               sizes="min-width:80px"
             ></Image>
-            <div className="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center bg-slate-500/60">
+            <div className="absolute bottom-0 right-0 flex h-7 w-7 items-center justify-center bg-blue-500/60">
               <p className="font-semibold text-white">{String(number + 1)}</p>
             </div>
           </div>
@@ -124,18 +135,29 @@ const PlaceBox = ({
                 width={15}
                 height={15}
               ></Image>
-              <span
-                onClick={() => {
-                  setShowStaySetting(true);
-                }}
-                className="relative z-30 underline hover:cursor-pointer hover:font-bold"
-              >
-                {stayTimeMinute === "00"
-                  ? stayTimeHour + "小時"
-                  : stayTimeHour === "0"
-                    ? stayTimeMinute + "分鐘"
-                    : stayTimeHour + "時" + stayTimeMinute + "分"}
-              </span>
+              {isEditable ? (
+                <span
+                  onClick={() => {
+                    setShowStaySetting(true);
+                  }}
+                  className="relative z-30 underline hover:cursor-pointer hover:font-bold"
+                >
+                  {stayTimeMinute === "00"
+                    ? stayTimeHour + "小時"
+                    : stayTimeHour === "0"
+                      ? stayTimeMinute + "分鐘"
+                      : stayTimeHour + "時" + stayTimeMinute + "分"}
+                </span>
+              ) : (
+                <span className="relative z-30">
+                  {stayTimeMinute === "00"
+                    ? stayTimeHour + "小時"
+                    : stayTimeHour === "0"
+                      ? stayTimeMinute + "分鐘"
+                      : stayTimeHour + "時" + stayTimeMinute + "分"}
+                </span>
+              )}
+
               <span className="mx-1">|</span>
               <span>{`${startTime} － ${endTime}`}</span>
             </div>
@@ -147,7 +169,7 @@ const PlaceBox = ({
             </div>
           </div>
         </div>
-        {showDeleteBtn ? (
+        {showDeleteBtn && isEditable ? (
           <div
             onClick={async () => {
               await deleteTripInfoBox(dayIndex, planDocId, place);
@@ -156,13 +178,18 @@ const PlaceBox = ({
             }}
             className="absolute right-0 top-0 z-30 rounded p-1 text-2xl hover:cursor-pointer"
           >
-            <Image src="/close.png" alt="trash" width={15} height={15}></Image>
+            <Image
+              src="/trash-can.png"
+              alt="trash"
+              width={20}
+              height={20}
+            ></Image>
           </div>
         ) : (
           <></>
         )}
       </div>
-      {showStayTimeSetting ? (
+      {showStayTimeSetting && isEditable ? (
         <StayTimeSetting
           planDocId={planDocId}
           number={number}

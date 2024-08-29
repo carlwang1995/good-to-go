@@ -1,41 +1,52 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useContext, useState } from "react";
-import { DeleteContext } from "@/contexts/ContextProvider";
+import { StateContext } from "@/contexts/ContextProvider";
 import UploadCard from "./UploadCard";
+import { DB_deleteTrip, DB_deletePlanByDocId } from "@/libs/db/CreateTripPage";
 import { storage } from "@/config/firebase";
-import { ref, listAll, deleteObject } from "firebase/storage";
+import { ref, deleteObject } from "firebase/storage";
+import PrivacySettingCard from "./PrivacySettingCard";
 
 type ListItemProps = {
-  index: number;
   docId: string;
   tripName: string;
   startDate: string;
   endDate: string;
   photoName: string;
   photoUrl: string;
+  privacy: boolean;
 };
 
 const ListItem = ({
-  index,
   docId,
   tripName,
   startDate,
   endDate,
   photoName,
   photoUrl,
+  privacy,
 }: ListItemProps) => {
-  const [showDeleteBtn, setShowDeleteBtn] = useState<boolean>(false);
+  const [showSetting, setShowSetting] = useState<boolean>(false);
   const [showUpload, setShowUpload] = useState<boolean>(false);
-  const context = useContext(DeleteContext);
+  const [showPravicy, setShowPravicy] = useState<boolean>(false);
+  const setState = useContext(StateContext);
 
-  if (context === undefined || context === null) {
-    throw new Error(
-      "ChildComponent must be used within a DeleteContext.Provider",
-    );
+  if (!setState) {
+    throw new Error("Can't access StateContext from ListItem.tsx.");
   }
 
-  const deleteTrip = context;
+  const deleteTrip = async (docId: string) => {
+    try {
+      let result = await DB_deleteTrip(docId);
+      if (result) {
+        DB_deletePlanByDocId(docId);
+        setState((pre) => !pre);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const deleteOldPhoto = async (oldPhoto: string) => {
     if (!oldPhoto || oldPhoto == "default") {
@@ -51,57 +62,103 @@ const ListItem = ({
 
   return (
     <>
-      <div
-        onMouseEnter={() => setShowDeleteBtn((pre) => !pre)}
-        onMouseLeave={() => setShowDeleteBtn((pre) => !pre)}
-        className="m-4 min-w-[30%] rounded-lg bg-white"
-      >
-        <div className="relative rounded-lg shadow-lg hover:shadow-xl">
+      <div className="m-4 rounded-lg bg-white">
+        <div className="relative rounded-lg shadow-lg transition hover:shadow-xl">
           <Link href={`plan/${docId}`}>
-            <div className="relative flex min-h-[200px] min-w-[320px] max-w-[320px] flex-col justify-end rounded-lg">
+            <div className="relative z-10 flex min-h-[200px] min-w-[320px] max-w-[320px] flex-col justify-end rounded-lg">
+              <div className={`absolute left-0 top-0 z-10 rounded-tl-lg`}>
+                <div
+                  className={`m-2 w-12 rounded-lg ${privacy ? "bg-green-900/70" : "bg-gray-800/70"} ${privacy ? "text-green-500" : "text-gray-400"} text-center`}
+                >
+                  {privacy ? "公開" : "私人"}
+                </div>
+              </div>
               <Image
                 priority
                 src={photoUrl}
                 alt="background"
                 width={300}
                 height={300}
-                className="absolute left-0 top-0 z-0 h-full w-full rounded-lg"
+                className="absolute left-0 top-0 h-full w-full rounded-lg"
               ></Image>
-              <div className="z-10 bg-white bg-white/80 px-3 py-2 text-xl font-bold">
+              <div className="relative z-10 bg-white bg-white/80 px-3 py-2 text-xl font-bold">
                 {tripName}
               </div>
-              <div className="z-10 flex rounded-b-lg bg-white/80 px-3 pb-2">
+              <div className="relative z-10 flex rounded-b-lg bg-white/80 px-3 pb-2">
                 <div>{startDate}</div>
                 <div className="mx-2">~</div>
                 <div>{endDate}</div>
               </div>
             </div>
           </Link>
-          {showDeleteBtn ? (
+          <div
+            onClick={() => setShowSetting(true)}
+            className="absolute right-2 top-2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 transition hover:cursor-pointer hover:bg-white hover:shadow-lg"
+          >
+            <Image
+              src="/setting.png"
+              alt="setting"
+              width={20}
+              height={20}
+            ></Image>
+          </div>
+          {showSetting ? (
             <>
-              <div className="absolute right-0 top-0 rounded rounded-tr-lg bg-slate-100/20 p-1 text-2xl hover:cursor-pointer hover:bg-slate-100/80 hover:font-bold">
-                <Image
-                  src="/trash-can.png"
-                  alt="trash"
-                  width={25}
-                  height={25}
+              <div
+                onClick={() => setShowSetting(false)}
+                className="fixed left-0 top-0 z-0 h-screen w-screen"
+              ></div>
+              <ul className="absolute right-2 top-2 z-20 h-fit items-center justify-center bg-white hover:shadow-lg">
+                <li
+                  onClick={() => {
+                    setShowPravicy(true);
+                    setShowSetting(false);
+                  }}
+                  className="flex items-center p-1 transition hover:cursor-pointer hover:bg-blue-100"
+                >
+                  <Image
+                    src="/share.png"
+                    alt="share"
+                    width={15}
+                    height={15}
+                    className="mr-1 h-full w-fit"
+                  ></Image>
+                  隱私設定與分享
+                </li>
+                <li
+                  onClick={() => {
+                    setShowUpload(true);
+                    setShowSetting(false);
+                  }}
+                  className="flex items-center p-1 transition hover:cursor-pointer hover:bg-blue-100"
+                >
+                  <Image
+                    src="/upload.png"
+                    alt="upload"
+                    width={15}
+                    height={15}
+                    className="mr-1 h-full w-fit"
+                  ></Image>
+                  上傳封面
+                </li>
+                <li
                   onClick={() => {
                     deleteTrip(docId);
                     deleteOldPhoto(photoName);
+                    setShowSetting(false);
                   }}
-                ></Image>
-              </div>
-              <div
-                onClick={() => setShowUpload(true)}
-                className="absolute right-10 top-0 rounded rounded-tr-lg bg-slate-100/20 p-1 text-2xl hover:cursor-pointer hover:bg-slate-100/80 hover:font-bold"
-              >
-                <Image
-                  src="/upload.png"
-                  alt="upload"
-                  width={25}
-                  height={25}
-                ></Image>
-              </div>
+                  className="flex items-center p-1 text-red-400 transition hover:cursor-pointer hover:bg-blue-100"
+                >
+                  <Image
+                    src="/delete.png"
+                    alt="delete"
+                    width={15}
+                    height={15}
+                    className="mr-1 h-full w-fit"
+                  ></Image>
+                  刪除行程
+                </li>
+              </ul>
             </>
           ) : (
             <></>
@@ -113,6 +170,15 @@ const ListItem = ({
           docId={docId}
           setShowUpload={setShowUpload}
           oldPhotoName={photoName}
+        />
+      ) : (
+        <></>
+      )}
+      {showPravicy ? (
+        <PrivacySettingCard
+          setShowPravicy={setShowPravicy}
+          docId={docId}
+          currentPrivacy={privacy}
         />
       ) : (
         <></>

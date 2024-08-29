@@ -1,30 +1,31 @@
 "use client";
 import React, { useState } from "react";
 import { DB_createNewTrip, DB_createNewPlan } from "@/libs/db/CreateTripPage";
+import { useUser } from "@/contexts/UserAuth";
 import { useRouter } from "next/navigation";
 import { getDateBetween } from "@/libs/getDatesBetween";
 import TargetItem from "./TargetItem";
 import { photos } from "@/libs/photosArr";
+import Image from "next/image";
 
 type TripInputProps = {
-  userId: string;
   startDate: string;
   endDate: string;
   setStartDate: React.Dispatch<React.SetStateAction<string>>;
   setEndDate: React.Dispatch<React.SetStateAction<string>>;
-  setDialogBoxDisplay: () => void;
+  setDisplay: React.Dispatch<React.SetStateAction<boolean>>;
   setIsOpenCalendar: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const TripInput = ({
-  userId,
   startDate,
   endDate,
   setStartDate,
   setEndDate,
-  setDialogBoxDisplay,
+  setDisplay,
   setIsOpenCalendar,
 }: TripInputProps) => {
+  const { userId } = useUser();
   const router = useRouter();
   // 目的地
   const [inputDestination, setInputDestination] = useState<string>("");
@@ -35,6 +36,7 @@ const TripInput = ({
   const [isDateSelect, setIsDateSelect] = useState<boolean>(true);
   const [isDestinaiton, setIsDestination] = useState<boolean>(true);
   const [isTripName, setIsTripName] = useState<boolean>(true);
+  const [isCreating, setIsCreating] = useState<boolean>(false);
 
   // 取消建立行程
   const cancelEdit = (): void => {
@@ -45,7 +47,7 @@ const TripInput = ({
     setIsDateSelect(true);
     setIsDestination(true);
     setIsTripName(true);
-    setDialogBoxDisplay();
+    setDisplay((prev) => !prev);
   };
   // 檢查輸入內容
   const checkInput = (): void => {
@@ -69,8 +71,30 @@ const TripInput = ({
     destination: Array<string>,
     tripName: string,
   ) => {
+    if (
+      startDate === "出發日期" ||
+      endDate === "結束日期" ||
+      destinaitonArray.length === 0 ||
+      !inputTripName
+    ) {
+      return;
+    }
+    setIsCreating(true);
     const dates = getDateBetween(startDate, endDate);
     let tripsObj: { [key: string]: Trip } = {};
+    const date = new Date();
+    const formatDate =
+      date.getFullYear().toString() +
+      "-" +
+      (date.getMonth() + 1).toString().padStart(2, "0") +
+      "-" +
+      date.getDate().toString().padStart(2, "0") +
+      " " +
+      date.getHours().toString().padStart(2, "0") +
+      ":" +
+      date.getMinutes().toString().padStart(2, "0") +
+      ":" +
+      date.getSeconds().toString().padStart(2, "0");
     const tripObject = {
       userId,
       startDate,
@@ -82,22 +106,26 @@ const TripInput = ({
         fileName: "default",
         photoUrl: `/background/${photos[Math.floor(Math.random() * photos.length)]}`,
       },
+      createTime: formatDate,
+      privacy: false,
     };
-    for (let i: number = 0; i < dates.length; i++) {
+    for (let i = 0; i < dates.length; i++) {
       tripsObj[`day${i + 1}`] = { startTime: "08:00", places: [] };
     }
     try {
       const docId = await DB_createNewTrip(tripObject);
-
       if (docId) {
         const planObject = {
           docId,
           trips: tripsObj,
         };
-        await DB_createNewPlan(planObject);
+        const result = await DB_createNewPlan(planObject);
+        if (result) {
+          router.push(`/plan/${docId}`);
+        }
+      } else {
+        return;
       }
-
-      router.push(`/plan/${docId}`);
     } catch (e) {
       console.error(e);
     }
@@ -168,17 +196,23 @@ const TripInput = ({
               }
             }}
           ></input>
-          <button
-            onClick={() => {
-              if (inputDestination) {
-                setDestinaitonArray((prev) => [...prev, inputDestination]);
-                setInputDestination("");
-              }
-            }}
-            className="text-nowrap rounded border border-solid border-slate-500 px-4 text-xl hover:bg-slate-200"
-          >
-            &#43;
-          </button>
+          {inputDestination ? (
+            <Image
+              onClick={() => {
+                if (inputDestination) {
+                  setDestinaitonArray((prev) => [...prev, inputDestination]);
+                  setInputDestination("");
+                }
+              }}
+              src="/insert.png"
+              alt="insert"
+              width={512}
+              height={512}
+              className="h-6 w-6 hover:cursor-pointer"
+            ></Image>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
       {isDestinaiton ? (
@@ -205,40 +239,26 @@ const TripInput = ({
       <div className="flex justify-end">
         <button
           onClick={cancelEdit}
-          className="mr-3 mt-5 rounded border-[1px] border-solid border-black px-2 py-1 text-lg hover:cursor-pointer hover:bg-slate-200"
+          className="mr-3 mt-5 w-14 px-2 py-1 text-lg text-blue-500"
         >
-          返回
+          取消
         </button>
-
-        {startDate === "出發日期" || endDate === "結束日期" ? (
-          <button
-            onClick={checkInput}
-            className="mt-5 rounded border-[1px] border-solid border-black px-2 py-1 text-lg hover:cursor-pointer hover:bg-slate-200"
-          >
-            完成
-          </button>
-        ) : destinaitonArray.length === 0 ? (
-          <button
-            onClick={checkInput}
-            className="mt-5 rounded border-[1px] border-solid border-black px-2 py-1 text-lg hover:cursor-pointer hover:bg-slate-200"
-          >
-            完成
-          </button>
-        ) : !inputTripName ? (
-          <button
-            onClick={checkInput}
-            className="mt-5 rounded border-[1px] border-solid border-black px-2 py-1 text-lg hover:cursor-pointer hover:bg-slate-200"
-          >
-            完成
+        {isCreating ? (
+          <button className="mt-5 flex w-14 items-center justify-center rounded border border-solid border-black px-2 py-1 text-lg hover:cursor-default">
+            <Image
+              src="/loading.gif"
+              width={20}
+              height={20}
+              alt="loading"
+            ></Image>
           </button>
         ) : (
           <button
             onClick={() => {
               checkInput();
               createTrip(startDate, endDate, destinaitonArray, inputTripName);
-              cancelEdit();
             }}
-            className="mt-5 rounded border-[1px] border-solid border-black px-2 py-1 text-lg hover:cursor-pointer hover:bg-slate-200"
+            className="mt-5 w-14 rounded border border-solid border-blue-700 bg-blue-500 px-2 py-1 text-lg text-white transition hover:bg-blue-700"
           >
             完成
           </button>

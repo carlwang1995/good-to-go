@@ -6,6 +6,11 @@ import {
   signInWithGoogle,
   signInWithUserEmailAndPassword,
 } from "@/libs/auth/signIn";
+import {
+  DB_createNewMember,
+  DB_getUserInfoByUserId,
+  DB_updateUserInfo,
+} from "@/libs/db/MemberInfo";
 
 const SignIn = ({
   switchToSignUp,
@@ -18,14 +23,44 @@ const SignIn = ({
   const [isChecking, setIsChecking] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const router = useRouter();
+
   const GoogleSignIn = async () => {
-    const result = await signInWithGoogle();
-    if (result) {
-      router.push("/");
-    } else {
-      alert("登入發生錯誤");
+    try {
+      const result: any = await signInWithGoogle();
+      if (result.result) {
+        const userId = result.message.user.uid;
+        const userName = result.message.user.displayName;
+        const email = result.message.user.email;
+        const photoUrl = result.message.user.photoURL;
+        const checkIsExist = await DB_getUserInfoByUserId(userId);
+        if (checkIsExist) {
+          const docId = checkIsExist.docId;
+          const upadeGoogleInfo = await DB_updateUserInfo(docId, {
+            userId,
+            userName,
+            email,
+            photoUrl,
+          });
+          if (upadeGoogleInfo) {
+            router.push("/");
+          }
+        } else {
+          const createGoogleUserInfo = await DB_createNewMember(
+            userId,
+            userName,
+            email,
+            photoUrl,
+          );
+          if (createGoogleUserInfo) {
+            router.push("/");
+          }
+        }
+      }
+    } catch (e) {
+      console.error("登入發生錯誤");
     }
   };
+
   const signIn = async (email: string, password: string) => {
     setIsChecking(true);
     const result = await signInWithUserEmailAndPassword(email, password);
@@ -85,9 +120,9 @@ const SignIn = ({
           </div>
           <button
             onClick={() => router.push("/")}
-            className="mt-2 flex w-full items-center justify-center rounded border border-black bg-white p-1 text-lg transition hover:cursor-pointer hover:bg-slate-200"
+            className="mt-4 flex w-full items-center justify-center rounded border border-solid border-blue-700 bg-blue-500 px-2 py-1 text-lg transition hover:bg-blue-700"
           >
-            <span>返回首頁</span>
+            <p className="text-white">返回首頁</p>
           </button>
         </>
       ) : (
@@ -145,9 +180,9 @@ const SignIn = ({
           </div>
           <button
             onClick={() => signIn(email, password)}
-            className="mt-2 flex w-full items-center justify-center rounded border border-black bg-white p-1 text-lg transition hover:cursor-pointer hover:bg-slate-200"
+            className="mt-2 flex w-full items-center justify-center rounded border border-solid border-blue-700 bg-blue-500 px-2 py-1 text-lg transition hover:bg-blue-700"
           >
-            <span>登入</span>
+            <p className="text-white">登入</p>
           </button>
           <div className="my-2 flex w-full justify-center">
             <p
@@ -163,12 +198,12 @@ const SignIn = ({
               setEmail("test@test.com");
               setPassword("111111");
             }}
-            className="mt-4 flex w-full items-center justify-center rounded border border-black bg-white p-1 text-lg transition hover:cursor-pointer hover:bg-slate-200"
+            className="mt-4 flex w-full items-center justify-center rounded border border-solid border-blue-500 bg-blue-100 px-2 py-1 text-lg transition hover:bg-blue-200"
           >
             <span>測試用帳號，一鍵登入</span>
           </button>
           <button
-            className="mt-4 flex w-full items-center justify-center rounded border border-black bg-white p-1 transition hover:cursor-pointer hover:bg-slate-200"
+            className="mt-4 flex w-full items-center justify-center rounded border border-solid border-blue-500 bg-blue-100 px-2 py-1 text-lg transition hover:bg-blue-200"
             onClick={GoogleSignIn}
           >
             <Image

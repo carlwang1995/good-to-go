@@ -43,6 +43,9 @@ const ResultListBox = ({
   setIsShowSearchResult,
 }: ResultListBoxProps) => {
   const { setPlaceLatLng } = useContext(MarkerContext);
+  if (!setPlaceLatLng) {
+    throw new Error("Can't access MarkerContext from ResultListBox.tsx.");
+  }
   if (!openNow) {
     openNow = true;
   }
@@ -65,17 +68,12 @@ const ResultListBox = ({
             ratingCount,
             photos,
           });
+          setPlaceLatLng({ position: [location.latitude, location.longitude] });
           setIsShowSearchResult(true);
           setAddDone(false);
         }}
       >
-        <div
-          onClick={() => {
-            setPlaceLatLng([location.latitude, location.longitude]);
-          }}
-          className="m-2 flex"
-        >
-          {/* <div className="bg-slaborder h-14 w-14 rounded bg-slate-300"></div> */}
+        <div className="m-2 flex">
           <div className="ml-2 flex h-full flex-col justify-center">
             <p className="max-w-[380px] overflow-hidden text-ellipsis text-nowrap font-bold">
               {name}

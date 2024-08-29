@@ -7,7 +7,7 @@ import {
   getDownloadURL,
   deleteObject,
 } from "firebase/storage";
-import { DB_updateTripPhotoByDocId } from "@/libs/db/CreateTripPage";
+import { DB_updateTripInfoByDocId } from "@/libs/db/CreateTripPage";
 
 const UploadCard = ({
   docId,
@@ -57,8 +57,8 @@ const UploadCard = ({
       () => {
         const fileName = uploadTask.snapshot.ref.name;
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          const photoObj = { fileName, photoUrl: downloadURL };
-          DB_updateTripPhotoByDocId(docId, photoObj).then((result) => {
+          const value = { photo: { fileName, photoUrl: downloadURL } };
+          DB_updateTripInfoByDocId(docId, value).then((result) => {
             if (result) {
               setMessage("圖片更新成功");
               setState((prev) => !prev);
@@ -111,16 +111,16 @@ const UploadCard = ({
                 }}
                 type="file"
                 accept="image/*"
-                className="text-ellipsis text-nowrap hover:cursor-pointer hover:bg-slate-200"
+                className="text-ellipsis text-nowrap hover:cursor-pointer"
               />
             )}
           </div>
           <div className="flex justify-end">
             <button
               onClick={() => setShowUpload(false)}
-              className="mr-4 rounded border-[1px] border-solid border-black px-2 py-1 text-lg hover:cursor-pointer hover:bg-slate-200"
+              className="mr-4 rounded px-2 py-1 text-lg text-blue-500"
             >
-              返回
+              關閉
             </button>
             {message ? (
               <></>
@@ -131,7 +131,7 @@ const UploadCard = ({
                     uploadTripImage(docId, image);
                   }
                 }}
-                className="mr-2 rounded border-[1px] border-solid border-black px-2 py-1 text-lg hover:cursor-pointer hover:bg-slate-200"
+                className="mr-2 rounded border border-solid border-blue-700 bg-blue-500 px-2 py-1 text-lg text-white transition hover:bg-blue-700"
               >
                 上傳
               </button>
