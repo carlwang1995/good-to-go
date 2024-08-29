@@ -1,22 +1,19 @@
 import { createContext } from "react";
 
-const DeleteContext = createContext<any>(null);
 const DayIndexContext = createContext<string>("");
 const DestinationContext = createContext<Array<string>>([]);
 const MarkerContext = createContext<any>(null);
-const ReloadStateContext = createContext<{
-  planDocId: string;
-  setState: React.Dispatch<React.SetStateAction<boolean>>;
-} | null>(null);
+const DocIdContext = createContext<string>("");
 const StateContext = createContext<React.Dispatch<
   React.SetStateAction<boolean>
 > | null>(null);
+const EditableContext = createContext<boolean>(false);
 
 export {
-  DeleteContext,
   DayIndexContext,
   DestinationContext,
   MarkerContext,
-  ReloadStateContext,
+  DocIdContext,
   StateContext,
+  EditableContext,
 };

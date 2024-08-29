@@ -132,15 +132,15 @@ const PlaceStayTimeSetting = ({
           <div className="flex justify-end">
             <button
               onClick={() => setShowStaySetting(false)}
-              className="mr-4 rounded border-[1px] border-solid border-black px-2 py-1 text-lg hover:cursor-pointer hover:bg-slate-200"
+              className="mr-4 rounded px-2 py-1 text-lg text-blue-500"
             >
-              返回
+              關閉
             </button>
             <button
               onClick={() => updateStaytTime(planDocId, dayIndex, number)}
-              className="mr-2 rounded border-[1px] border-solid border-black px-2 py-1 text-lg hover:cursor-pointer hover:bg-slate-200"
+              className="mr-2 rounded border border-solid border-blue-700 bg-blue-500 px-2 py-1 text-lg text-white transition hover:bg-blue-700"
             >
-              確認變更
+              確認
             </button>
           </div>
         </div>

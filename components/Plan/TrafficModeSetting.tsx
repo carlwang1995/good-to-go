@@ -1,7 +1,8 @@
 import React, { useContext, useState } from "react";
 import {
   DayIndexContext,
-  ReloadStateContext,
+  DocIdContext,
+  StateContext,
 } from "@/contexts/ContextProvider";
 import { DB_upadatePlaceInfo } from "@/libs/db/EditTripPage";
 
@@ -36,16 +37,18 @@ const TrafficModeSetting = ({
 }: TrafficModeSettingProps) => {
   const [newMode, setNewMode] = useState<string>(currentMode);
   const dayIndex = useContext(DayIndexContext);
-  const context = useContext(ReloadStateContext);
+  const setState = useContext(StateContext);
+  const planDocId = useContext(DocIdContext);
 
   if (!dayIndex) {
-    throw new Error("TrafficModeSetting.tsx不屬於DayIndexContext的子組件。");
+    throw new Error("Can't access DayIndexContext.");
   }
-  if (!context) {
-    throw new Error("TrafficModeSetting.tsx不屬於ReloadStateContext的子組件。");
+  if (!setState) {
+    throw new Error("Can't access StateContext.");
   }
-
-  const { planDocId, setState } = context;
+  if (!planDocId) {
+    throw new Error("Can't access DocIdContext.");
+  }
 
   const updateMode = async (
     docId: string,
@@ -59,7 +62,7 @@ const TrafficModeSetting = ({
     if (result) {
       setState((prev) => !prev);
     } else {
-      console.error("交通方式更新失敗");
+      console.error("Update failed!");
     }
   };
 
@@ -86,7 +89,7 @@ const TrafficModeSetting = ({
           <div className="flex justify-end">
             <button
               onClick={() => setIsShowing(false)}
-              className="mr-4 rounded border-[1px] border-solid border-black px-2 py-1 text-lg hover:cursor-pointer hover:bg-slate-200"
+              className="mr-4 rounded px-2 py-1 text-lg text-blue-500"
             >
               返回
             </button>
@@ -97,9 +100,9 @@ const TrafficModeSetting = ({
                 }
                 setIsShowing(false);
               }}
-              className="mr-2 rounded border-[1px] border-solid border-black px-2 py-1 text-lg hover:cursor-pointer hover:bg-slate-200"
+              className="mr-2 rounded border border-solid border-blue-700 bg-blue-500 px-2 py-1 text-lg text-white transition hover:bg-blue-700"
             >
-              確認變更
+              確認
             </button>
           </div>
         </div>

@@ -1,55 +1,108 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
+import { useUser } from "@/contexts/UserAuth";
 import Image from "next/image";
 import Link from "next/link";
 import DateItem from "./DateItem";
-import TripInfoCard from "./TripInfoCard";
+import PlanCard from "./PlanCard";
 import { DB_getTripNameByDocId } from "@/libs/db/EditTripPage";
 import {
   DayIndexContext,
   DestinationContext,
+  EditableContext,
 } from "@/contexts/ContextProvider";
+import { useRouter } from "next/navigation";
+
+type TripType = {
+  docId: string;
+  userId: string;
+  tripName: string;
+  destination: Array<string>;
+  dates: Array<string>;
+  startDate: string;
+  endDate: string;
+  photo: { fileName: string; photoUrl: string };
+  privacy: boolean;
+  createTime: string;
+};
 
 const PlanContent = ({ docId }: { docId: string }) => {
+  const { isLogin, userName, userId } = useUser();
   const [dayIndex, setDayIndex] = useState<string>("day1");
   const [dateCount, setDateCount] = useState<string>("第1天");
   const [tripName, setTripName] = useState<string | undefined>(undefined);
   const [destinationArr, setDestinationArr] = useState<
     Array<string> | undefined
   >();
-  const [destinations, setDestinations] = useState<string>("");
   const [startDate, setStartDate] = useState<string | undefined>(undefined);
   const [endDate, setEndDate] = useState<string | undefined>(undefined);
   const [dates, setDates] = useState<Array<string>>();
   const dateSectionRef = useRef<HTMLDivElement | null>(null);
   const [tripPhoto, setTripPhoto] = useState<string | undefined>();
-
+  const [isEditable, setIsEditable] = useState(false);
+  const [authorId, setAuthorId] = useState<string>("");
+  const [privacy, setPrivacy] = useState<boolean>(false);
+  const router = useRouter();
   useEffect(() => {
     DB_getTripNameByDocId(docId).then((tripInfo: any) => {
-      const { tripName, destination, startDate, endDate, dates, photo } =
-        tripInfo;
+      const {
+        tripName,
+        destination,
+        startDate,
+        endDate,
+        dates,
+        photo,
+        userId,
+        privacy,
+      } = tripInfo;
       setDestinationArr(destination);
       setTripName(tripName);
       setStartDate(startDate);
       setEndDate(endDate);
       setDates(dates);
       setTripPhoto(photo.photoUrl);
+      setAuthorId(userId);
+      setPrivacy(privacy);
     });
   }, [docId]);
 
+  // 判斷是否可編輯、可查看
   useEffect(() => {
-    let destinationName = "";
-    if (destinationArr) {
-      for (let i = 0; i < destinationArr.length; i++) {
-        if (i === destinationArr.length - 1) {
-          destinationName += destinationArr[i];
-        } else {
-          destinationName += `${destinationArr[i]}, `;
-        }
+    if (authorId) {
+      // 未登入且非本人
+      if (!privacy && !isLogin) {
+        // console.log("未登入且非本人");
+        setIsEditable(false);
+        router.push("/");
+        return;
+      }
+      // 非公開且非本人，不可瀏覽不可編輯，導回首頁
+      if (!privacy && authorId !== userId) {
+        // console.log("非公開且非本人，不可瀏覽不可編輯，導回首頁");
+        setIsEditable(false);
+        router.push("/");
+        return;
+      }
+      // 公開但非本人，可瀏覽不可編輯
+      if (privacy && authorId !== userId) {
+        // console.log("公開但非本人，可瀏覽不可編輯");
+        setIsEditable(false);
+        return;
+      }
+      // 登入且為本人，可瀏覽可編輯
+      if (isLogin && authorId === userId) {
+        // console.log("登入且為本人，可瀏覽可編輯");
+        setIsEditable(true);
+        return;
+      }
+      // 登出狀態定為編輯模式
+      if (!isLogin) {
+        // console.log("登出狀態定為編輯模式");
+        setIsEditable(false);
+        return;
       }
     }
-    setDestinations(destinationName);
-  }, [destinationArr]);
+  }, [authorId, privacy, isLogin]);
 
   const scrollRange = 300;
   const dateScrollToLeft = () => {
@@ -87,11 +140,15 @@ const PlanContent = ({ docId }: { docId: string }) => {
         )}
         <div className="relative z-10 bg-black/30">
           <div className="flex h-16 w-full items-center bg-black/60 p-3">
-            <Link href="/trips">
-              <span className="mr-3 w-8 text-xl text-white hover:font-bold">
-                ←
-              </span>
-            </Link>
+            {isLogin ? (
+              <Link href="/trips">
+                <span className="mr-3 w-8 text-xl text-white hover:font-bold">
+                  ←
+                </span>
+              </Link>
+            ) : (
+              <></>
+            )}
             <span className="text-xl text-white">{tripName}</span>
           </div>
           <div className="flex h-24 w-full flex-col items-center justify-center p-3">
@@ -101,8 +158,11 @@ const PlanContent = ({ docId }: { docId: string }) => {
               <span className="text-white">{endDate}</span>
             </div>
             <div className="mt-1 w-full">
-              <p className="text-white">{destinations}</p>
+              <p className="text-white">{destinationArr?.toString()}</p>
             </div>
+          </div>
+          <div className="absolute bottom-0 right-0 m-2 text-sm text-white">
+            {isEditable ? "編輯模式" : "檢視模式"}
           </div>
         </div>
 
@@ -140,7 +200,9 @@ const PlanContent = ({ docId }: { docId: string }) => {
         <DestinationContext.Provider
           value={destinationArr ? destinationArr : []}
         >
-          <TripInfoCard docId={docId} dateCount={dateCount} />
+          <EditableContext.Provider value={isEditable}>
+            <PlanCard docId={docId} dateCount={dateCount} />
+          </EditableContext.Provider>
         </DestinationContext.Provider>
       </DayIndexContext.Provider>
     </div>

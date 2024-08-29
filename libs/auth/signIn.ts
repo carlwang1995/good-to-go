@@ -3,13 +3,13 @@ import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
 
 const signInWithGoogle = async () => {
   try {
-    const result = await signInWithPopup(auth, provider);
-    if (result.operationType === "signIn") {
-      return true;
+    const googleUser = await signInWithPopup(auth, provider);
+    if (googleUser.operationType === "signIn") {
+      return { result: true, message: googleUser };
     }
   } catch (e) {
     console.error(e);
-    return false;
+    return { result: false, message: String(e) };
   }
 };
 

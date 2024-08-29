@@ -18,10 +18,14 @@ const StartTimeSetting = ({
   setShowStartTimeSetting: React.Dispatch<React.SetStateAction<boolean>>;
   trip: TripType | null;
 }) => {
-  const dayIndex = useContext(DayIndexContext);
   const [period, setPeriod] = useState("");
   const [hour, setHour] = useState("");
   const [minute, setMinute] = useState("");
+
+  const dayIndex = useContext(DayIndexContext);
+  if (!dayIndex) {
+    throw new Error("Can't access DayIndexContext.");
+  }
 
   useEffect(() => {
     if (trip) {
@@ -38,9 +42,6 @@ const StartTimeSetting = ({
     }
   }, [trip]);
 
-  if (!dayIndex) {
-    throw new Error("StartTimeSetting.tsx不屬於DayIndexContext的子組件。");
-  }
   const updateStartTime = async (docId: string, dayIndex: string) => {
     let hh = hour;
     const mm = minute;
@@ -113,15 +114,15 @@ const StartTimeSetting = ({
           <div className="flex justify-end">
             <button
               onClick={() => setShowStartTimeSetting(false)}
-              className="mr-4 rounded border-[1px] border-solid border-black px-2 py-1 text-lg hover:cursor-pointer hover:bg-slate-200"
+              className="mr-4 rounded px-2 py-1 text-lg text-blue-500"
             >
-              返回
+              關閉
             </button>
             <button
               onClick={() => updateStartTime(planDocId, dayIndex)}
-              className="mr-2 rounded border-[1px] border-solid border-black px-2 py-1 text-lg hover:cursor-pointer hover:bg-slate-200"
+              className="mr-2 rounded border border-solid border-blue-700 bg-blue-500 px-2 py-1 text-lg text-white transition hover:bg-blue-700"
             >
-              確認變更
+              確認
             </button>
           </div>
         </div>

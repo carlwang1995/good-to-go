@@ -11,7 +11,7 @@ type OpenHoursType = {
   weekdayDescriptions: Array<string>;
 };
 
-type PlaceInfoType = {
+interface PlaceInfoType {
   id: string;
   displayName: { text: string; languageCode: string };
   formattedAddress: string;
@@ -20,7 +20,7 @@ type PlaceInfoType = {
   rating: number;
   userRatingCount: number;
   photos: Array<{ name: string; heightPx: number; widthPx: number }>;
-};
+}
 
 type PlaceType = {
   placeId: string;
@@ -50,6 +50,16 @@ const SearchContent = ({
   const [isLoading, setIsLoading] = useState(false);
   const [destinationName, setDestinationName] = useState("");
 
+  const destinationArr = useContext(DestinationContext);
+  const { setPlaceLatLng } = useContext(MarkerContext);
+
+  if (!destinationArr) {
+    throw new Error("Can't access DestinationContext.");
+  }
+  if (!setPlaceLatLng) {
+    throw new Error("Can't access MarkerContext.");
+  }
+
   // 搜尋景點
   const searchPlaces = async (destination: string, input: string) => {
     setIsLoading(true);
@@ -65,14 +75,9 @@ const SearchContent = ({
     }
     setIsLoading(false);
   };
-  const destinationArr = useContext(DestinationContext);
-  const { setPlaceLatLng } = useContext(MarkerContext);
 
-  if (!destinationArr) {
-    throw new Error("SearchContent.tsx不是DestinationContext的子組件。");
-  }
   useEffect(() => {
-    if (destinationArr) {
+    if (destinationArr && destinationArr.length > 0) {
       setDestinationName(destinationArr[0]);
     }
   }, [destinationArr]);
@@ -208,6 +213,7 @@ const SearchContent = ({
           addDone={addDone}
           setAddDone={setAddDone}
           selectedPlace={selectedPlace}
+          setIsSearching={setIsSearching}
           setIsShowSearchResult={setIsShowSearchResult}
         />
       ) : (

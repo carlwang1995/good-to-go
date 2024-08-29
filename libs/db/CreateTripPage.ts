@@ -16,15 +16,17 @@ const DB_createNewTrip = async (trip: object) => {
     return decRef.id;
   } catch (e) {
     console.error("Error adding document:", e);
+    return false;
   }
 };
 
 const DB_createNewPlan = async (plan: { docId: string; trips: object }) => {
   try {
-    let decRef = await addDoc(collection(db, "plans"), plan);
-    return decRef.id;
+    await addDoc(collection(db, "plans"), plan);
+    return true;
   } catch (e) {
     console.error("Error adding document:", e);
+    return false;
   }
 };
 
@@ -32,7 +34,7 @@ const DB_getTrips = async (userId: string) => {
   const q = query(
     collection(db, "trips"),
     where("userId", "==", userId),
-    orderBy("startDate", "asc"),
+    orderBy("createTime", "desc"),
   );
   try {
     const querySnapshot = await getDocs(q);
@@ -71,19 +73,33 @@ const DB_deletePlanByDocId = async (docId: string) => {
   }
 };
 
-const DB_updateTripPhotoByDocId = async (
-  docId: string,
-  photoObj: { fileName: string; photoUrl: string },
-) => {
+const DB_updateTripInfoByDocId = async (docId: string, value: object) => {
   const docRef = doc(db, "trips", docId);
   try {
-    await updateDoc(docRef, {
-      photo: photoObj,
-    });
+    await updateDoc(docRef, value);
     return true;
   } catch (e) {
     console.error(e);
     return false;
+  }
+};
+
+const DB_getTripsByPrivacy = async () => {
+  const q = query(
+    collection(db, "trips"),
+    where("privacy", "==", true),
+    orderBy("createTime", "desc"),
+  );
+  try {
+    const querySnapshot = await getDocs(q);
+    let result: Array<object> = [];
+    querySnapshot.forEach((doc) => {
+      const docId = doc.id;
+      result.push({ docId, ...doc.data() });
+    });
+    return result;
+  } catch (e) {
+    console.error(e);
   }
 };
 
@@ -93,5 +109,6 @@ export {
   DB_getTrips,
   DB_deleteTrip,
   DB_deletePlanByDocId,
-  DB_updateTripPhotoByDocId,
+  DB_updateTripInfoByDocId,
+  DB_getTripsByPrivacy,
 };

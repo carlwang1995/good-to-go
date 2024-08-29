@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import get_directions from "@/libs/google/directions";
 import { convertTimeString } from "@/libs/timeConvertor";
 import Image from "next/image";
 import TrafficModeSetting from "./TrafficModeSetting";
 import { directionsData } from "@/libs/fakeData";
+import { EditableContext } from "@/contexts/ContextProvider";
 
 interface PlaceType {
   id: number;
@@ -48,15 +49,16 @@ const TrafficBox = ({
   const [distance, setDistance] = useState<string>("--公里");
   const [isShowModeSetting, setIsShowModeSetting] = useState<boolean>(false);
 
+  const isEditable = useContext(EditableContext);
+  if (isEditable === undefined) {
+    throw new Error("Can't access MarkerContext.");
+  }
+
   useEffect(() => {
     handleTrafficTime(String(number), originId, destinationId, durationTime);
   }, [originId, destinationId, durationTime]);
 
-  // useEffect(() => {
-  //   console.log(`TrafficBox-${number}被渲染`);
-  // }, []);
-
-  // 真實資料，會計費
+  // 真實資料
   useEffect(() => {
     if (process.env.NODE_ENV === "production") {
       get_directions(originId, destinationId, mode).then((direction) => {
@@ -88,7 +90,7 @@ const TrafficBox = ({
         onClick={() => {
           setIsShowModeSetting(true);
         }}
-        className="mt-[120px] flex h-[40px] w-full items-center justify-between hover:cursor-pointer hover:bg-slate-200"
+        className={`mt-[120px] flex h-[40px] w-full items-center justify-between ${isEditable ? "hover:cursor-pointer" : null} ${isEditable ? "hover:bg-slate-200" : null} `}
       >
         <div className="flex h-full items-center">
           <div className="ml-14 h-full border-l-4 border-dotted border-slate-400"></div>
@@ -117,9 +119,9 @@ const TrafficBox = ({
           <div className="pl-2 pr-2">{distance},</div>
           <div className="pl-2 pr-2">約 {durationText}</div>
         </div>
-        <div className="mr-5">&#10095;</div>
+        {isEditable ? <div className="mr-5">&#10095;</div> : <></>}
       </div>
-      {isShowModeSetting ? (
+      {isShowModeSetting && isEditable ? (
         <TrafficModeSetting
           setIsShowing={setIsShowModeSetting}
           number={number}

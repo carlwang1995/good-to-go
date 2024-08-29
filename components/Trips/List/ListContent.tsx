@@ -1,51 +1,54 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ListItem from "./ListItem";
 type newTripType = {
   docId: string;
+  userId: string;
   tripName: string;
+  destination: Array<string>;
+  dates: Array<string>;
   startDate: string;
   endDate: string;
   photo: { fileName: string; photoUrl: string };
+  privacy: boolean;
+  createTime: string;
 };
+
 type ListContentProps = {
-  setDialogBoxDisplay: any;
-  newTrip: Array<newTripType> | undefined;
+  setDisplay: React.Dispatch<React.SetStateAction<boolean>>;
+  newTrip: Array<newTripType>;
 };
-const ListContent = ({ setDialogBoxDisplay, newTrip }: ListContentProps) => {
-  const [tripItemArr, setTripItemArr] = useState<
-    Array<React.JSX.Element> | undefined
-  >(undefined);
-  useEffect(() => {
-    const newArr = [];
-    if (newTrip) {
-      for (let i = 0; i < newTrip.length; i++) {
-        newArr.push(
-          <ListItem
-            key={i}
-            index={i}
-            docId={newTrip[i].docId}
-            tripName={newTrip[i].tripName}
-            startDate={newTrip[i].startDate}
-            endDate={newTrip[i].endDate}
-            photoName={newTrip[i].photo.fileName}
-            photoUrl={newTrip[i].photo.photoUrl}
-          />,
-        );
-      }
-      setTripItemArr(newArr);
-    }
-  }, [newTrip]);
+const ListContent = ({ setDisplay, newTrip }: ListContentProps) => {
   return (
     <>
-      <div className="mt-5 flex w-full justify-end">
-        <button
-          onClick={setDialogBoxDisplay}
-          className="mr-3 rounded border-[1px] border-solid border-black bg-white p-2 text-xl hover:cursor-pointer hover:bg-slate-200"
+      <div className="mt-4 flex w-full flex-wrap">
+        <div
+          onClick={() => setDisplay((prev) => !prev)}
+          className="m-4 flex min-h-[200px] min-w-[320px] max-w-[320px] items-center justify-center rounded-lg border border-solid border-slate-500 bg-white hover:cursor-pointer"
         >
-          新增行程
-        </button>
+          <div className="flex flex-col items-center justify-center">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full border border-solid border-slate-500">
+              <p className="text-2xl text-slate-500">+</p>
+            </div>
+            <div className="text-slate-500">新增行程</div>
+          </div>
+        </div>
+        {newTrip.length > 0 ? (
+          newTrip.map((trip, index) => (
+            <ListItem
+              key={index}
+              docId={trip.docId}
+              tripName={trip.tripName}
+              startDate={trip.startDate}
+              endDate={trip.endDate}
+              photoName={trip.photo.fileName}
+              photoUrl={trip.photo.photoUrl}
+              privacy={trip.privacy}
+            />
+          ))
+        ) : (
+          <></>
+        )}
       </div>
-      <div className="flex w-full flex-wrap">{tripItemArr}</div>
     </>
   );
 };
