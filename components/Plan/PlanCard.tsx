@@ -26,7 +26,7 @@ interface PlaceType {
   openTime: Array<string>;
   stayTime: string;
   trafficMode: string;
-  photos: string;
+  photos: Array<string>;
 }
 
 interface TripType {

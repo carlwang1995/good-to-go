@@ -20,7 +20,7 @@ interface PlaceType {
   openTime: Array<string>;
   stayTime: string;
   trafficMode: string;
-  photos: string;
+  photos: Array<string>;
 }
 
 interface TripType {
@@ -117,10 +117,11 @@ const PlaceBox = ({
         <div className="w-ful relative flex h-full">
           <div className="relative min-h-20 min-w-20 bg-slate-400">
             <Image
-              src={photos ? photos : "/mountain.png"}
+              src={photos.length > 0 ? photos[0] : "/picture.png"}
               alt="place's image"
               fill={true}
-              sizes="min-width:80px"
+              sizes="(min-width:80px)"
+              style={{ objectFit: "cover" }}
             ></Image>
             <div className="absolute bottom-0 right-0 flex h-7 w-7 items-center justify-center bg-blue-500/60">
               <p className="font-semibold text-white">{String(number + 1)}</p>
