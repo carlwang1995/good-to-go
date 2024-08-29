@@ -1,6 +1,6 @@
 import { MarkerContext } from "@/contexts/ContextProvider";
-import Image from "next/image";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
+import PlaceInfoPhotoBox from "./PlaceInfoPhotoBox";
 
 interface PlaceType {
   id: number;
@@ -11,7 +11,7 @@ interface PlaceType {
   openTime: Array<string>;
   stayTime: string;
   trafficMode: string;
-  photos: string;
+  photos: Array<string>;
 }
 
 const PlaceInfoCard = ({
@@ -40,23 +40,7 @@ const PlaceInfoCard = ({
         </div>
       </div>
       <div className="h-full overflow-y-auto overflow-x-hidden">
-        <div className="flex min-h-64 w-full flex-col">
-          {placeInfo?.photos ? (
-            <Image
-              src={placeInfo.photos}
-              alt="place's photo"
-              width={400}
-              height={300}
-            ></Image>
-          ) : (
-            <Image
-              src="/mountain.png"
-              alt="place's photo"
-              width={400}
-              height={300}
-            ></Image>
-          )}
-        </div>
+        <PlaceInfoPhotoBox photos={placeInfo?.photos} />
         <div className="p-3">
           <p className="text-2xl font-bold">
             {placeInfo ? placeInfo.name : null}
@@ -64,11 +48,11 @@ const PlaceInfoCard = ({
           <p className="mt-4 text-lg">{placeInfo ? placeInfo.address : null}</p>
         </div>
         <>
-          <div className="mt-4 flex justify-center px-3">
+          {/* <div className="mt-4 flex justify-center px-3">
             <hr className="w-full border-slate-300" />
-          </div>
-          <div className="mt-4 flex px-3 text-lg">營業時間：</div>
-          <div className="felx-col flexr my-4 px-3">
+          </div> */}
+          <div className="mt-4 flex px-3 text-lg font-semibold">營業時間：</div>
+          <div className="felx-col flexr mb-4 mt-2 px-3">
             {placeInfo?.openTime.map((weekday, index) => (
               <p key={index} className="mt-1">
                 {weekday}
