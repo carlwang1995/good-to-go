@@ -1,56 +1,42 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import CreateTripCard from "@/components/Trips/CreateTripCard";
-import EmptyContent from "@/components/Trips/Empty/EmptyContent";
-import ListContent from "@/components/Trips/List/ListContent";
 import { DB_getTrips } from "@/libs/db/CreateTripPage";
 import { useUser } from "@/contexts/UserAuth";
-import { DeleteContext, StateContext } from "@/contexts/ContextProvider";
+import { StateContext } from "@/contexts/ContextProvider";
 import { useRouter } from "next/navigation";
-import { DB_deleteTrip, DB_deletePlanByDocId } from "@/libs/db/CreateTripPage";
+import TripsContent from "@/components/Trips/TripsContent";
 
 type newTripType = {
   docId: string;
+  userId: string;
   tripName: string;
+  destination: Array<string>;
+  dates: Array<string>;
   startDate: string;
   endDate: string;
   photo: { fileName: string; photoUrl: string };
+  privacy: boolean;
+  createTime: string;
 };
+
 const Trips = () => {
-  const { isLogin, userName, userId } = useUser();
-  const [display, setDisplay] = useState<boolean>(false);
-  const [newTrip, setNewTrip] = useState<Array<newTripType> | undefined>(
-    undefined,
-  );
   const [state, setState] = useState<boolean>(false);
+  const [newTrip, setNewTrip] = useState<Array<newTripType>>([]);
+  const { isLogin, userName, userId } = useUser();
   const router = useRouter();
 
-  const deleteTrip = async (docId: string): Promise<void> => {
-    try {
-      let result = await DB_deleteTrip(docId);
-      if (result) {
-        DB_deletePlanByDocId(docId);
-        setState((pre) => !pre);
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  // 驗證登入狀態
   useEffect(() => {
     isLogin
       ? DB_getTrips(userId).then((result: any) => {
-          if (result.length !== 0) {
+          if (result && result.length !== 0) {
             setNewTrip(result);
           } else {
-            setNewTrip(undefined);
+            setNewTrip([]);
           }
         })
       : router.push("/");
   }, [isLogin, userId, state]);
-
-  const setDialogBoxDisplay = (): void => {
-    setDisplay((prev) => !prev);
-  };
 
   return (
     <main className="flex h-full w-screen justify-center pt-[60px]">
@@ -58,28 +44,9 @@ const Trips = () => {
         <div className="my-5 text-3xl font-bold">
           Hi, {userName ? userName : "使用者"}
         </div>
-        <div className="mb-5 text-xl">您已規劃的行程如下</div>
-        <hr className="border-slate-400" />
-        {newTrip === undefined ? (
-          <EmptyContent setDialogBoxDisplay={setDialogBoxDisplay} />
-        ) : (
-          <StateContext.Provider value={setState}>
-            <DeleteContext.Provider value={deleteTrip}>
-              <ListContent
-                setDialogBoxDisplay={setDialogBoxDisplay}
-                newTrip={newTrip}
-              />
-            </DeleteContext.Provider>
-          </StateContext.Provider>
-        )}
-        {display ? (
-          <CreateTripCard
-            userId={userId}
-            setDialogBoxDisplay={setDialogBoxDisplay}
-          />
-        ) : (
-          <></>
-        )}
+        <StateContext.Provider value={setState}>
+          <TripsContent newTrip={newTrip} />
+        </StateContext.Provider>
       </div>
     </main>
   );

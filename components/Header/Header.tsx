@@ -6,14 +6,36 @@ import { auth } from "@/config/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useUser } from "@/contexts/UserAuth";
 import UserSetting from "./UserSetting";
+import { DB_getUserInfoByUserId } from "@/libs/db/MemberInfo";
 
+type BaseUserInfoType = {
+  userName: string;
+  photoUrl: string;
+  email: string;
+  userId: string;
+};
 const Header = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isOpenSetting, setIsOpenSetting] = useState<boolean>(false);
+  const [baseUserInfo, setBaseUserInfo] = useState<
+    BaseUserInfoType | undefined
+  >(undefined);
   const [photoUrl, setPhotoUrl] = useState<string>("");
   const [userEmail, setUserEmail] = useState<string>("");
   const { isLogin, userId, userName, setIsLogin, setUserId, setUserName } =
     useUser();
+
+  useEffect(() => {
+    if (userId) {
+      DB_getUserInfoByUserId(userId)
+        .then((result: any) => {
+          setBaseUserInfo(result.userInfo);
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    }
+  }, [userId]);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -23,22 +45,20 @@ const Header = () => {
         setIsLogin(true);
         setUserId(String(user.uid));
         setUserEmail(String(user.email));
-        if (user.photoURL) {
+
+        if (user.photoURL && user.displayName) {
           setPhotoUrl(String(user.photoURL));
-        } else {
-          setPhotoUrl("/user.png");
-        }
-        if (user.displayName) {
           setUserName(String(user.displayName));
-        } else {
-          setUserName("使用者");
+        } else if (baseUserInfo) {
+          setPhotoUrl(baseUserInfo.photoUrl);
+          setUserName(baseUserInfo.userName);
         }
       } else {
         setIsLoading(false);
         setIsLogin(false);
       }
     });
-  }, [isLogin]);
+  }, [isLogin, baseUserInfo]);
 
   const logOut = () => {
     signOut(auth)
@@ -60,20 +80,25 @@ const Header = () => {
         </Link>
         <div className="absolute right-0 top-0 flex h-full items-center">
           {isLoading ? (
-            <div className="mx-3 flex h-screen items-center justify-center text-xl hover:font-bold">
-              <p>載入中...</p>
+            <div className="mx-3 flex items-center justify-center">
+              <Image
+                src="/loading.gif"
+                alt="loading"
+                width={30}
+                height={30}
+              ></Image>
             </div>
           ) : isLogin ? (
             <>
-              <div className="mx-3 flex items-center justify-center text-xl hover:cursor-pointer hover:font-bold">
+              <div className="mx-3 flex items-center justify-center">
                 <Link style={{ textDecoration: "none" }} href="/trips">
-                  <p>開始規劃</p>
+                  <p className="text-xl transition hover:font-bold">開始規劃</p>
                 </Link>
               </div>
               <div className="relative mx-3 flex items-center justify-center text-base">
                 <Image
                   className="mr-1 rounded-full border-4 border-double border-slate-600 hover:cursor-pointer hover:border-2 hover:border-solid"
-                  src={photoUrl}
+                  src={photoUrl ? photoUrl : "/user.png"}
                   alt="member"
                   width={35}
                   height={35}
