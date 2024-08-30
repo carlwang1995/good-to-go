@@ -39,7 +39,7 @@ const PrivacySettingCard = ({
         onClick={() => setShowPravicy(false)}
         className="absolute h-full w-full items-center justify-center"
       ></div>
-      <div className="z-50 h-fit w-[380px] min-w-[600px] rounded-lg bg-slate-100">
+      <div className="z-50 h-fit w-[380px] min-w-[600px] rounded-lg bg-white">
         <div className="flex h-full w-full flex-col p-4">
           <div className="flex justify-center"></div>
           <div className="mb-2 ml-2 text-lg font-bold">隱私設定與分享</div>
@@ -69,7 +69,7 @@ const PrivacySettingCard = ({
           <div className="flex justify-end">
             <button
               onClick={() => setShowPravicy(false)}
-              className="mr-4 rounded px-2 py-1 text-lg text-blue-500"
+              className="mr-4 rounded px-2 py-1 text-lg text-blue-500 transition hover:bg-blue-50"
             >
               取消
             </button>

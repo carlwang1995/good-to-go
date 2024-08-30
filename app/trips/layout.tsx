@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Header from "@/components/Header/Header";
 
 export const metadata: Metadata = {
-  title: "我的行程 | Good to GO",
-  description: "我的行程規劃",
+  title: "行程瀏覽 | Good to GO",
+  description: "行程瀏覽與規劃",
 };
 
 const Trips = ({

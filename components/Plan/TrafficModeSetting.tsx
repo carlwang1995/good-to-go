@@ -5,6 +5,7 @@ import {
   StateContext,
 } from "@/contexts/ContextProvider";
 import { DB_upadatePlaceInfo } from "@/libs/db/EditTripPage";
+import TrafficModeButton from "./TrafficModeButton";
 
 interface PlaceType {
   id: number;
@@ -36,6 +37,7 @@ const TrafficModeSetting = ({
   trip,
 }: TrafficModeSettingProps) => {
   const [newMode, setNewMode] = useState<string>(currentMode);
+
   const dayIndex = useContext(DayIndexContext);
   const setState = useContext(StateContext);
   const planDocId = useContext(DocIdContext);
@@ -72,24 +74,24 @@ const TrafficModeSetting = ({
         onClick={() => setIsShowing(false)}
         className="absolute h-full w-full items-center justify-center"
       ></div>
-      <div className="z-50 h-fit w-[320px] rounded-lg bg-slate-100">
+      <div className="z-50 h-fit min-w-[320px] rounded-lg bg-white">
         <div className="flex h-full w-full flex-col p-4">
           <div className="flex justify-center"></div>
-          <div className="ml-2 text-lg font-bold">交通方式：</div>
-          <select
-            onChange={(e) => setNewMode(e.target.value)}
-            value={newMode}
-            className="m-2 my-4 rounded border border-solid border-slate-400 p-2"
-          >
-            <option value="driving">開車</option>
-            <option value="transit">大眾運輸</option>
-            <option value="walking">步行</option>
-            <option value="bicycling">自行車</option>
-          </select>
+          <div className="ml-2 text-lg font-bold">
+            交通方式：
+            {newMode == "driving"
+              ? "開車"
+              : newMode == "transit"
+                ? "大眾運輸"
+                : newMode == "walking"
+                  ? "步行"
+                  : "自行車"}
+          </div>
+          <TrafficModeButton mode={newMode} setMode={setNewMode} />
           <div className="flex justify-end">
             <button
               onClick={() => setIsShowing(false)}
-              className="mr-4 rounded px-2 py-1 text-lg text-blue-500"
+              className="mr-4 rounded px-2 py-1 text-lg text-blue-500 transition hover:bg-blue-50"
             >
               返回
             </button>

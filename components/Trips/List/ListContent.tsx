@@ -15,9 +15,9 @@ type newTripType = {
 
 type ListContentProps = {
   setDisplay: React.Dispatch<React.SetStateAction<boolean>>;
-  newTrip: Array<newTripType>;
+  trips: Array<newTripType>;
 };
-const ListContent = ({ setDisplay, newTrip }: ListContentProps) => {
+const ListContent = ({ setDisplay, trips }: ListContentProps) => {
   return (
     <>
       <div className="mt-4 flex w-full flex-wrap">
@@ -32,8 +32,8 @@ const ListContent = ({ setDisplay, newTrip }: ListContentProps) => {
             <div className="text-slate-500">新增行程</div>
           </div>
         </div>
-        {newTrip.length > 0 ? (
-          newTrip.map((trip, index) => (
+        {trips.length > 0 ? (
+          trips.map((trip, index) => (
             <ListItem
               key={index}
               docId={trip.docId}

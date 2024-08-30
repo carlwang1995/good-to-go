@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import Image from "next/image";
 import {
   DayIndexContext,
-  MarkerContext,
   StateContext,
   DocIdContext,
   EditableContext,
@@ -10,6 +9,7 @@ import {
 import { addTime } from "@/libs/timeConvertor";
 import { DB_deleteTripPlanPlace } from "@/libs/db/EditTripPage";
 import StayTimeSetting from "./PlaceStayTimeSetting";
+import { useMapMarkers } from "@/contexts/UseMapMarkers";
 
 interface PlaceType {
   id: number;
@@ -49,10 +49,10 @@ const PlaceBox = ({
   const [showStayTimeSetting, setShowStaySetting] = useState<boolean>(false);
   const { stayTime, name, address, location, photos } = place;
 
+  const { setPlaceLatLng } = useMapMarkers();
   const dayIndex = useContext(DayIndexContext);
   const setState = useContext(StateContext);
   const planDocId = useContext(DocIdContext);
-  const { setPlaceLatLng } = useContext(MarkerContext);
   const isEditable = useContext(EditableContext);
 
   if (!dayIndex) {
@@ -64,9 +64,7 @@ const PlaceBox = ({
   if (!planDocId) {
     throw new Error("Can't access DocIdContext.");
   }
-  if (!setPlaceLatLng) {
-    throw new Error("Can't access MarkerContext.");
-  }
+
   if (isEditable === undefined) {
     throw new Error("Can't access MarkerContext.");
   }
@@ -122,7 +120,7 @@ const PlaceBox = ({
               fill={true}
               sizes="(min-width:80px)"
               style={{ objectFit: "cover" }}
-            ></Image>
+            />
             <div className="absolute bottom-0 right-0 flex h-7 w-7 items-center justify-center bg-blue-500/60">
               <p className="font-semibold text-white">{String(number + 1)}</p>
             </div>
@@ -135,7 +133,7 @@ const PlaceBox = ({
                 alt="stayTimeIcon"
                 width={15}
                 height={15}
-              ></Image>
+              />
               {isEditable ? (
                 <span
                   onClick={() => {
@@ -177,14 +175,9 @@ const PlaceBox = ({
               setPlaceLatLng(null);
               setShowPlaceInfo(false);
             }}
-            className="absolute right-0 top-0 z-30 rounded p-1 text-2xl hover:cursor-pointer"
+            className="absolute right-0 top-0 z-30 rounded p-1 hover:cursor-pointer"
           >
-            <Image
-              src="/trash-can.png"
-              alt="trash"
-              width={20}
-              height={20}
-            ></Image>
+            <Image src="/delete.png" alt="delete" width={20} height={20} />
           </div>
         ) : (
           <></>

@@ -170,12 +170,7 @@ const SignUp = ({
       ) : (
         <>
           {isChecking ? (
-            <Image
-              src="/loading.gif"
-              alt="loading"
-              width={25}
-              height={25}
-            ></Image>
+            <Image src="/loading.gif" alt="loading" width={25} height={25} />
           ) : (
             <div className="flex max-w-[300px] justify-center p-1 text-center text-lg text-red-500">
               {message}

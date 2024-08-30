@@ -1,6 +1,6 @@
-import { MarkerContext } from "@/contexts/ContextProvider";
-import React, { useContext } from "react";
+import React from "react";
 import PlaceInfoPhotoBox from "./PlaceInfoPhotoBox";
+import { useMapMarkers } from "@/contexts/UseMapMarkers";
 
 interface PlaceType {
   id: number;
@@ -21,10 +21,7 @@ const PlaceInfoCard = ({
   placeInfo: PlaceType | undefined;
   setShowPlaceInfo: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const { setPlaceLatLng } = useContext(MarkerContext);
-  if (!setPlaceLatLng) {
-    throw new Error("Can't access MarkerContext.");
-  }
+  const { setPlaceLatLng } = useMapMarkers();
 
   return (
     <div className="fixed bottom-0 left-[500px] z-20 flex h-[calc(100%-60px)] w-[380px] flex-col overflow-hidden bg-white">
@@ -47,19 +44,14 @@ const PlaceInfoCard = ({
           </p>
           <p className="mt-4 text-lg">{placeInfo ? placeInfo.address : null}</p>
         </div>
-        <>
-          {/* <div className="mt-4 flex justify-center px-3">
-            <hr className="w-full border-slate-300" />
-          </div> */}
-          <div className="mt-4 flex px-3 text-lg font-semibold">營業時間：</div>
-          <div className="felx-col flexr mb-4 mt-2 px-3">
-            {placeInfo?.openTime.map((weekday, index) => (
-              <p key={index} className="mt-1">
-                {weekday}
-              </p>
-            ))}
-          </div>
-        </>
+        <div className="mt-4 flex px-3 text-lg font-semibold">營業時間：</div>
+        <div className="felx-col flexr mb-4 mt-2 px-3">
+          {placeInfo?.openTime.map((weekday, index) => (
+            <p key={index} className="mt-1">
+              {weekday}
+            </p>
+          ))}
+        </div>
       </div>
     </div>
   );

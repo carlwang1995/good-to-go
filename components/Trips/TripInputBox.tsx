@@ -7,6 +7,7 @@ import { getDateBetween } from "@/libs/getDatesBetween";
 import TargetItem from "./TargetItem";
 import { photos } from "@/libs/photosArr";
 import Image from "next/image";
+import { getTimeNow } from "@/libs/timeConvertor";
 
 type TripInputProps = {
   startDate: string;
@@ -64,6 +65,7 @@ const TripInput = ({
   interface Trip {
     startTime: string;
     places: any[];
+    lastEditTime: string;
   }
   const createTrip = async (
     startDate: string,
@@ -82,19 +84,7 @@ const TripInput = ({
     setIsCreating(true);
     const dates = getDateBetween(startDate, endDate);
     let tripsObj: { [key: string]: Trip } = {};
-    const date = new Date();
-    const formatDate =
-      date.getFullYear().toString() +
-      "-" +
-      (date.getMonth() + 1).toString().padStart(2, "0") +
-      "-" +
-      date.getDate().toString().padStart(2, "0") +
-      " " +
-      date.getHours().toString().padStart(2, "0") +
-      ":" +
-      date.getMinutes().toString().padStart(2, "0") +
-      ":" +
-      date.getSeconds().toString().padStart(2, "0");
+    const formatDate = getTimeNow();
     const tripObject = {
       userId,
       startDate,
@@ -110,7 +100,11 @@ const TripInput = ({
       privacy: false,
     };
     for (let i = 0; i < dates.length; i++) {
-      tripsObj[`day${i + 1}`] = { startTime: "08:00", places: [] };
+      tripsObj[`day${i + 1}`] = {
+        startTime: "08:00",
+        places: [],
+        lastEditTime: formatDate,
+      };
     }
     try {
       const docId = await DB_createNewTrip(tripObject);
@@ -209,7 +203,7 @@ const TripInput = ({
               width={512}
               height={512}
               className="h-6 w-6 hover:cursor-pointer"
-            ></Image>
+            />
           ) : (
             <></>
           )}
@@ -239,18 +233,13 @@ const TripInput = ({
       <div className="flex justify-end">
         <button
           onClick={cancelEdit}
-          className="mr-3 mt-5 w-14 px-2 py-1 text-lg text-blue-500"
+          className="mr-3 mt-5 w-14 rounded px-2 py-1 text-lg text-blue-500 transition hover:bg-blue-50"
         >
           取消
         </button>
         {isCreating ? (
           <button className="mt-5 flex w-14 items-center justify-center rounded border border-solid border-black px-2 py-1 text-lg hover:cursor-default">
-            <Image
-              src="/loading.gif"
-              width={20}
-              height={20}
-              alt="loading"
-            ></Image>
+            <Image src="/loading.gif" width={20} height={20} alt="loading" />
           </button>
         ) : (
           <button

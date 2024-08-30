@@ -1,5 +1,5 @@
-import { MarkerContext } from "@/contexts/ContextProvider";
-import React, { useContext } from "react";
+import React from "react";
+import { useMapMarkers } from "@/contexts/UseMapMarkers";
 
 type PlaceType = {
   placeId: string;
@@ -42,10 +42,8 @@ const ResultListBox = ({
   setSelectedPlace,
   setIsShowSearchResult,
 }: ResultListBoxProps) => {
-  const { setPlaceLatLng } = useContext(MarkerContext);
-  if (!setPlaceLatLng) {
-    throw new Error("Can't access MarkerContext from ResultListBox.tsx.");
-  }
+  const { setPlaceLatLng } = useMapMarkers();
+
   if (!openNow) {
     openNow = true;
   }
@@ -55,7 +53,7 @@ const ResultListBox = ({
   return (
     <>
       <div
-        className="mb-4 mt-4 flex rounded border border-solid bg-white shadow-lg hover:cursor-pointer"
+        className="mb-4 mt-4 flex rounded border border-solid bg-white shadow-md transition hover:cursor-pointer hover:shadow-xl"
         onClick={() => {
           setSelectedPlace({
             placeId,
