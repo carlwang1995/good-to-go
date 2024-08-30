@@ -10,6 +10,7 @@ import {
   arrayUnion,
   arrayRemove,
 } from "firebase/firestore";
+import { getTimeNow } from "../timeConvertor";
 
 const DB_getTripNameByDocId = async (docId: string) => {
   const docRef = doc(db, "trips", docId);
@@ -19,7 +20,7 @@ const DB_getTripNameByDocId = async (docId: string) => {
     if (result !== undefined) {
       return result;
     } else {
-      console.log("查無資料");
+      console.error("查無資料");
     }
   } catch (e) {
     console.error(e);
@@ -64,6 +65,7 @@ const DB_updateTripPlan = async (
   try {
     await updateDoc(docRef, {
       [`trips.${dayIndex}.places`]: arrayUnion(place),
+      [`trips.${dayIndex}.lastEditTime`]: getTimeNow(),
     });
     return true;
   } catch (e) {
@@ -81,6 +83,7 @@ const DB_deleteTripPlanPlace = async (
   try {
     await updateDoc(docRef, {
       [`trips.${dayIndex}.places`]: arrayRemove(place),
+      [`trips.${dayIndex}.lastEditTime`]: getTimeNow(),
     });
     return true;
   } catch (e) {
@@ -96,7 +99,10 @@ const DB_updateTripStartTime = async (
 ) => {
   const docRef = doc(db, "plans", docId);
   try {
-    await updateDoc(docRef, { [`trips.${dayIndex}.startTime`]: startTime });
+    await updateDoc(docRef, {
+      [`trips.${dayIndex}.startTime`]: startTime,
+      [`trips.${dayIndex}.lastEditTime`]: getTimeNow(),
+    });
     return true;
   } catch (e) {
     console.error(e);
@@ -114,6 +120,7 @@ const DB_upadatePlaceInfo = async (
   try {
     await updateDoc(docRef, {
       [fieldPath]: newPlaces,
+      [`trips.${dayIndex}.lastEditTime`]: getTimeNow(),
     });
     return true;
   } catch (e) {

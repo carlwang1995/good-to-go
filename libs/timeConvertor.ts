@@ -29,4 +29,20 @@ const convertTimeString = (timeString: string): string => {
   return formattedTime;
 };
 
-export { stringToTime, addTime, convertTimeString };
+const getTimeNow = () => {
+  const date = new Date();
+  const formatDate =
+    date.getFullYear().toString() +
+    "-" +
+    (date.getMonth() + 1).toString().padStart(2, "0") +
+    "-" +
+    date.getDate().toString().padStart(2, "0") +
+    " " +
+    date.getHours().toString().padStart(2, "0") +
+    ":" +
+    date.getMinutes().toString().padStart(2, "0") +
+    ":" +
+    date.getSeconds().toString().padStart(2, "0");
+  return formatDate;
+};
+export { stringToTime, addTime, convertTimeString, getTimeNow };

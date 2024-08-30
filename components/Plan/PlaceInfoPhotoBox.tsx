@@ -21,7 +21,7 @@ const PlaceInfoPhotoBox = ({
             fill={true}
             sizes="(min-width:380px)"
             style={{ objectFit: "cover" }}
-          ></Image>
+          />
         ) : (
           <Image
             src="/picture.png"
@@ -29,7 +29,7 @@ const PlaceInfoPhotoBox = ({
             width={200}
             height={200}
             style={{ objectFit: "contain" }}
-          ></Image>
+          />
         )}
       </div>
       <div className="flex w-full justify-center p-2">

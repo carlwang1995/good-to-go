@@ -166,12 +166,7 @@ const SignIn = ({
           </div>
           <div className="flex max-w-[300px] justify-center p-1 text-center">
             {isChecking ? (
-              <Image
-                src="/loading.gif"
-                alt="loading"
-                width={25}
-                height={25}
-              ></Image>
+              <Image src="/loading.gif" alt="loading" width={25} height={25} />
             ) : (
               <div className="flex max-w-[300px] justify-center p-1 text-center text-lg text-red-500">
                 {message}
@@ -206,12 +201,7 @@ const SignIn = ({
             className="mt-4 flex w-full items-center justify-center rounded border border-solid border-blue-500 bg-blue-100 px-2 py-1 text-lg transition hover:bg-blue-200"
             onClick={GoogleSignIn}
           >
-            <Image
-              src={GoogleIcon}
-              alt="Google Icon"
-              width={25}
-              height={25}
-            ></Image>
+            <Image src={GoogleIcon} alt="Google Icon" width={25} height={25} />
             <p className="ml-2 text-lg">Google帳號登入</p>
           </button>
         </div>

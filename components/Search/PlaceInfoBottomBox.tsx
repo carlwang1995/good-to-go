@@ -3,10 +3,10 @@ import Image from "next/image";
 import React, { useState, useContext } from "react";
 import {
   DayIndexContext,
-  MarkerContext,
   StateContext,
   DocIdContext,
 } from "@/contexts/ContextProvider";
+import { useMapMarkers } from "@/contexts/UseMapMarkers";
 
 type PlaceType = {
   id?: number;
@@ -46,9 +46,9 @@ const PlaceInfoBottomBox = ({
   const dayIndex = useContext(DayIndexContext); // day1,day2,day3 ...
   const setState = useContext(StateContext);
   const planDocId = useContext(DocIdContext);
-  const { setPlaceLatLng } = useContext(MarkerContext);
+  const { setPlaceLatLng } = useMapMarkers();
 
-  if (!dayIndex || !setState || !planDocId || !setPlaceLatLng) {
+  if (!dayIndex || !setState || !planDocId) {
     throw new Error("Can't access context.");
   }
 
