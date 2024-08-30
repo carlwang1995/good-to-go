@@ -90,31 +90,26 @@ const TrafficBox = ({
         onClick={() => {
           setIsShowModeSetting(true);
         }}
-        className={`mt-[120px] flex h-[40px] w-full items-center justify-between ${isEditable ? "hover:cursor-pointer" : null} ${isEditable ? "hover:bg-slate-200" : null} `}
+        className={`mt-[120px] flex h-[40px] w-full items-center justify-between transition ${isEditable ? "hover:cursor-pointer" : null} ${isEditable ? "hover:bg-blue-200" : null} `}
       >
         <div className="flex h-full items-center">
-          <div className="ml-14 h-full border-l-4 border-dotted border-slate-400"></div>
+          <div className="ml-14 h-full border-l-4 border-dotted border-blue-500"></div>
 
           <div className="ml-[40px] pl-2 pr-2">
-            {mode === "driving" ? (
-              <Image src="/car.png" alt="car" width={24} height={24}></Image>
-            ) : mode === "transit" ? (
-              <Image
-                src="/bus.png"
-                alt="transit"
-                width={24}
-                height={24}
-              ></Image>
-            ) : mode === "walking" ? (
-              <Image
-                src="/walking.png"
-                alt="walking"
-                width={24}
-                height={24}
-              ></Image>
-            ) : (
-              <Image src="/bike.png" alt="bike" width={24} height={24}></Image>
-            )}
+            <Image
+              src={`/trafficIcon/${mode == "driving" ? "car" : mode == "transit" ? "bus" : mode == "walking" ? "walking" : "bike"}.png`}
+              alt={
+                mode === "driving"
+                  ? "car icon"
+                  : mode === "transit"
+                    ? "bus icon"
+                    : mode === "walking"
+                      ? "walking icon"
+                      : "bike icon"
+              }
+              width={24}
+              height={24}
+            />
           </div>
           <div className="pl-2 pr-2">{distance},</div>
           <div className="pl-2 pr-2">約 {durationText}</div>

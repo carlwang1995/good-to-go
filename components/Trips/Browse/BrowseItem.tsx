@@ -34,11 +34,13 @@ const BrowseItem = ({ trip }: { trip: TripType }) => {
         <div className="relative h-full w-64 rounded-lg bg-slate-500">
           <Image
             src={trip.photo.photoUrl}
+            priority={true}
             alt="trip's photo"
             fill={true}
             sizes="{min-width:'256px'}"
             className="rounded-lg"
-          ></Image>
+            style={{ objectFit: "cover" }}
+          />
           <div className="absolute bottom-0 left-0 flex h-fit w-fit items-center justify-center rounded-bl-lg rounded-tr-lg bg-black/50 px-2 py-1">
             <p className="font-bold text-white">
               {trip.dates.length.toString() + " "}天

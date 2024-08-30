@@ -21,13 +21,15 @@ const PlaceInfoPhotoBox = ({
             fill={true}
             sizes="(min-width:380px)"
             style={{ objectFit: "cover" }}
+            priority={true}
+            blurDataURL="/loading.gif"
           ></Image>
         ) : (
           <Image
             src="/picture.png"
             alt="place's photo"
-            width={200}
-            height={200}
+            width={100}
+            height={100}
             style={{ objectFit: "contain" }}
           ></Image>
         )}

@@ -15,7 +15,7 @@ type TripType = {
   createTime: string;
 };
 
-const BrowseContent = ({}) => {
+const BrowseContent = () => {
   const [tripsArr, setTripsArr] = useState<Array<TripType>>([]);
   useEffect(() => {
     DB_getTripsByPrivacy()
@@ -30,7 +30,7 @@ const BrowseContent = ({}) => {
   return (
     <div className="mt-4 flex w-full flex-col">
       <div className="flex w-full flex-col">
-        {tripsArr.length > 0 ? (
+        {tripsArr && tripsArr.length > 0 ? (
           tripsArr.map((trip, index) => <BrowseItem trip={trip} key={index} />)
         ) : (
           <></>

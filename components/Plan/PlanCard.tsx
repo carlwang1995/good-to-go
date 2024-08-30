@@ -1,21 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
+import Loading from "../Loading";
 import PlaceBox from "./PlaceBox";
 import TrafficBox from "./TrafficBox";
 import SearchContent from "../Search/SearchContent";
 import OpenSearchBtn from "./OpenSearchBtn";
 import PlaceInfoCard from "./PlaceInfoCard";
 import StartTimeSetting from "./StartTimeSetting";
+import { LatLngExpression } from "leaflet";
 import { DB_getPlanByDocId, DB_upadatePlaceInfo } from "@/libs/db/EditTripPage";
 import { addTime } from "@/libs/timeConvertor";
 import {
   DayIndexContext,
   DocIdContext,
-  MarkerContext,
   StateContext,
   EditableContext,
+  DestinationContext,
 } from "@/contexts/ContextProvider";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
+import { useMapMarkers } from "@/contexts/UseMapMarkers";
 
 interface PlaceType {
   id: number;
@@ -32,6 +35,7 @@ interface PlaceType {
 interface TripType {
   startTime: string;
   places: Array<PlaceType>;
+  lastEditTime: string;
 }
 
 type PlanContentType = {
@@ -45,6 +49,7 @@ type PlanCardProps = {
 };
 const PlanCard = ({ docId, dateCount }: PlanCardProps) => {
   const [state, setState] = useState(false); // 觸發資料庫Reuqest
+  const [isLoading, setIsLoading] = useState(true);
   const [planDocId, setPlanDocId] = useState<string>("");
   const [planContent, setPlanContent] = useState<PlanContentType | null>(null);
   const [trip, setTrip] = useState<TripType | null>(null); // 某一天的行程，包含出發時間字串、行程陣列
@@ -60,19 +65,20 @@ const PlanCard = ({ docId, dateCount }: PlanCardProps) => {
   const [showPlaceInfo, setShowPlaceInfo] = useState<boolean>(false);
   const [showStartTimeSetting, setShowStartTimeSetting] =
     useState<boolean>(false);
+  const [destinationName, setDestinationName] = useState("");
 
+  const { setMarkers, setPlaceLatLng } = useMapMarkers();
   const dayIndex: string = useContext(DayIndexContext);
-  const { setMarkers, setPlaceLatLng } = useContext(MarkerContext);
   const isEditable = useContext(EditableContext);
-
+  const destinationArr = useContext(DestinationContext);
   if (!dayIndex) {
     throw new Error("Can't access DayIndexContext.");
   }
-  if (!setMarkers || !setPlaceLatLng) {
-    throw new Error("Can't access MarkerContext.");
-  }
   if (isEditable === undefined) {
     throw new Error("Can't access EditableContext.");
+  }
+  if (!destinationArr) {
+    throw new Error("Can't access DestinationContext.");
   }
 
   // 將景點間的交通時間處理為[{number-id-id : duraction},{number-id-id : duraction},{number-id-id : duraction}...]
@@ -121,12 +127,16 @@ const PlanCard = ({ docId, dateCount }: PlanCardProps) => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     DB_getPlanByDocId(docId)
       .then((plan: any) => {
         setPlanDocId(plan.planDocId);
         setPlanContent(plan.planContent);
       })
-      .catch((e) => console.error(e));
+      .catch((e) => console.error(e))
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, [docId, state]);
 
   useEffect(() => {
@@ -138,11 +148,15 @@ const PlanCard = ({ docId, dateCount }: PlanCardProps) => {
   }, [planContent, dayIndex]);
 
   useEffect(() => {
+    setDestinationName(destinationArr[0]);
+  }, [destinationArr]);
+
+  useEffect(() => {
     if (trip && trip.places.length > 0) {
       const newDepartArray: Array<string> = [];
       const newPlaceBoxArray: Array<React.JSX.Element> = [];
       const newTrafficBoxArray: Array<React.JSX.Element> = [];
-      const newMarkersArray: Array<number[]> = [];
+      const newMarkersArray: LatLngExpression[] = [];
 
       // 各景點出發時間資訊裝在陣列中
       for (let i = 0; i < trip.places.length; i++) {
@@ -210,76 +224,94 @@ const PlanCard = ({ docId, dateCount }: PlanCardProps) => {
   return (
     <StateContext.Provider value={setState}>
       <DocIdContext.Provider value={planDocId}>
-        <div className="h-full overflow-x-hidden overflow-y-scroll">
-          <div className="mt-2 flex items-center justify-center bg-slate-300">
-            <p className="py-1 text-lg font-bold text-slate-600">{dateCount}</p>
+        {isLoading ? (
+          <div className="mt-10 flex w-full justify-center">
+            <Loading widthPx={50} heightPx={50} />
           </div>
-          <div className="ml-5 py-2">
-            <span>出發時間：</span>
-            {isEditable ? (
-              <span
-                onClick={() => setShowStartTimeSetting(true)}
-                className="underline hover:cursor-pointer hover:font-bold"
-              >
-                {trip ? trip.startTime : null}
-              </span>
-            ) : (
-              <span>{trip ? trip.startTime : null}</span>
-            )}
+        ) : (
+          <div className="h-full overflow-x-hidden overflow-y-scroll bg-blue-50">
+            <div className="flex w-full">
+              <div className="ml-5 mt-2 flex min-w-[120px] items-center justify-center rounded bg-blue-100 px-4 py-1">
+                <p className="text-lg font-bold text-blue-900">{dateCount}</p>
+              </div>
+              <div className="mr-5 flex w-full items-end justify-end">
+                <p className="text-sm italic text-gray-400">最後編輯於:</p>
+                <p className="ml-1 text-sm italic text-gray-400">
+                  {trip?.lastEditTime}
+                </p>
+              </div>
+            </div>
+            <div className="ml-5 py-2">
+              <span>出發時間：</span>
+              {isEditable ? (
+                <span
+                  onClick={() => setShowStartTimeSetting(true)}
+                  className="underline hover:cursor-pointer hover:font-bold"
+                >
+                  {trip ? trip.startTime : null}
+                </span>
+              ) : (
+                <span>{trip ? trip.startTime : null}</span>
+              )}
+            </div>
+            <div className="relative">
+              {/* 景點資訊區塊 */}
+              <DragDropContext onDragEnd={handleOnDragEnd}>
+                <Droppable droppableId="droppable-1">
+                  {(provided) => (
+                    <div ref={provided.innerRef} {...provided.droppableProps}>
+                      {isEditable
+                        ? placeBoxArray?.map((placeBox, index) => (
+                            <Draggable
+                              key={placeBox.key} // 每一個ReactElement 都會有 key 屬性
+                              draggableId={String(placeBox.key!)} // 加 "!"，告訴TypeScript確定此變數為真，不需檢查
+                              index={index}
+                            >
+                              {(provided) => (
+                                <div
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  className="relative"
+                                >
+                                  <Image
+                                    {...provided.dragHandleProps}
+                                    src="/up-and-down-arrow.png"
+                                    alt="arrow"
+                                    width={30}
+                                    height={30}
+                                    className="absolute bottom-11 right-0 z-20 p-1 hover:cursor-move"
+                                  />
+                                  <div>{placeBox}</div>
+                                </div>
+                              )}
+                            </Draggable>
+                          ))
+                        : placeBoxArray?.map((placeBox) => placeBox)}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </DragDropContext>
+              {/* 交通資訊區塊 */}
+              <div className="absolute top-0 w-full">{trafficBoxArray}</div>
+              {/* 開啟搜尋視窗按鈕 */}
+              {isEditable ? (
+                <OpenSearchBtn
+                  setIsSearching={setIsSearching}
+                  setShowPlaceInfo={setShowPlaceInfo}
+                />
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
-          <div className="relative">
-            {/* 景點資訊區塊 */}
-            <DragDropContext onDragEnd={handleOnDragEnd}>
-              <Droppable droppableId="droppable-1">
-                {(provided) => (
-                  <div ref={provided.innerRef} {...provided.droppableProps}>
-                    {isEditable
-                      ? placeBoxArray?.map((placeBox, index) => (
-                          <Draggable
-                            key={placeBox.key} // 每一個ReactElement 都會有 key 屬性
-                            draggableId={String(placeBox.key!)} // 加 "!"，告訴TypeScript確定此變數為真，不需檢查
-                            index={index}
-                          >
-                            {(provided) => (
-                              <div
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                className="relative"
-                              >
-                                <Image
-                                  {...provided.dragHandleProps}
-                                  src="/two-direction-arrows.png"
-                                  alt="arrow"
-                                  width={30}
-                                  height={30}
-                                  className="absolute bottom-10 right-0 z-20 hover:cursor-move"
-                                ></Image>
-                                <div>{placeBox}</div>
-                              </div>
-                            )}
-                          </Draggable>
-                        ))
-                      : placeBoxArray?.map((placeBox) => placeBox)}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
-            {/* 交通資訊區塊 */}
-            <div className="absolute top-0 w-full">{trafficBoxArray}</div>
-            {/* 開啟搜尋視窗按鈕 */}
-            {isEditable ? (
-              <OpenSearchBtn
-                setIsSearching={setIsSearching}
-                setShowPlaceInfo={setShowPlaceInfo}
-              />
-            ) : (
-              <></>
-            )}
-          </div>
-        </div>
+        )}
         {isSearching && isEditable ? (
-          <SearchContent setIsSearching={setIsSearching} />
+          <SearchContent
+            setIsSearching={setIsSearching}
+            destinationName={destinationName}
+            setDestinationName={setDestinationName}
+          />
         ) : (
           <></>
         )}

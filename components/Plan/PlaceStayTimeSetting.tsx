@@ -70,7 +70,7 @@ const PlaceStayTimeSetting = ({
         onClick={() => setShowStaySetting(false)}
         className="absolute h-full w-full items-center justify-center"
       ></div>
-      <div className="z-50 h-fit w-[320px] rounded-lg bg-slate-100">
+      <div className="z-50 h-fit w-[320px] rounded-lg bg-white">
         <div className="flex h-full w-full flex-col justify-between p-4">
           <div className="flex justify-center">
             <div className="mb-2 text-center text-xl font-bold">
@@ -132,7 +132,7 @@ const PlaceStayTimeSetting = ({
           <div className="flex justify-end">
             <button
               onClick={() => setShowStaySetting(false)}
-              className="mr-4 rounded px-2 py-1 text-lg text-blue-500"
+              className="mr-4 rounded px-2 py-1 text-lg text-blue-500 transition hover:bg-blue-50"
             >
               關閉
             </button>

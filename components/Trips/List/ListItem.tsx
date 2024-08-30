@@ -74,11 +74,12 @@ const ListItem = ({
                 </div>
               </div>
               <Image
-                priority
+                priority={true}
                 src={photoUrl}
                 alt="background"
-                width={300}
-                height={300}
+                fill={true}
+                sizes="{min-width:'300px'}"
+                style={{ objectFit: "cover" }}
                 className="absolute left-0 top-0 h-full w-full rounded-lg"
               ></Image>
               <div className="relative z-10 bg-white bg-white/80 px-3 py-2 text-xl font-bold">
@@ -93,7 +94,7 @@ const ListItem = ({
           </Link>
           <div
             onClick={() => setShowSetting(true)}
-            className="absolute right-2 top-2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 transition hover:cursor-pointer hover:bg-white hover:shadow-lg"
+            className="absolute right-2 top-2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/60 transition hover:cursor-pointer hover:bg-white hover:shadow-lg"
           >
             <Image
               src="/setting.png"
@@ -106,7 +107,7 @@ const ListItem = ({
             <>
               <div
                 onClick={() => setShowSetting(false)}
-                className="fixed left-0 top-0 z-0 h-screen w-screen"
+                className="fixed left-0 top-0 z-20 h-screen w-screen"
               ></div>
               <ul className="absolute right-2 top-2 z-20 h-fit items-center justify-center bg-white hover:shadow-lg">
                 <li
@@ -122,6 +123,7 @@ const ListItem = ({
                     width={15}
                     height={15}
                     className="mr-1 h-full w-fit"
+                    priority={true}
                   ></Image>
                   隱私設定與分享
                 </li>
@@ -138,6 +140,7 @@ const ListItem = ({
                     width={15}
                     height={15}
                     className="mr-1 h-full w-fit"
+                    priority={true}
                   ></Image>
                   上傳封面
                 </li>
@@ -155,6 +158,7 @@ const ListItem = ({
                     width={15}
                     height={15}
                     className="mr-1 h-full w-fit"
+                    priority={true}
                   ></Image>
                   刪除行程
                 </li>

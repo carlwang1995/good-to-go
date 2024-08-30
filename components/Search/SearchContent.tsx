@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import ResultListBox from "./ResultListBox";
 import PlaceInfoCard from "./PlaceInfoCard";
 import Image from "next/image";
 import textSearch from "@/libs/google/textSearch";
-import { DestinationContext, MarkerContext } from "@/contexts/ContextProvider";
+import { useMapMarkers } from "@/contexts/UseMapMarkers";
+import Loading from "../Loading";
+import DestinationSwitcher from "./DestinationSwitcher";
 
 type OpenHoursType = {
   openNow: boolean;
@@ -36,8 +38,12 @@ type PlaceType = {
 
 const SearchContent = ({
   setIsSearching,
+  destinationName,
+  setDestinationName,
 }: {
   setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
+  destinationName: string;
+  setDestinationName: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const [isShowSearchResult, setIsShowSearchResult] = useState<boolean>(false);
   const [input, setInput] = useState<string>("");
@@ -48,39 +54,44 @@ const SearchContent = ({
   const [selectedPlace, setSelectedPlace] = useState<PlaceType | null>(null);
   const [addDone, setAddDone] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [destinationName, setDestinationName] = useState("");
+  const [message, setMessage] = useState("");
 
-  const destinationArr = useContext(DestinationContext);
-  const { setPlaceLatLng } = useContext(MarkerContext);
-
-  if (!destinationArr) {
-    throw new Error("Can't access DestinationContext.");
-  }
-  if (!setPlaceLatLng) {
-    throw new Error("Can't access MarkerContext.");
-  }
+  const { setPlaceLatLng } = useMapMarkers();
 
   // 搜尋景點
   const searchPlaces = async (destination: string, input: string) => {
     setIsLoading(true);
-    if (input) {
-      const result = await textSearch(destination + " " + input);
-      if (result) {
-        setResults(result.places);
+    setIsShowSearchResult(false);
+    let result;
+    try {
+      if (destination && input) {
+        result = await textSearch(destination + " " + input);
+      } else if (!destination && input) {
+        result = await textSearch(input);
       } else {
-        throw new Error("Nothing return from textSearch API.");
+        setMessage("請輸入查詢資料");
+      }
+    } catch (e) {
+      console.error(e);
+    }
+
+    if (result.places) {
+      setResults(result.places);
+      if (!destination) {
+        setMessage(`以下是搜尋 「${input}」 的結果`);
+      } else {
+        setMessage(`以下是在 「${destination}」 搜尋 「${input}」 的結果`);
       }
     } else {
-      alert("請輸入查詢資料");
+      if (!destination) {
+        setMessage(`搜尋不到 「${input}」的相關結果`);
+      } else {
+        setMessage(`在 「${destination}」 搜尋不到 「${input}」的相關結果`);
+      }
     }
+
     setIsLoading(false);
   };
-
-  useEffect(() => {
-    if (destinationArr && destinationArr.length > 0) {
-      setDestinationName(destinationArr[0]);
-    }
-  }, [destinationArr]);
 
   useEffect(() => {
     const newArr = [];
@@ -109,8 +120,8 @@ const SearchContent = ({
   }, [results]);
   return (
     <>
-      <div className="absolute left-0 top-0 z-30 flex h-full flex-col bg-white">
-        <div className="flex max-h-16 min-h-16 w-[500px] items-center bg-black/50 p-3">
+      <div className="absolute left-0 top-0 z-30 flex h-full flex-col bg-blue-50">
+        <div className="flex max-h-16 min-h-16 w-[500px] items-center bg-blue-500 p-3">
           <span
             className="mr-3 w-8 text-xl text-white hover:cursor-pointer hover:font-bold"
             onClick={() => {
@@ -123,11 +134,12 @@ const SearchContent = ({
             ←
           </span>
         </div>
-        <div className="flex max-h-16 min-h-16 w-full items-center bg-slate-400 p-3">
+        <div className="flex max-h-16 min-h-16 w-full items-center bg-blue-300 p-3">
           <input
             autoFocus
             onKeyDown={(e) => {
               if (e.key == "Enter") {
+                setSearchListBoxArr([]);
                 searchPlaces(destinationName, input === "" ? "景點" : input);
               }
             }}
@@ -135,12 +147,11 @@ const SearchContent = ({
             className="h-full w-full rounded-l bg-white p-4 outline-none"
             onChange={(e) => {
               setInput(e.target.value);
-              setSearchListBoxArr([]);
             }}
             placeholder="搜尋景點"
           />
           <button
-            className="flex h-full items-center justify-center text-nowrap rounded-r border-l bg-white p-2 hover:bg-slate-200"
+            className="flex h-full items-center justify-center text-nowrap rounded-r bg-white p-2 transition hover:bg-blue-100"
             onClick={() =>
               searchPlaces(destinationName, input === "" ? "景點" : input)
             }
@@ -154,54 +165,37 @@ const SearchContent = ({
           </button>
         </div>
         <div className="relative h-full max-w-[500px] items-center overflow-y-auto overflow-x-hidden bg-scroll pl-3 pr-3">
+          <div className="mt-2 flex w-full flex-wrap items-center text-lg">
+            {message ? (
+              message
+            ) : (
+              <DestinationSwitcher
+                destinationName={destinationName}
+                setDestinationName={setDestinationName}
+              />
+            )}
+          </div>
           {searchListBoxArr.length > 0 ? (
-            <div className="mt-2 flex w-full flex-wrap items-center text-lg">
-              <span>以下是在</span>
-              <span className="font-bold">「{destinationName}」</span>
-              <span>搜尋</span>
-              {input === "" ? (
-                <span>景點後</span>
-              ) : (
-                <span className="font-bold">「{input}」</span>
-              )}
-              <span>的結果</span>
+            <div className="flex w-full justify-end">
+              <p
+                onClick={() => {
+                  setMessage("");
+                  setSearchListBoxArr([]);
+                  setIsShowSearchResult(false);
+                  setPlaceLatLng(null);
+                }}
+                className="text-base italic text-blue-700 hover:cursor-pointer hover:underline"
+              >
+                清除搜尋結果
+              </p>
             </div>
           ) : (
             <></>
           )}
-          {searchListBoxArr.length > 0 ? (
-            searchListBoxArr
-          ) : (
-            <div className="mt-2 text-lg">
-              在
-              {destinationArr.length > 1 ? (
-                <select
-                  value={destinationName}
-                  onChange={(e) => setDestinationName(e.target.value)}
-                  className="mx-1 rounded-md border border-solid border-slate-500"
-                >
-                  {destinationArr.map((location, index) => {
-                    return (
-                      <option key={index} value={location}>
-                        {location}
-                      </option>
-                    );
-                  })}
-                </select>
-              ) : (
-                <span className="mx-1 font-bold">「{destinationArr[0]}」</span>
-              )}
-              盡情探索吧！
-            </div>
-          )}
+          {searchListBoxArr.length > 0 ? searchListBoxArr : <></>}
           {isLoading ? (
             <div className="mt-4 flex w-full justify-center">
-              <Image
-                src="/loading.gif"
-                alt="loading"
-                width={50}
-                height={50}
-              ></Image>
+              <Loading widthPx={50} heightPx={50} />
             </div>
           ) : (
             <></>

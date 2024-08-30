@@ -9,6 +9,7 @@ import {
 import "leaflet/dist/leaflet.css";
 import { DivIcon, LatLngExpression } from "leaflet";
 import { useState, useRef, useEffect } from "react";
+import { useMapMarkers } from "@/contexts/UseMapMarkers";
 
 // 預設畫面圖層：依座標自動縮放到合適大小及位置
 const FitMapToBounds = ({ bounds }: { bounds: any }) => {
@@ -33,6 +34,7 @@ const SetPlaceView = ({
   markers: any;
 }) => {
   const selectIcon = new DivIcon({
+    iconAnchor: [25, 50],
     iconSize: [50, 50],
     html: `<img src='/pin2.png' style='width:100%;height:100%;position:relative;'><div style='position:absolute;width:100%;height:100%;top:0;right:0;display:flex;justify-content:center;'><p style='font-size:14px; font-weight:700;color:#FFFFFF;margin-top:8px'>${latlng?.number ? latlng.number : ""}</p></div></img>`,
     className: "my-div-icon",
@@ -41,7 +43,7 @@ const SetPlaceView = ({
   useEffect(() => {
     if (map && latlng) {
       map.setView(latlng.position);
-    } else if (markers.length > 0) {
+    } else if (markers.length > 0 && !latlng) {
       map.fitBounds(markers, { padding: [50, 50] });
     }
   }, [latlng, map]);
@@ -65,8 +67,10 @@ type LeafletMapProps = {
     position: Array<number>;
   } | null;
 };
-const LeafletMap = ({ markers, placeLatLng }: LeafletMapProps) => {
+const LeafletMap = () => {
+  const { markers, placeLatLng } = useMapMarkers();
   const [icons, setIcons] = useState<Array<DivIcon>>([]);
+
   const mapMarkers = markers.map((location: any) => {
     return {
       geocode: [location[0], location[1]],
@@ -80,6 +84,7 @@ const LeafletMap = ({ markers, placeLatLng }: LeafletMapProps) => {
       for (let i = 1; i <= markers.length; i++) {
         myIcons.push(
           new DivIcon({
+            iconAnchor: [22.5, 45],
             iconSize: [45, 45],
             html: `<img src='/pin1.png' style='width:100%;height:100%;position:relative;'><div style='position:absolute;width:100%;height:100%;top:0;right:0;display:flex;justify-content:center;'><p style='font-weight:700;color:#FFFFFF;margin-top:8px'>${i}</p></div></img>`,
             className: "my-div-icon",
@@ -105,11 +110,7 @@ const LeafletMap = ({ markers, placeLatLng }: LeafletMapProps) => {
       {icons.length > 0 &&
         mapMarkers.map((marker: any, index: number) =>
           icons[index] ? (
-            <Marker
-              position={marker.geocode}
-              key={index}
-              icon={icons[index]}
-            ></Marker>
+            <Marker position={marker.geocode} key={index} icon={icons[index]} />
           ) : null,
         )}
       <FitMapToBounds bounds={markers} />

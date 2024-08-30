@@ -61,7 +61,7 @@ const StartTimeSetting = ({
         onClick={() => setShowStartTimeSetting(false)}
         className="absolute h-full w-full items-center justify-center bg-black/80"
       ></div>
-      <div className="z-50 h-fit w-[320px] rounded-lg bg-slate-100">
+      <div className="z-50 h-fit w-[320px] rounded-lg bg-white">
         <div className="flex h-full w-full flex-col justify-between p-4">
           <div className="text-xl font-bold">出發時間:</div>
           <div className="my-4 flex w-full flex-nowrap items-center justify-between">
@@ -114,7 +114,7 @@ const StartTimeSetting = ({
           <div className="flex justify-end">
             <button
               onClick={() => setShowStartTimeSetting(false)}
-              className="mr-4 rounded px-2 py-1 text-lg text-blue-500"
+              className="mr-4 rounded px-2 py-1 text-lg text-blue-500 transition hover:bg-blue-50"
             >
               關閉
             </button>

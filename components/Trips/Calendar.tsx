@@ -58,7 +58,7 @@ const CalendarCard = ({
       />
       <div className="absolute bottom-5 right-5 flex justify-end">
         <button
-          className="mr-3 mt-5 px-2 py-1 text-lg text-blue-500"
+          className="mr-3 mt-5 rounded px-2 py-1 text-lg text-blue-500 hover:bg-blue-50"
           onClick={() => {
             setIsOpenCalendar(false);
           }}

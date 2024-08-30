@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ListContent from "@/components/Trips/List/ListContent";
 import CreateTripCard from "@/components/Trips/CreateTripCard";
 import BrowseContent from "./Browse/BrowseContent";
+import { StateContext } from "@/contexts/ContextProvider";
+import { DB_getTrips } from "@/libs/db/CreateTripPage";
 
-type newTripType = {
+type TripType = {
   docId: string;
   userId: string;
   tripName: string;
@@ -16,12 +18,26 @@ type newTripType = {
   createTime: string;
 };
 
-const TripsContent = ({ newTrip }: { newTrip: Array<newTripType> }) => {
+const TripsContent = ({ userId }: { userId: string }) => {
+  const [state, setState] = useState<boolean>(false);
+  const [trips, setTrips] = useState<Array<TripType>>([]);
   const [display, setDisplay] = useState<boolean>(false);
   const [content, setContent] = useState(true);
 
+  useEffect(() => {
+    if (userId) {
+      DB_getTrips(userId).then((result: any) => {
+        if (result && result.length !== 0) {
+          setTrips(result);
+        } else {
+          setTrips([]);
+        }
+      });
+    }
+  }, [userId, state]);
+
   return (
-    <>
+    <StateContext.Provider value={setState}>
       <div className="flex">
         <div
           onClick={() => setContent(true)}
@@ -38,12 +54,12 @@ const TripsContent = ({ newTrip }: { newTrip: Array<newTripType> }) => {
       </div>
       <hr className="border-slate-400" />
       {content ? (
-        <ListContent setDisplay={setDisplay} newTrip={newTrip} />
+        <ListContent setDisplay={setDisplay} trips={trips} />
       ) : (
         <BrowseContent />
       )}
       {display ? <CreateTripCard setDisplay={setDisplay} /> : <></>}
-    </>
+    </StateContext.Provider>
   );
 };
 
