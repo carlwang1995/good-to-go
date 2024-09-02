@@ -1,5 +1,7 @@
 import React from "react";
 import ListItem from "./ListItem";
+import Loading from "@/components/Loading";
+
 type newTripType = {
   docId: string;
   userId: string;
@@ -20,10 +22,10 @@ type ListContentProps = {
 const ListContent = ({ setDisplay, trips }: ListContentProps) => {
   return (
     <>
-      <div className="mt-4 flex w-full flex-wrap">
+      <div className="mt-4 grid w-full grid-cols-3 gap-8">
         <div
           onClick={() => setDisplay((prev) => !prev)}
-          className="m-4 flex min-h-[200px] min-w-[320px] max-w-[320px] items-center justify-center rounded-lg border border-solid border-slate-500 bg-white hover:cursor-pointer"
+          className="flex min-h-[220px] items-center justify-center rounded-lg border border-solid border-slate-500 bg-white hover:cursor-pointer"
         >
           <div className="flex flex-col items-center justify-center">
             <div className="flex h-12 w-12 items-center justify-center rounded-full border border-solid border-slate-500">
@@ -38,11 +40,13 @@ const ListContent = ({ setDisplay, trips }: ListContentProps) => {
               key={index}
               docId={trip.docId}
               tripName={trip.tripName}
+              dates={trip.dates}
               startDate={trip.startDate}
               endDate={trip.endDate}
               photoName={trip.photo.fileName}
               photoUrl={trip.photo.photoUrl}
               privacy={trip.privacy}
+              destination={trip.destination}
             />
           ))
         ) : (

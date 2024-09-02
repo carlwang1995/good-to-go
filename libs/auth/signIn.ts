@@ -5,11 +5,11 @@ const signInWithGoogle = async () => {
   try {
     const googleUser = await signInWithPopup(auth, provider);
     if (googleUser.operationType === "signIn") {
-      return { result: true, message: googleUser };
+      return { ok: true, message: googleUser };
     }
   } catch (e) {
     console.error(e);
-    return { result: false, message: String(e) };
+    return { error: true, message: "登入失敗" };
   }
 };
 
@@ -24,10 +24,10 @@ const signInWithUserEmailAndPassword = async (
       password,
     );
     const user = userCredential.user;
-    return true;
+    return { ok: true, user };
   } catch (e) {
     console.error(e);
-    return false;
+    return { error: true, message: "登入失敗" };
   }
 };
 

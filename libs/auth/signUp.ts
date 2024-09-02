@@ -12,11 +12,11 @@ const signUpWithUserNameAndEmailAndPassword = async (
       password,
     );
     const user = userCredential.user;
-    return { result: true, message: user.uid };
+    return { ok: true, user };
   } catch (e: any) {
     const errorMessage: string =
       "註冊失敗，" + e.message.split(":")[1].split("/")[1].split(")")[0];
-    return { result: false, message: errorMessage };
+    return { error: true, message: errorMessage };
   }
 };
 

@@ -77,10 +77,10 @@ const DB_updateTripInfoByDocId = async (docId: string, value: object) => {
   const docRef = doc(db, "trips", docId);
   try {
     await updateDoc(docRef, value);
-    return true;
+    return { ok: true };
   } catch (e) {
     console.error(e);
-    return false;
+    return { error: true, message: e };
   }
 };
 
