@@ -8,7 +8,7 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { DivIcon, LatLngExpression } from "leaflet";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useMapMarkers } from "@/contexts/UseMapMarkers";
 
 // 預設畫面圖層：依座標自動縮放到合適大小及位置

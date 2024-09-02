@@ -36,13 +36,16 @@ const PlanContent = ({
   const [dateCount, setDateCount] = useState<string>("第1天");
   const [isEditable, setIsEditable] = useState(false);
   const dateSectionRef = useRef<HTMLDivElement | null>(null);
-  const { isLogin, userId } = useUser();
+  const { user, userId } = useUser();
   const router = useRouter();
 
   // 判斷是否可編輯、可查看
   useEffect(() => {
+    if (user === undefined) {
+      return;
+    }
     // 未登入
-    if (!isLogin && tripInfo) {
+    if (!user && tripInfo) {
       if (!tripInfo.privacy) {
         setIsEditable(false);
         router.push("/");
@@ -53,7 +56,7 @@ const PlanContent = ({
       }
     }
     // 有登入
-    if (tripInfo && userId) {
+    if (user && tripInfo) {
       // 非公開且非本人，導回首頁
       if (!tripInfo.privacy && tripInfo.userId !== userId) {
         setIsEditable(false);
@@ -71,7 +74,7 @@ const PlanContent = ({
         return;
       }
     }
-  }, [tripInfo, isLogin, userId]);
+  }, [tripInfo, user]);
 
   const scrollRange = 300;
   const dateScrollToLeft = () => {
@@ -99,7 +102,7 @@ const PlanContent = ({
         />
         <div className="relative z-10 bg-black/30">
           <div className="flex h-16 w-full items-center bg-black/60 p-3">
-            {isLogin ? (
+            {user ? (
               <Link
                 href="/trips"
                 className="mr-3 w-8 text-xl text-white hover:font-bold"

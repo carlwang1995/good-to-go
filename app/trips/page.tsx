@@ -1,5 +1,6 @@
 import React from "react";
 import { TripsProvider } from "@/components/Trips/TripsProvider";
+import Loading from "./loading";
 
 const Trips = () => {
   return (

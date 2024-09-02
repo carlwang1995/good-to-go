@@ -31,14 +31,14 @@ const DB_getPlanByDocId = async (docId: string) => {
   const q = query(collection(db, "plans"), where("docId", "==", docId));
   try {
     const querySnapshot = await getDocs(q);
-    let resultArr: Array<object> = [];
+    let resultArr: Array<any> = [];
     let planDocIdArr: Array<any> = [];
     querySnapshot.forEach((doc) => {
       resultArr.push(doc.data());
       planDocIdArr.push(doc.id);
     });
     const planDocId: string = planDocIdArr[0];
-    const planContent: object = resultArr[0];
+    const planContent: { trips: object } = resultArr[0];
     return { planDocId, planContent };
   } catch (e) {
     console.error(e);
@@ -71,6 +71,17 @@ const DB_updateTripPlan = async (
   } catch (e) {
     console.error(e);
     return false;
+  }
+};
+
+const DB_updateTrips = async (docId: string, newTrips: object) => {
+  const docRef = doc(db, "plans", docId);
+  try {
+    await updateDoc(docRef, { trips: newTrips });
+    return { ok: true };
+  } catch (e) {
+    console.error(e);
+    return { error: true, message: "'firebase/plans'文件更新失敗" };
   }
 };
 
@@ -136,4 +147,5 @@ export {
   DB_deleteTripPlanPlace,
   DB_updateTripStartTime,
   DB_upadatePlaceInfo,
+  DB_updateTrips,
 };

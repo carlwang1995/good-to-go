@@ -5,14 +5,14 @@ type UserSettingProps = {
   userName: string;
   userEmail: string;
   photoUrl: string;
-  logOut: () => void;
+  signOut: () => void;
 };
 
 const UserSetting = ({
   userName,
   userEmail,
   photoUrl,
-  logOut,
+  signOut,
 }: UserSettingProps) => {
   return (
     <div className="absolute right-0 top-[50px] z-10 w-[300px] rounded-xl bg-white p-5">
@@ -35,7 +35,7 @@ const UserSetting = ({
       <div className="flex justify-center">
         <button
           onClick={() => {
-            logOut();
+            signOut();
           }}
           className="rounded border border-solid border-blue-700 bg-blue-500 px-2 py-1 text-lg text-white transition hover:bg-blue-700"
         >

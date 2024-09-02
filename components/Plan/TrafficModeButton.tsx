@@ -39,7 +39,6 @@ const TrafficModeButton = ({
           alt="bus icon"
           width={35}
           height={35}
-          priority={true}
         />
       </button>
       <button
@@ -55,7 +54,6 @@ const TrafficModeButton = ({
           alt="walking icon"
           width={35}
           height={35}
-          priority={true}
         />
       </button>
       <button
@@ -71,7 +69,6 @@ const TrafficModeButton = ({
           alt="bike icon"
           width={35}
           height={35}
-          priority={true}
         />
       </button>
     </div>

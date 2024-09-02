@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { StateContext } from "@/contexts/ContextProvider";
-import { storage } from "@/config/firebase";
 import { DB_updateTripInfoByDocId } from "@/libs/db/CreateTripPage";
+import Image from "next/image";
 
 const PrivacySettingCard = ({
   setShowPravicy,
@@ -42,7 +42,16 @@ const PrivacySettingCard = ({
       <div className="z-50 h-fit w-[380px] min-w-[600px] rounded-lg bg-white">
         <div className="flex h-full w-full flex-col p-4">
           <div className="flex justify-center"></div>
-          <div className="mb-2 ml-2 text-lg font-bold">隱私設定與分享</div>
+          <div className="mx-2 mb-2 flex items-center">
+            <Image
+              src="/share.png"
+              alt="share"
+              width={30}
+              height={30}
+              style={{ width: "20px", height: "20px", marginRight: "4px" }}
+            />
+            <p className="text-xl font-bold">隱私設定與分享</p>
+          </div>
           <div className="m-2 flex items-center">
             <div
               onClick={() => setPrivacy((prev) => !prev)}

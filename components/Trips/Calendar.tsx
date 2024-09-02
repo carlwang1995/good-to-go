@@ -7,6 +7,8 @@ import { zhCN } from "date-fns/locale";
 import { format } from "date-fns";
 
 type CalendarCardProps = {
+  currentStartDate?: string;
+  currentEndDate?: string;
   setStartDate: React.Dispatch<React.SetStateAction<string>>;
   setEndDate: React.Dispatch<React.SetStateAction<string>>;
   setIsOpenCalendar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,20 +19,33 @@ type DateRangeType = {
   endDate: Date;
   key: string;
 };
+
 const CalendarCard = ({
+  currentStartDate,
+  currentEndDate,
   setStartDate,
   setEndDate,
   setIsOpenCalendar,
 }: CalendarCardProps) => {
   const [pendingStartDate, setPendingStartDate] = useState<string>("");
   const [pendingEndDate, setPendingEndDate] = useState<string>("");
-  const [dateRange, setDateRange] = useState<Array<DateRangeType>>([
-    {
-      startDate: new Date(),
-      endDate: new Date(),
-      key: "selection",
-    },
-  ]);
+  const [dateRange, setDateRange] = useState<Array<DateRangeType>>(
+    currentStartDate && currentEndDate
+      ? [
+          {
+            startDate: new Date(currentStartDate),
+            endDate: new Date(currentEndDate),
+            key: "selection",
+          },
+        ]
+      : [
+          {
+            startDate: new Date(),
+            endDate: new Date(),
+            key: "selection",
+          },
+        ],
+  );
 
   useEffect(() => {
     const startDate: string = format(dateRange[0].startDate, "yyyy/MM/dd");
