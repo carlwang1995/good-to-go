@@ -1,11 +1,9 @@
-"use client";
 import React, { useState } from "react";
-import { signUpWithUserNameAndEmailAndPassword } from "@/libs/auth/signUp";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { DB_createNewMember } from "@/libs/db/MemberInfo";
+import { useUser } from "@/contexts/UserAuth";
 
-const SignUp = ({
+const SignUpCard = ({
   switchToSignIn,
 }: {
   switchToSignIn: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,7 +15,13 @@ const SignUp = ({
   const [isChecking, setIsChecking] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const router = useRouter();
-  const signUp = async (userName: string, email: string, password: string) => {
+  const { signUp } = useUser();
+
+  const signUpHandler = async (
+    userName: string,
+    email: string,
+    password: string,
+  ) => {
     setIsChecking(true);
     if (!userName) {
       setMessage("請輸入使用者名稱");
@@ -25,26 +29,18 @@ const SignUp = ({
       return;
     }
     try {
-      const result = await signUpWithUserNameAndEmailAndPassword(
-        email,
-        password,
-      );
-      if (result.result === true) {
-        const uploadUser = DB_createNewMember(result.message, userName, email);
-        if (!uploadUser) {
-          console.error("上傳使用者資料失敗。");
-          return;
-        }
+      const result = await signUp(userName, email, password);
+      if (result === true) {
         setIsChecking(false);
         setIsLogUp(true);
         setMessage("註冊成功");
-      } else if (result.result === false) {
+      } else {
         setIsChecking(false);
         setIsLogUp(false);
-        setMessage(result.message);
+        setMessage(String(result));
       }
     } catch (e) {
-      throw new Error("無法連接firebase登入系統");
+      console.error("無法連接firebase登入系統");
     }
   };
   return (
@@ -177,7 +173,7 @@ const SignUp = ({
             </div>
           )}
           <button
-            onClick={() => signUp(userName, email, password)}
+            onClick={() => signUpHandler(userName, email, password)}
             className="mt-4 flex w-[289px] items-center justify-center rounded border border-solid border-blue-700 bg-blue-500 px-2 py-1 text-lg transition hover:bg-blue-700"
           >
             <p className="text-white">註冊</p>
@@ -194,4 +190,4 @@ const SignUp = ({
   );
 };
 
-export default SignUp;
+export default SignUpCard;

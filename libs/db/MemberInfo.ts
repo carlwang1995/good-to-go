@@ -29,18 +29,24 @@ const DB_createNewMember = async (
   }
 };
 
+interface UserInfo {
+  userId: string;
+  userName: string;
+  email: string;
+  photoUrl: string;
+}
 const DB_getUserInfoByUserId = async (userId: string) => {
   const q = query(collection(db, "members"), where("userId", "==", userId));
   try {
     const querySnapshot = await getDocs(q);
-    let userInfoArr: Array<object> = [];
+    let userInfoArr: Array<any> = [];
     let memberDocIdArr: Array<any> = [];
     querySnapshot.docs.map((doc) => {
       userInfoArr.push(doc.data());
       memberDocIdArr.push(doc.id);
     });
     const docId: string = memberDocIdArr[0];
-    const userInfo: object = userInfoArr[0];
+    const userInfo: UserInfo = userInfoArr[0];
     return { docId, userInfo };
   } catch (e) {
     console.error(e);

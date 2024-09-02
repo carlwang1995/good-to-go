@@ -8,6 +8,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { DB_updateTripInfoByDocId } from "@/libs/db/CreateTripPage";
+import Image from "next/image";
 
 const UploadCard = ({
   docId,
@@ -94,7 +95,16 @@ const UploadCard = ({
       <div className="z-50 h-fit min-w-[380px] rounded-lg bg-white">
         <div className="flex h-full w-full flex-col p-4">
           <div className="flex justify-center"></div>
-          <div className="ml-2 text-lg font-bold">上傳封面圖</div>
+          <div className="mx-2 flex items-center">
+            <Image
+              src="/upload.png"
+              alt="upload"
+              width={30}
+              height={30}
+              style={{ width: "20px", height: "20px", marginRight: "4px" }}
+            />
+            <p className="text-xl font-bold">上傳封面圖</p>
+          </div>
           <div className="text m-2">
             <span>{uploadState ? `${uploadState}： ` : null}</span>
             <span>{uploadState && uploadProgress ? uploadProgress : null}</span>
@@ -136,7 +146,7 @@ const UploadCard = ({
                 上傳
               </button>
             ) : (
-              <button className="mr-2 rounded border border-solid border-slate-400 bg-gray-200 px-2 py-1 text-lg text-gray-400 hover:cursor-default">
+              <button className="mr-2 rounded border border-gray-200 bg-gray-200 px-2 py-1 text-lg text-gray-400 hover:cursor-default">
                 上傳
               </button>
             )}
