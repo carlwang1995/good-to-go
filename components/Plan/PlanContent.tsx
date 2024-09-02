@@ -41,6 +41,9 @@ const PlanContent = ({
 
   // 判斷是否可編輯、可查看
   useEffect(() => {
+    if (user === undefined) {
+      return;
+    }
     // 未登入
     if (!user && tripInfo) {
       if (!tripInfo.privacy) {
