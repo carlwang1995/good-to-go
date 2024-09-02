@@ -40,6 +40,7 @@ const ListContent = ({ setDisplay, trips }: ListContentProps) => {
               key={index}
               docId={trip.docId}
               tripName={trip.tripName}
+              dates={trip.dates}
               startDate={trip.startDate}
               endDate={trip.endDate}
               photoName={trip.photo.fileName}

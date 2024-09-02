@@ -9,6 +9,7 @@ import EditingCard from "./EditingCard";
 type ListItemProps = {
   docId: string;
   tripName: string;
+  dates: string[];
   startDate: string;
   endDate: string;
   photoName: string;
@@ -20,6 +21,7 @@ type ListItemProps = {
 const ListItem = ({
   docId,
   tripName,
+  dates,
   startDate,
   endDate,
   photoName,
@@ -93,9 +95,10 @@ const ListItem = ({
         <EditingCard
           docId={docId}
           currentTripName={tripName}
+          currentDates={dates}
+          currentStartDate={startDate}
+          currentEndDate={endDate}
           currentDestination={destination}
-          currentPhotoUrl={photoUrl}
-          currentPhotoName={photoName}
           setShowEdit={setShowEdit}
         />
       ) : (
