@@ -1,4 +1,4 @@
-import { DB_updateTripPlan } from "@/libs/db/EditTripPage";
+import { DB_updateTripPlan } from "@/libs/db/PlansDoc";
 import Image from "next/image";
 import React, { useState, useContext } from "react";
 import {

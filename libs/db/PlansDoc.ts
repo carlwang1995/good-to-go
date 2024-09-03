@@ -5,29 +5,39 @@ import {
   where,
   getDocs,
   doc,
-  getDoc,
+  addDoc,
+  deleteDoc,
   updateDoc,
   arrayUnion,
   arrayRemove,
 } from "firebase/firestore";
 import { getTimeNow } from "../timeConvertor";
 
-const DB_getTripNameByDocId = async (docId: string) => {
-  const docRef = doc(db, "trips", docId);
+const DB_createNewPlan = async (plan: { docId: string; trips: object }) => {
   try {
-    const response = await getDoc(docRef);
-    const result = response.data();
-    if (result !== undefined) {
-      return result;
-    } else {
-      console.error("查無資料");
-    }
+    await addDoc(collection(db, "plans"), plan);
+    return true;
   } catch (e) {
-    console.error(e);
+    console.error("Error adding document:", e);
+    return false;
   }
 };
 
-const DB_getPlanByDocId = async (docId: string) => {
+const DB_deletePlanByDocId = async (docId: string) => {
+  const q = query(collection(db, "plans"), where("docId", "==", docId));
+  try {
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(async (docSnapshot) => {
+      await deleteDoc(doc(db, "plans", docSnapshot.id));
+      return true;
+    });
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+};
+
+const DB_getPlanByTripsDocId = async (docId: string) => {
   const q = query(collection(db, "plans"), where("docId", "==", docId));
   try {
     const querySnapshot = await getDocs(q);
@@ -141,8 +151,9 @@ const DB_upadatePlaceInfo = async (
 };
 
 export {
-  DB_getTripNameByDocId,
-  DB_getPlanByDocId,
+  DB_createNewPlan,
+  DB_getPlanByTripsDocId,
+  DB_deletePlanByDocId,
   DB_updateTripPlan,
   DB_deleteTripPlanPlace,
   DB_updateTripStartTime,

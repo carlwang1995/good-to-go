@@ -4,7 +4,6 @@ import { useState } from "react";
 import ListSetting from "./ListSetting";
 import UploadCard from "./UploadCard";
 import PrivacySettingCard from "./PrivacySettingCard";
-import EditingCard from "./EditingCard";
 
 type ListItemProps = {
   docId: string;
@@ -31,7 +30,6 @@ const ListItem = ({
 }: ListItemProps) => {
   const [showSetting, setShowSetting] = useState<boolean>(false);
   const [showUpload, setShowUpload] = useState<boolean>(false);
-  const [showEdit, setShowEdit] = useState<boolean>(false);
   const [showPravicy, setShowPravicy] = useState<boolean>(false);
 
   return (
@@ -83,7 +81,6 @@ const ListItem = ({
               photoName={photoName}
               setShowSetting={setShowSetting}
               setShowUpload={setShowUpload}
-              setShowEdit={setShowEdit}
               setShowPravicy={setShowPravicy}
             />
           ) : (
@@ -91,19 +88,6 @@ const ListItem = ({
           )}
         </div>
       </div>
-      {showEdit ? (
-        <EditingCard
-          docId={docId}
-          currentTripName={tripName}
-          currentDates={dates}
-          currentStartDate={startDate}
-          currentEndDate={endDate}
-          currentDestination={destination}
-          setShowEdit={setShowEdit}
-        />
-      ) : (
-        <></>
-      )}
       {showUpload ? (
         <UploadCard
           docId={docId}

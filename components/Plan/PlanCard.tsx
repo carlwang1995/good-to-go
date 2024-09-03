@@ -9,7 +9,10 @@ import OpenSearchBtn from "./OpenSearchBtn";
 import PlaceInfoCard from "./PlaceInfoCard";
 import StartTimeSetting from "./StartTimeSetting";
 import { LatLngExpression } from "leaflet";
-import { DB_getPlanByDocId, DB_upadatePlaceInfo } from "@/libs/db/EditTripPage";
+import {
+  DB_getPlanByTripsDocId,
+  DB_upadatePlaceInfo,
+} from "@/libs/db/PlansDoc";
 import { addTime } from "@/libs/timeConvertor";
 import {
   DayIndexContext,
@@ -129,7 +132,7 @@ const PlanCard = ({ docId, dateCount }: PlanCardProps) => {
 
   useEffect(() => {
     setIsLoading(true);
-    DB_getPlanByDocId(docId)
+    DB_getPlanByTripsDocId(docId)
       .then((plan: any) => {
         setPlanDocId(plan.planDocId);
         setPlanContent(plan.planContent);

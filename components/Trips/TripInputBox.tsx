@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import { DB_createNewTrip, DB_createNewPlan } from "@/libs/db/CreateTripPage";
+import { DB_createNewTrip } from "@/libs/db/TripsDoc";
+import { DB_createNewPlan } from "@/libs/db/PlansDoc";
 import { useUser } from "@/contexts/UserAuth";
 import { useRouter } from "next/navigation";
 import { getDateBetween } from "@/libs/getDatesBetween";
@@ -190,23 +191,20 @@ const TripInput = ({
               }
             }}
           ></input>
-          {inputDestination ? (
-            <Image
-              onClick={() => {
-                if (inputDestination) {
-                  setDestinaitonArray((prev) => [...prev, inputDestination]);
-                  setInputDestination("");
-                }
-              }}
-              src="/insert.png"
-              alt="insert"
-              width={512}
-              height={512}
-              className="h-6 w-6 hover:cursor-pointer"
-            />
-          ) : (
-            <></>
-          )}
+          <Image
+            onClick={() => {
+              if (inputDestination) {
+                setDestinaitonArray((prev) => [...prev!, inputDestination]);
+                setInputDestination("");
+              }
+            }}
+            src="/insert-black.png"
+            alt="insert"
+            width={50}
+            height={50}
+            className="h-6 w-6 hover:cursor-pointer"
+            style={{ display: inputDestination ? "block" : "none" }}
+          />
         </div>
       </div>
       {isDestinaiton ? (

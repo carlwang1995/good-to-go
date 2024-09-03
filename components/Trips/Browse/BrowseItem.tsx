@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { DB_getUserInfoByUserId } from "@/libs/db/MemberInfo";
+import { DB_getUserInfoByUserId } from "@/libs/db/MembersDoc";
 import { useUser } from "@/contexts/UserAuth";
 type TripType = {
   docId: string;
