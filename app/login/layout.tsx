@@ -1,5 +1,7 @@
 import Header from "@/components/Header/Header";
 import type { Metadata } from "next";
+import React, { Suspense } from "react";
+import Loading from "./loading";
 
 export const metadata: Metadata = {
   title: "登入帳戶 | Good to GO",
@@ -14,7 +16,7 @@ const Login = ({
   return (
     <>
       <Header />
-      {children}
+      <Suspense fallback={<Loading />}>{children}</Suspense>
     </>
   );
 };

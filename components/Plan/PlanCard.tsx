@@ -1,4 +1,3 @@
-"use client";
 import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import Loading from "../Loading";
@@ -50,8 +49,9 @@ type PlanContentType = {
 type PlanCardProps = {
   docId: string; // 向DB取得PLAN資料
   dateCount: string; // 渲染第幾天
+  planTitleState: boolean; // planContent更新，觸發PlanCard重新渲染
 };
-const PlanCard = ({ docId, dateCount }: PlanCardProps) => {
+const PlanCard = ({ docId, dateCount, planTitleState }: PlanCardProps) => {
   const [state, setState] = useState(false); // 觸發資料庫Reuqest
   const [isLoading, setIsLoading] = useState(true);
   const [planDocId, setPlanDocId] = useState<string>("");
@@ -71,7 +71,7 @@ const PlanCard = ({ docId, dateCount }: PlanCardProps) => {
     useState<boolean>(false);
   const [destinationName, setDestinationName] = useState("");
 
-  const { setMarkers, setPlaceLatLng } = useMapMarkers();
+  const { setMarkers, setPlaceLatLng, setRoutes } = useMapMarkers();
   const dayIndex: string = useContext(DayIndexContext);
   const isEditable = useContext(EditableContext);
   const destinationArr = useContext(DestinationContext);
@@ -141,7 +141,7 @@ const PlanCard = ({ docId, dateCount }: PlanCardProps) => {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [docId, state]);
+  }, [docId, state, planTitleState]);
 
   useEffect(() => {
     setPlaceLatLng(null);
@@ -299,43 +299,35 @@ const PlanCard = ({ docId, dateCount }: PlanCardProps) => {
               {/* 交通資訊區塊 */}
               <div className="absolute top-0 w-full">{trafficBoxArray}</div>
               {/* 開啟搜尋視窗按鈕 */}
-              {isEditable ? (
+              {isEditable && (
                 <OpenSearchBtn
                   setIsSearching={setIsSearching}
                   setShowPlaceInfo={setShowPlaceInfo}
                 />
-              ) : (
-                <></>
               )}
             </div>
           </div>
         )}
-        {isSearching && isEditable ? (
+        {isSearching && isEditable && (
           <SearchContent
             setIsSearching={setIsSearching}
             destinationName={destinationName}
             setDestinationName={setDestinationName}
           />
-        ) : (
-          <></>
         )}
-        {showPlaceInfo ? (
+        {showPlaceInfo && (
           <PlaceInfoCard
             placeInfo={placeInfo}
             setShowPlaceInfo={setShowPlaceInfo}
           />
-        ) : (
-          <></>
         )}
-        {showStartTimeSetting && isEditable ? (
+        {showStartTimeSetting && isEditable && (
           <StartTimeSetting
             planDocId={planDocId}
             trip={trip}
             setState={setState}
             setShowStartTimeSetting={setShowStartTimeSetting}
           />
-        ) : (
-          <></>
         )}
       </DocIdContext.Provider>
     </StateContext.Provider>

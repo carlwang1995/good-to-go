@@ -132,9 +132,7 @@ const UploadCard = ({
             >
               關閉
             </button>
-            {message ? (
-              <></>
-            ) : image ? (
+            {!message && image ? (
               <button
                 onClick={async () => {
                   if (image) {

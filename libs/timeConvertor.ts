@@ -14,7 +14,10 @@ const addTime = (time1: string, time2: string) => {
   const totalMinutes1 = Number(hour1) * 60 + Number(minute1);
   const totalMinutes2 = Number(hour2) * 60 + Number(minute2);
   const totalMinutes = totalMinutes1 + totalMinutes2;
-  const finalHours = Math.floor(totalMinutes / 60);
+  let finalHours = Math.floor(totalMinutes / 60);
+  if (finalHours >= 24) {
+    finalHours = finalHours % 24;
+  }
   const finalMinutes = totalMinutes % 60;
   const formattedTime = `${String(finalHours).padStart(2, "0")}:${String(finalMinutes).padStart(2, "0")}`;
   return formattedTime;

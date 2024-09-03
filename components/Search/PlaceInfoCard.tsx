@@ -92,9 +92,7 @@ const PlaceInfoCard = ({
                 {selectedPlace ? selectedPlace.rating : null}
               </p>
               <p>
-                {selectedPlace
-                  ? "(" + String(selectedPlace.ratingCount) + ")"
-                  : null}
+                {selectedPlace && "(" + String(selectedPlace.ratingCount) + ")"}
               </p>
             </div>
             <p className="mt-4 px-3 text-lg">

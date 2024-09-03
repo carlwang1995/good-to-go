@@ -1,7 +1,9 @@
+"use server";
 import React from "react";
 import PlanContent from "@/components/Plan/PlanContent";
 import { UseMapContextProvider } from "@/contexts/UseMapMarkers";
 import dynamic from "next/dynamic";
+
 const Map = dynamic(() => import("@/components/Plan/Map"), {
   ssr: false,
 });

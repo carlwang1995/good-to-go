@@ -21,14 +21,12 @@ const CreateTripCard = ({ setDisplay }: CreateTripCardProps) => {
         setStartDate={setStartDate}
         setEndDate={setEndDate}
       />
-      {isOpenCalendar ? (
+      {isOpenCalendar && (
         <Calendar
           setStartDate={setStartDate}
           setEndDate={setEndDate}
           setIsOpenCalendar={setIsOpenCalendar}
         />
-      ) : (
-        <></>
       )}
     </div>
   );

@@ -53,7 +53,7 @@ const ListItem = ({
                 sizes="width:'320px'; height:'200px'"
                 style={{ objectFit: "cover" }}
                 className="absolute left-0 top-0 h-full w-full rounded-lg"
-              ></Image>
+              />
               <div className="relative z-10 bg-white bg-white/80 px-3 py-2 text-xl font-bold">
                 {tripName}
               </div>
@@ -68,14 +68,9 @@ const ListItem = ({
             onClick={() => setShowSetting(true)}
             className="absolute right-2 top-2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/60 transition hover:cursor-pointer hover:bg-white hover:shadow-lg"
           >
-            <Image
-              src="/menu.png"
-              alt="setting icon"
-              width={20}
-              height={20}
-            ></Image>
+            <Image src="/menu.png" alt="setting icon" width={20} height={20} />
           </div>
-          {showSetting ? (
+          {showSetting && (
             <ListSetting
               docId={docId}
               photoName={photoName}
@@ -83,28 +78,22 @@ const ListItem = ({
               setShowUpload={setShowUpload}
               setShowPravicy={setShowPravicy}
             />
-          ) : (
-            <></>
           )}
         </div>
       </div>
-      {showUpload ? (
+      {showUpload && (
         <UploadCard
           docId={docId}
           oldPhotoName={photoName}
           setShowUpload={setShowUpload}
         />
-      ) : (
-        <></>
       )}
-      {showPravicy ? (
+      {showPravicy && (
         <PrivacySettingCard
           setShowPravicy={setShowPravicy}
           docId={docId}
           currentPrivacy={privacy}
         />
-      ) : (
-        <></>
       )}
     </>
   );

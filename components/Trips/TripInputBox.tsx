@@ -1,4 +1,3 @@
-"use client";
 import React, { useState } from "react";
 import { DB_createNewTrip } from "@/libs/db/TripsDoc";
 import { DB_createNewPlan } from "@/libs/db/PlansDoc";
@@ -152,16 +151,14 @@ const TripInput = ({
           {endDate}
         </div>
       </div>
-      {isDateSelect ? (
-        <></>
-      ) : (
+      {!isDateSelect && (
         <p className="text-sm text-red-500">請選擇出發及結束日期</p>
       )}
       <br />
       <h3>目的地</h3>
       <div className="w-full rounded border border-solid border-black p-2">
         <div className="flex flex-wrap">
-          {destinaitonArray.length > 0 ? (
+          {destinaitonArray.length > 0 &&
             destinaitonArray.map((target, index) => (
               <TargetItem
                 key={index}
@@ -170,10 +167,7 @@ const TripInput = ({
                 destinaitonArray={destinaitonArray}
                 setDestinaitonArray={setDestinaitonArray}
               />
-            ))
-          ) : (
-            <></>
-          )}
+            ))}
         </div>
         <div className="relative flex w-full">
           <input
@@ -207,9 +201,7 @@ const TripInput = ({
           />
         </div>
       </div>
-      {isDestinaiton ? (
-        <></>
-      ) : (
+      {!isDestinaiton && (
         <p className="text-sm text-red-500">請加入目的地(如:台北、高雄)</p>
       )}
       <br />
@@ -222,11 +214,7 @@ const TripInput = ({
           value={inputTripName}
         ></input>
       </div>
-      {isTripName ? (
-        <></>
-      ) : (
-        <p className="text-sm text-red-500">請輸入行程名稱</p>
-      )}
+      {!isTripName && <p className="text-sm text-red-500">請輸入行程名稱</p>}
       <br />
       <div className="flex justify-end">
         <button

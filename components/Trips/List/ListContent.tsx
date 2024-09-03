@@ -34,7 +34,7 @@ const ListContent = ({ setDisplay, trips }: ListContentProps) => {
             <div className="text-slate-500">新增行程</div>
           </div>
         </div>
-        {trips.length > 0 ? (
+        {trips.length > 0 &&
           trips.map((trip, index) => (
             <ListItem
               key={index}
@@ -48,10 +48,7 @@ const ListContent = ({ setDisplay, trips }: ListContentProps) => {
               privacy={trip.privacy}
               destination={trip.destination}
             />
-          ))
-        ) : (
-          <></>
-        )}
+          ))}
       </div>
     </>
   );

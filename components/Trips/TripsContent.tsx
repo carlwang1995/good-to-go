@@ -1,4 +1,3 @@
-"use client";
 import React, { useState, useEffect } from "react";
 import ListContent from "@/components/Trips/List/ListContent";
 import CreateTripCard from "@/components/Trips/CreateTripCard";
@@ -60,7 +59,7 @@ const TripsContent = ({ userId }: { userId: string }) => {
         <BrowseContent />
       )}
 
-      {display ? <CreateTripCard setDisplay={setDisplay} /> : <></>}
+      {display && <CreateTripCard setDisplay={setDisplay} />}
     </StateContext.Provider>
   );
 };

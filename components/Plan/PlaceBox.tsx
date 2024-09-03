@@ -134,29 +134,21 @@ const PlaceBox = ({
                 width={15}
                 height={15}
               />
-              {isEditable ? (
-                <span
-                  onClick={() => {
-                    setShowStaySetting(true);
-                  }}
-                  className="relative z-30 underline hover:cursor-pointer hover:font-bold"
-                >
-                  {stayTimeMinute === "00"
-                    ? stayTimeHour + "小時"
-                    : stayTimeHour === "0"
-                      ? stayTimeMinute + "分鐘"
-                      : stayTimeHour + "時" + stayTimeMinute + "分"}
-                </span>
-              ) : (
-                <span className="relative z-30">
-                  {stayTimeMinute === "00"
-                    ? stayTimeHour + "小時"
-                    : stayTimeHour === "0"
-                      ? stayTimeMinute + "分鐘"
-                      : stayTimeHour + "時" + stayTimeMinute + "分"}
-                </span>
-              )}
-
+              <span
+                onClick={() => {
+                  if (!isEditable) {
+                    return;
+                  }
+                  setShowStaySetting(true);
+                }}
+                className={` ${isEditable ? "relative z-30 underline hover:cursor-pointer hover:font-bold" : "relative z-30"} `}
+              >
+                {stayTimeMinute === "00"
+                  ? stayTimeHour + "小時"
+                  : stayTimeHour === "0"
+                    ? stayTimeMinute + "分鐘"
+                    : stayTimeHour + "時" + stayTimeMinute + "分"}
+              </span>
               <span className="mx-1">|</span>
               <span>{`${startTime} － ${endTime}`}</span>
             </div>
@@ -168,7 +160,7 @@ const PlaceBox = ({
             </div>
           </div>
         </div>
-        {showDeleteBtn && isEditable ? (
+        {showDeleteBtn && isEditable && (
           <div
             onClick={async () => {
               await deleteTripInfoBox(dayIndex, planDocId, place);
@@ -179,11 +171,9 @@ const PlaceBox = ({
           >
             <Image src="/delete.png" alt="delete" width={20} height={20} />
           </div>
-        ) : (
-          <></>
         )}
       </div>
-      {showStayTimeSetting && isEditable ? (
+      {showStayTimeSetting && isEditable && (
         <StayTimeSetting
           planDocId={planDocId}
           number={number}
@@ -192,8 +182,6 @@ const PlaceBox = ({
           setState={setState}
           setShowStaySetting={setShowStaySetting}
         />
-      ) : (
-        <></>
       )}
     </>
   );
