@@ -27,7 +27,7 @@ type TripType = {
 };
 
 const PlanContent = ({ docId }: { docId: string }) => {
-  const [state, setState] = useState(false);
+  const [planTitleState, setPlanTitleState] = useState(false);
   const [dayIndex, setDayIndex] = useState<string>("day1");
   const [dateCount, setDateCount] = useState<string>("第1天");
   const [isEditable, setIsEditable] = useState(false);
@@ -45,7 +45,7 @@ const PlanContent = ({ docId }: { docId: string }) => {
         }
       });
     }
-  }, [state, docId]);
+  }, [planTitleState, docId]);
 
   // 判斷編輯、檢視權限
   useEffect(() => {
@@ -116,7 +116,7 @@ const PlanContent = ({ docId }: { docId: string }) => {
             docId={docId}
             tripInfo={tripInfo}
             setShowEditInput={setShowEditInput}
-            setState={setState}
+            setState={setPlanTitleState}
           />
         ) : (
           <PlanTitleCard
@@ -158,15 +158,21 @@ const PlanContent = ({ docId }: { docId: string }) => {
           </div>
         </div>
       </div>
-      <DayIndexContext.Provider value={dayIndex}>
-        <DestinationContext.Provider
-          value={tripInfo ? tripInfo.destination : []}
-        >
-          <EditableContext.Provider value={isEditable}>
-            <PlanCard docId={docId} dateCount={dateCount} />
-          </EditableContext.Provider>
-        </DestinationContext.Provider>
-      </DayIndexContext.Provider>
+      {tripInfo && userId !== undefined && (
+        <DayIndexContext.Provider value={dayIndex}>
+          <DestinationContext.Provider
+            value={tripInfo ? tripInfo.destination : []}
+          >
+            <EditableContext.Provider value={isEditable}>
+              <PlanCard
+                docId={docId}
+                dateCount={dateCount}
+                planTitleState={planTitleState}
+              />
+            </EditableContext.Provider>
+          </DestinationContext.Provider>
+        </DayIndexContext.Provider>
+      )}
     </div>
   );
 };

@@ -156,12 +156,7 @@ const SearchContent = ({
               searchPlaces(destinationName, input === "" ? "景點" : input)
             }
           >
-            <Image
-              src="/search.png"
-              alt="search"
-              width={30}
-              height={30}
-            ></Image>
+            <Image src="/search.png" alt="search" width={30} height={30} />
           </button>
         </div>
         <div className="relative h-full max-w-[500px] items-center overflow-y-auto overflow-x-hidden bg-scroll pl-3 pr-3">
@@ -175,7 +170,7 @@ const SearchContent = ({
               />
             )}
           </div>
-          {searchListBoxArr.length > 0 ? (
+          {searchListBoxArr.length > 0 && (
             <div className="flex w-full justify-end">
               <p
                 onClick={() => {
@@ -189,20 +184,16 @@ const SearchContent = ({
                 清除搜尋結果
               </p>
             </div>
-          ) : (
-            <></>
           )}
-          {searchListBoxArr.length > 0 ? searchListBoxArr : <></>}
-          {isLoading ? (
+          {searchListBoxArr.length > 0 && searchListBoxArr}
+          {isLoading && (
             <div className="mt-4 flex w-full justify-center">
               <Loading widthPx={50} heightPx={50} />
             </div>
-          ) : (
-            <></>
           )}
         </div>
       </div>
-      {isShowSearchResult ? (
+      {isShowSearchResult && (
         <PlaceInfoCard
           addDone={addDone}
           setAddDone={setAddDone}
@@ -210,8 +201,6 @@ const SearchContent = ({
           setIsSearching={setIsSearching}
           setIsShowSearchResult={setIsShowSearchResult}
         />
-      ) : (
-        <></>
       )}
     </>
   );

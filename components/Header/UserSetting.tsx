@@ -23,7 +23,7 @@ const UserSetting = ({
           height={50}
           alt="member"
           className="mr-1 rounded-full border-[1px] border-solid border-black"
-        ></Image>
+        />
         <div>
           <div className="ml-2 text-lg font-bold">
             {userName ? userName : "使用者"}

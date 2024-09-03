@@ -142,7 +142,8 @@ const PlanTitleEditCard = ({
           </div>
           <div className="mt-2 flex h-fit w-full flex-col">
             <div className="flex h-fit flex-wrap p-1">
-              {destinaitonArray && destinaitonArray.length > 0 ? (
+              {destinaitonArray &&
+                destinaitonArray.length > 0 &&
                 destinaitonArray.map((target, index) => (
                   <TargetItem
                     key={index}
@@ -151,10 +152,7 @@ const PlanTitleEditCard = ({
                     destinaitonArray={destinaitonArray}
                     setDestinaitonArray={setDestinaitonArray}
                   />
-                ))
-              ) : (
-                <></>
-              )}
+                ))}
             </div>
             <div className="relative flex w-full">
               <input
@@ -189,7 +187,7 @@ const PlanTitleEditCard = ({
           </div>
         </div>
       </div>
-      {isOpenCalendar ? (
+      {isOpenCalendar && (
         <CalendarCard
           currentStartDate={startDate}
           currentEndDate={endDate}
@@ -197,8 +195,6 @@ const PlanTitleEditCard = ({
           setEndDate={setEndDate}
           setIsOpenCalendar={setIsOpenCalendar}
         />
-      ) : (
-        <></>
       )}
     </>
   );

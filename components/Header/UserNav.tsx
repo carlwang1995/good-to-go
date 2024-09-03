@@ -39,7 +39,7 @@ const UserNav = () => {
             height={35}
             onClick={() => setIsOpenSetting(!isOpenSetting)}
           />
-          {isOpenSetting ? (
+          {isOpenSetting && (
             <>
               <UserSetting
                 userName={userName}
@@ -52,8 +52,6 @@ const UserNav = () => {
                 onClick={() => setIsOpenSetting(false)}
               ></div>
             </>
-          ) : (
-            <></>
           )}
         </div>
       ) : (

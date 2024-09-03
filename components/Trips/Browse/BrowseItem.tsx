@@ -30,7 +30,7 @@ const BrowseItem = ({ trip }: { trip: TripType }) => {
 
   return (
     <Link href={`/plan/${trip.docId}`}>
-      <div className="my-2 flex h-48 w-full rounded-b-md bg-white p-4 shadow-md transition hover:cursor-pointer hover:shadow-xl">
+      <div className="my-2 flex h-48 w-full rounded-md bg-white p-4 shadow-md transition hover:cursor-pointer hover:shadow-xl">
         <div className="relative h-full w-64 rounded-lg bg-slate-500">
           <Image
             src={trip.photo.photoUrl}
@@ -55,11 +55,9 @@ const BrowseItem = ({ trip }: { trip: TripType }) => {
             </div>
           </div>
           <div className="mt-2 flex items-end">
-            <p
-              className={`text-lg ${userId === authorId ? "text-blue-500" : null}`}
-            >
+            <p className={`text-lg ${userId === authorId && "text-blue-500"}`}>
               {authorName}
-              {userId === authorId ? " (您)" : null}
+              {userId === authorId && " (您)"}
             </p>
             <span className="mx-1">｜</span>
             <p className="text-base text-gray-400">

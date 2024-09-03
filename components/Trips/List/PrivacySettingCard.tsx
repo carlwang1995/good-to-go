@@ -69,7 +69,11 @@ const PrivacySettingCard = ({
                 <p>
                   行程將分享至「探索行程」列表，所有人都可以瀏覽。或透過以下連結分享：
                 </p>
-                <p className="text-sm text-gray-500">{`https://goodtogo-project.vercel.app/plan/${docId}`}</p>
+                <p className="text-sm text-gray-500">
+                  {process.env.NODE_ENV === "development"
+                    ? `http://localhost:3000/plan/${docId}`
+                    : `https://goodtogo-project.vercel.app/plan/${docId}`}
+                </p>
               </>
             ) : (
               <p className="pb-[20px]">只有您可以瀏覽此行程。</p>
