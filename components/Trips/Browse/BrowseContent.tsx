@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import BrowseItem from "./BrowseItem";
-import { DB_getTripsByPrivacy } from "@/libs/db/CreateTripPage";
+import { DB_getTripsByPrivacy } from "@/libs/db/TripsDoc";
 
 type TripType = {
   docId: string;

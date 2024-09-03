@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { DayIndexContext } from "@/contexts/ContextProvider";
-import { DB_updateTripStartTime } from "@/libs/db/EditTripPage";
+import { DB_updateTripStartTime } from "@/libs/db/PlansDoc";
 
 interface TripType {
   startTime: string;

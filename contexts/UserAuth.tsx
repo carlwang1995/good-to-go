@@ -10,7 +10,7 @@ import {
   DB_createNewMember,
   DB_getUserInfoByUserId,
   DB_updateUserInfo,
-} from "@/libs/db/MemberInfo";
+} from "@/libs/db/MembersDoc";
 import { signUpWithUserNameAndEmailAndPassword } from "@/libs/auth/signUp";
 
 type UserContextType = {

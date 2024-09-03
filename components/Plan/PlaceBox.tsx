@@ -7,7 +7,7 @@ import {
   EditableContext,
 } from "@/contexts/ContextProvider";
 import { addTime } from "@/libs/timeConvertor";
-import { DB_deleteTripPlanPlace } from "@/libs/db/EditTripPage";
+import { DB_deleteTripPlanPlace } from "@/libs/db/PlansDoc";
 import StayTimeSetting from "./PlaceStayTimeSetting";
 import { useMapMarkers } from "@/contexts/UseMapMarkers";
 

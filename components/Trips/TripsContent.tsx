@@ -4,7 +4,7 @@ import ListContent from "@/components/Trips/List/ListContent";
 import CreateTripCard from "@/components/Trips/CreateTripCard";
 import BrowseContent from "./Browse/BrowseContent";
 import { StateContext } from "@/contexts/ContextProvider";
-import { DB_getTrips } from "@/libs/db/CreateTripPage";
+import { DB_getTrips } from "@/libs/db/TripsDoc";
 
 type TripType = {
   docId: string;
