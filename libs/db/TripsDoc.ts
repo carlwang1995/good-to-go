@@ -4,26 +4,18 @@ import {
   addDoc,
   query,
   where,
+  getDoc,
   getDocs,
   orderBy,
   deleteDoc,
   updateDoc,
   doc,
 } from "firebase/firestore";
+
 const DB_createNewTrip = async (trip: object) => {
   try {
     let decRef = await addDoc(collection(db, "trips"), trip);
     return decRef.id;
-  } catch (e) {
-    console.error("Error adding document:", e);
-    return false;
-  }
-};
-
-const DB_createNewPlan = async (plan: { docId: string; trips: object }) => {
-  try {
-    await addDoc(collection(db, "plans"), plan);
-    return true;
   } catch (e) {
     console.error("Error adding document:", e);
     return false;
@@ -49,24 +41,25 @@ const DB_getTrips = async (userId: string) => {
   }
 };
 
+const DB_getTripNameByDocId = async (docId: string) => {
+  const docRef = doc(db, "trips", docId);
+  try {
+    const response = await getDoc(docRef);
+    const result = response.data();
+    if (result !== undefined) {
+      return result;
+    } else {
+      console.error("查無資料");
+    }
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 const DB_deleteTrip = async (docId: string) => {
   try {
     await deleteDoc(doc(db, "trips", docId));
     return true;
-  } catch (e) {
-    console.error(e);
-    return false;
-  }
-};
-
-const DB_deletePlanByDocId = async (docId: string) => {
-  const q = query(collection(db, "plans"), where("docId", "==", docId));
-  try {
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach(async (docSnapshot) => {
-      await deleteDoc(doc(db, "plans", docSnapshot.id));
-      return true;
-    });
   } catch (e) {
     console.error(e);
     return false;
@@ -105,10 +98,9 @@ const DB_getTripsByPrivacy = async () => {
 
 export {
   DB_createNewTrip,
-  DB_createNewPlan,
   DB_getTrips,
+  DB_getTripNameByDocId,
   DB_deleteTrip,
-  DB_deletePlanByDocId,
   DB_updateTripInfoByDocId,
   DB_getTripsByPrivacy,
 };

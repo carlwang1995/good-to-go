@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import Image from "next/image";
 import { StateContext } from "@/contexts/ContextProvider";
-import { DB_deleteTrip, DB_deletePlanByDocId } from "@/libs/db/CreateTripPage";
+import { DB_deleteTrip } from "@/libs/db/TripsDoc";
+import { DB_deletePlanByDocId } from "@/libs/db/PlansDoc";
 import { storage } from "@/config/firebase";
 import { ref, deleteObject } from "firebase/storage";
 
@@ -11,13 +12,11 @@ type ListSettingProps = {
   setShowSetting: React.Dispatch<React.SetStateAction<boolean>>;
   setShowUpload: React.Dispatch<React.SetStateAction<boolean>>;
   setShowPravicy: React.Dispatch<React.SetStateAction<boolean>>;
-  setShowEdit: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const ListSetting = ({
   docId,
   photoName,
   setShowSetting,
-  setShowEdit,
   setShowUpload,
   setShowPravicy,
 }: ListSettingProps) => {
@@ -86,22 +85,6 @@ const ListSetting = ({
             className="mr-1 h-full w-fit"
           />
           上傳封面圖
-        </li>
-        <li
-          onClick={() => {
-            setShowEdit(true);
-            setShowSetting(false);
-          }}
-          className="flex items-center p-1 transition hover:cursor-pointer hover:bg-blue-100"
-        >
-          <Image
-            src="/edit.png"
-            alt="edit"
-            width={15}
-            height={15}
-            className="mr-1 h-full w-fit"
-          />
-          編輯行程
         </li>
         <li
           onClick={() => {

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { DayIndexContext } from "@/contexts/ContextProvider";
-import { DB_upadatePlaceInfo } from "@/libs/db/EditTripPage";
+import { DB_upadatePlaceInfo } from "@/libs/db/PlansDoc";
 
 interface PlaceType {
   id: number;

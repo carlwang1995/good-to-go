@@ -4,7 +4,7 @@ import {
   DocIdContext,
   StateContext,
 } from "@/contexts/ContextProvider";
-import { DB_upadatePlaceInfo } from "@/libs/db/EditTripPage";
+import { DB_upadatePlaceInfo } from "@/libs/db/PlansDoc";
 import TrafficModeButton from "./TrafficModeButton";
 
 interface PlaceType {

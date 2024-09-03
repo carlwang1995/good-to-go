@@ -7,7 +7,7 @@ import {
   getDownloadURL,
   deleteObject,
 } from "firebase/storage";
-import { DB_updateTripInfoByDocId } from "@/libs/db/CreateTripPage";
+import { DB_updateTripInfoByDocId } from "@/libs/db/TripsDoc";
 import Image from "next/image";
 
 const UploadCard = ({
