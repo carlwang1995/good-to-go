@@ -12,8 +12,12 @@ export default async function get_directions(
     }
     console.log("發出directions fetch");
     const data = await response.json();
-    const { distance, duration } = data.routes[0].legs[0];
-    return { distance, duration };
+    // console.log(data);
+    if (data.routes.status === "ZERO_RESULTS") {
+      return false;
+    }
+    const { distance, duration, steps } = data.routes[0].legs[0];
+    return { distance, duration, steps };
   } catch (e) {
     console.error(e);
   }

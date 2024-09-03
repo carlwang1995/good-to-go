@@ -23,7 +23,7 @@ const PlaceInfoPhotoBox = ({
             style={{ objectFit: "cover" }}
             priority={true}
             blurDataURL="/loading.gif"
-          ></Image>
+          />
         ) : (
           <Image
             src="/picture.png"
@@ -31,11 +31,12 @@ const PlaceInfoPhotoBox = ({
             width={100}
             height={100}
             style={{ objectFit: "contain" }}
-          ></Image>
+          />
         )}
       </div>
       <div className="flex w-full justify-center p-2">
-        {photos && photos.length > 0 ? (
+        {photos &&
+          photos.length > 0 &&
           photos.map((url, index) => (
             <PlaceInfoPhotoItem
               key={index}
@@ -44,10 +45,7 @@ const PlaceInfoPhotoBox = ({
               photoIndex={photoIndex}
               setPhotoIndex={setPhotoIndex}
             />
-          ))
-        ) : (
-          <></>
-        )}
+          ))}
       </div>
     </div>
   );

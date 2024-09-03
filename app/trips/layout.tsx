@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header/Header";
+import React, { Suspense } from "react";
+import Loading from "./loading";
 
 export const metadata: Metadata = {
   title: "行程瀏覽 | Good to GO",
@@ -14,7 +16,9 @@ const Trips = ({
   return (
     <>
       <Header />
-      <div className="overflow-x-hidden">{children}</div>
+      <Suspense fallback={<Loading />}>
+        <div className="overflow-x-hidden">{children}</div>
+      </Suspense>
     </>
   );
 };

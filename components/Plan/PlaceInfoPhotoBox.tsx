@@ -33,7 +33,8 @@ const PlaceInfoPhotoBox = ({
         )}
       </div>
       <div className="flex w-full justify-center p-2">
-        {photos && photos.length > 0 ? (
+        {photos &&
+          photos.length > 0 &&
           photos.map((url, index) => (
             <PlaceInfoPhotoItem
               key={index}
@@ -42,10 +43,7 @@ const PlaceInfoPhotoBox = ({
               photoIndex={photoIndex}
               setPhotoIndex={setPhotoIndex}
             />
-          ))
-        ) : (
-          <></>
-        )}
+          ))}
       </div>
     </div>
   );

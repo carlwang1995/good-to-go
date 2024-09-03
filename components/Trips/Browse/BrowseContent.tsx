@@ -30,11 +30,9 @@ const BrowseContent = () => {
   return (
     <div className="mt-4 flex w-full flex-col">
       <div className="flex w-full flex-col">
-        {tripsArr && tripsArr.length > 0 ? (
-          tripsArr.map((trip, index) => <BrowseItem trip={trip} key={index} />)
-        ) : (
-          <></>
-        )}
+        {tripsArr &&
+          tripsArr.length > 0 &&
+          tripsArr.map((trip, index) => <BrowseItem trip={trip} key={index} />)}
       </div>
     </div>
   );

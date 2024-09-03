@@ -5,6 +5,7 @@ import Image from "next/image";
 import TrafficModeSetting from "./TrafficModeSetting";
 import { directionsData } from "@/libs/fakeData";
 import { EditableContext } from "@/contexts/ContextProvider";
+import { useMapMarkers } from "@/contexts/UseMapMarkers";
 
 interface PlaceType {
   id: number;
@@ -48,6 +49,8 @@ const TrafficBox = ({
   const [durationText, setDurationText] = useState<string>("--分鐘");
   const [distance, setDistance] = useState<string>("--公里");
   const [isShowModeSetting, setIsShowModeSetting] = useState<boolean>(false);
+  const [currentMode, setCurrentMode] = useState(mode);
+  const { setRoutes } = useMapMarkers();
 
   const isEditable = useContext(EditableContext);
   if (isEditable === undefined) {
@@ -60,20 +63,27 @@ const TrafficBox = ({
 
   // 真實資料
   useEffect(() => {
-    if (process.env.NODE_ENV === "production") {
-      get_directions(originId, destinationId, mode).then((direction) => {
+    if (process.env.NODE_ENV === "production" && currentMode) {
+      get_directions(originId, destinationId, currentMode).then((direction) => {
         if (direction) {
-          const { distance, duration } = direction;
+          const { distance, duration, steps } = direction;
+          // const routeArr = steps.map((step: any) => [
+          //   [step.start_location.lat, step.start_location.lng],
+          //   [step.end_location.lat, step.end_location.lng],
+          // ]);
+          // setRoutes((prev) => [...prev, routeArr]);
           setDistance(distance.text);
           setDurationText(duration.text);
           const formattedTime = convertTimeString(duration.text);
           setDurationTime(formattedTime);
+        } else {
+          console.error("所在地無此交通方式!");
         }
       });
     }
-  }, [mode, destinationId]);
+  }, [currentMode]);
 
-  // 假的資料
+  // 假的資料;
   useEffect(() => {
     if (process.env.NODE_ENV === "development") {
       const { distance, duration } = directionsData;
@@ -116,15 +126,14 @@ const TrafficBox = ({
         </div>
         {isEditable ? <div className="mr-5">&#10095;</div> : <></>}
       </div>
-      {isShowModeSetting && isEditable ? (
+      {isShowModeSetting && isEditable && (
         <TrafficModeSetting
           setIsShowing={setIsShowModeSetting}
           number={number}
-          currentMode={mode}
+          currentMode={currentMode}
+          setCurrentMode={setCurrentMode}
           trip={trip}
         />
-      ) : (
-        <></>
       )}
     </>
   );

@@ -49,26 +49,26 @@ const SetPlaceView = ({
   }, [latlng, map]);
   return (
     <>
-      {latlng ? (
+      {latlng && (
         <Marker
           position={latlng.position}
           icon={selectIcon}
           zIndexOffset={10}
-        ></Marker>
-      ) : null}
+        />
+      )}
     </>
   );
 };
 
-type LeafletMapProps = {
-  markers: LatLngExpression[];
-  placeLatLng: {
-    number?: number;
-    position: Array<number>;
-  } | null;
-};
+// type LeafletMapProps = {
+//   markers: LatLngExpression[];
+//   placeLatLng: {
+//     number?: number;
+//     position: Array<number>;
+//   } | null;
+// };
 const LeafletMap = () => {
-  const { markers, placeLatLng } = useMapMarkers();
+  const { markers, routes, placeLatLng } = useMapMarkers();
   const [icons, setIcons] = useState<Array<DivIcon>>([]);
 
   const mapMarkers = markers.map((location: any) => {
@@ -95,7 +95,7 @@ const LeafletMap = () => {
     }
   }, [markers]);
 
-  const colorOptions = { blue: { color: "rgb(0,110,255,0.4)", weight: 6 } };
+  const colorOptions = { blue: { color: "rgb(0,110,255,0.6)", weight: 6 } };
   return (
     <MapContainer
       center={[25.051663, 121.550023]}
@@ -108,10 +108,15 @@ const LeafletMap = () => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {icons.length > 0 &&
-        mapMarkers.map((marker: any, index: number) =>
-          icons[index] ? (
-            <Marker position={marker.geocode} key={index} icon={icons[index]} />
-          ) : null,
+        mapMarkers.map(
+          (marker: any, index: number) =>
+            icons[index] && (
+              <Marker
+                position={marker.geocode}
+                key={index}
+                icon={icons[index]}
+              />
+            ),
         )}
       <FitMapToBounds bounds={markers} />
       <SetPlaceView latlng={placeLatLng} markers={markers} />

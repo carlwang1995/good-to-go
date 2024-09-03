@@ -27,6 +27,7 @@ type TrafficModeSettingProps = {
   setIsShowing: React.Dispatch<React.SetStateAction<boolean>>;
   number: number;
   currentMode: string;
+  setCurrentMode: React.Dispatch<React.SetStateAction<string>>;
   trip: TripType;
 };
 
@@ -34,10 +35,10 @@ const TrafficModeSetting = ({
   setIsShowing,
   number,
   currentMode,
+  setCurrentMode,
   trip,
 }: TrafficModeSettingProps) => {
   const [newMode, setNewMode] = useState<string>(currentMode);
-
   const dayIndex = useContext(DayIndexContext);
   const setState = useContext(StateContext);
   const planDocId = useContext(DocIdContext);
@@ -60,11 +61,13 @@ const TrafficModeSetting = ({
     const mode = newMode;
     const newPlaces = [...trip.places];
     newPlaces[number].trafficMode = mode;
-    const result = await DB_upadatePlaceInfo(docId, dayIndex, newPlaces);
-    if (result) {
-      setState((prev) => !prev);
-    } else {
-      console.error("Update failed!");
+    try {
+      const result = await DB_upadatePlaceInfo(docId, dayIndex, newPlaces);
+      if (result) {
+        setCurrentMode(newMode);
+      }
+    } catch (e) {
+      console.error(e);
     }
   };
 
