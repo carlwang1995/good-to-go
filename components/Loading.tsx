@@ -9,8 +9,30 @@ const Loading = ({
   heightPx: number;
 }) => {
   return (
-    <Image src="/loading.gif" alt="loading" width={widthPx} height={heightPx} />
+    <Image
+      src="/loading-2.gif"
+      alt="loading"
+      width={widthPx}
+      height={heightPx}
+    />
   );
 };
 
-export default Loading;
+const PageLoading = ({
+  widthPx,
+  heightPx,
+}: {
+  widthPx: number;
+  heightPx: number;
+}) => {
+  return (
+    <Image
+      src="/pageLoading.gif"
+      alt="loading"
+      width={widthPx}
+      height={heightPx}
+    />
+  );
+};
+
+export { Loading, PageLoading };

@@ -1,6 +1,7 @@
 import React from "react";
 import PlaceInfoPhotoBox from "./PlaceInfoPhotoBox";
 import { useMapMarkers } from "@/contexts/UseMapMarkers";
+import Image from "next/image";
 
 interface PlaceType {
   id: number;
@@ -25,16 +26,18 @@ const PlaceInfoCard = ({
 
   return (
     <div className="fixed bottom-0 left-[500px] z-20 flex h-[calc(100%-60px)] w-[380px] flex-col overflow-hidden bg-white">
-      <div className="flex h-16 items-center justify-end">
-        <div
-          className="m-4 px-1 text-xl hover:cursor-pointer hover:font-bold"
+      <div className="flex min-h-16 items-center justify-end">
+        <Image
+          src="/close.png"
+          alt="close"
+          width={24}
+          height={24}
+          className="m-4 px-1 hover:cursor-pointer"
           onClick={() => {
             setShowPlaceInfo(false);
             setPlaceLatLng(null);
           }}
-        >
-          &#10006;
-        </div>
+        />
       </div>
       <div className="h-full overflow-y-auto overflow-x-hidden">
         <PlaceInfoPhotoBox photos={placeInfo?.photos} />

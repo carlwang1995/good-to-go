@@ -26,13 +26,17 @@ const TripsContent = ({ userId }: { userId: string }) => {
 
   useEffect(() => {
     if (userId) {
-      DB_getTrips(userId).then((result: any) => {
-        if (result && result.length !== 0) {
-          setTrips(result);
-        } else {
-          setTrips([]);
-        }
-      });
+      DB_getTrips(userId)
+        .then((result: any) => {
+          if (result && result.length !== 0) {
+            setTrips(result);
+          } else {
+            setTrips([]);
+          }
+        })
+        .catch((e) => {
+          console.error(e);
+        });
     }
   }, [userId, state]);
 

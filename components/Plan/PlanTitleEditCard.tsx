@@ -7,7 +7,7 @@ import { getNewDateRangeTrips } from "@/libs/getNewDateRangeTrips";
 import { getDateBetween } from "@/libs/getDatesBetween";
 import { DB_updateTrips } from "@/libs/db/PlansDoc";
 import { DB_updateTripInfoByDocId } from "@/libs/db/TripsDoc";
-import Loading from "../Loading";
+import { Loading } from "../Loading";
 
 type TripType = {
   userId: string;
@@ -95,13 +95,17 @@ const PlanTitleEditCard = ({
     <>
       <div className="relative z-10 bg-black/30">
         <div className="relative flex h-16 w-full items-center bg-black/60 p-3">
-          <div
-            onClick={() => {
-              setShowEditInput(false);
-            }}
-            className="mr-3 w-8 text-xl text-white hover:cursor-pointer hover:font-bold"
-          >
-            &#8592;
+          <div className="mr-3 min-w-7">
+            <Image
+              src="/left-arrow-white.png"
+              width={24}
+              height={24}
+              alt="left arrow"
+              className="hover:cursor-pointer"
+              onClick={() => {
+                setShowEditInput(false);
+              }}
+            />
           </div>
           {tripInfo && (
             <input
