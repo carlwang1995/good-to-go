@@ -38,12 +38,12 @@ type PlaceType = {
 
 const SearchContent = ({
   setIsSearching,
-  destinationName,
-  setDestinationName,
+  destinationList,
+  setDestinationList,
 }: {
   setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
-  destinationName: string;
-  setDestinationName: React.Dispatch<React.SetStateAction<string>>;
+  destinationList: string;
+  setDestinationList: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const [isShowSearchResult, setIsShowSearchResult] = useState<boolean>(false);
   const [input, setInput] = useState<string>("");
@@ -140,7 +140,7 @@ const SearchContent = ({
             onKeyDown={(e) => {
               if (e.key == "Enter") {
                 setSearchListBoxArr([]);
-                searchPlaces(destinationName, input === "" ? "景點" : input);
+                searchPlaces(destinationList, input === "" ? "景點" : input);
               }
             }}
             type="search"
@@ -153,7 +153,7 @@ const SearchContent = ({
           <button
             className="flex h-full items-center justify-center text-nowrap rounded-r bg-white p-2 transition hover:bg-blue-100"
             onClick={() =>
-              searchPlaces(destinationName, input === "" ? "景點" : input)
+              searchPlaces(destinationList, input === "" ? "景點" : input)
             }
           >
             <Image src="/search.png" alt="search" width={30} height={30} />
@@ -165,8 +165,8 @@ const SearchContent = ({
               message
             ) : (
               <DestinationSwitcher
-                destinationName={destinationName}
-                setDestinationName={setDestinationName}
+                destinationName={destinationList}
+                setDestinationName={setDestinationList}
               />
             )}
           </div>

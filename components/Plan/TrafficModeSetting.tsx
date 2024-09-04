@@ -2,10 +2,11 @@ import React, { useContext, useState } from "react";
 import {
   DayIndexContext,
   DocIdContext,
-  StateContext,
+  PlanContentContext,
 } from "@/contexts/ContextProvider";
 import { DB_upadatePlaceInfo } from "@/libs/db/PlansDoc";
 import TrafficModeButton from "./TrafficModeButton";
+import { getTimeNow } from "@/libs/timeConvertor";
 
 interface PlaceType {
   id: number;
@@ -24,33 +25,31 @@ interface TripType {
 }
 
 type TrafficModeSettingProps = {
-  setIsShowing: React.Dispatch<React.SetStateAction<boolean>>;
   number: number;
-  currentMode: string;
-  setCurrentMode: React.Dispatch<React.SetStateAction<string>>;
   trip: TripType;
+  currentMode: string;
+  setIsShowing: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const TrafficModeSetting = ({
-  setIsShowing,
   number,
-  currentMode,
-  setCurrentMode,
   trip,
+  currentMode,
+  setIsShowing,
 }: TrafficModeSettingProps) => {
   const [newMode, setNewMode] = useState<string>(currentMode);
   const dayIndex = useContext(DayIndexContext);
-  const setState = useContext(StateContext);
   const planDocId = useContext(DocIdContext);
+  const { planContent, setPlanContent } = useContext(PlanContentContext);
 
   if (!dayIndex) {
     throw new Error("Can't access DayIndexContext.");
   }
-  if (!setState) {
-    throw new Error("Can't access StateContext.");
-  }
   if (!planDocId) {
     throw new Error("Can't access DocIdContext.");
+  }
+  if (!planContent || !setPlanContent) {
+    throw new Error("Can't access PlanContentContext.");
   }
 
   const updateMode = async (
@@ -64,7 +63,11 @@ const TrafficModeSetting = ({
     try {
       const result = await DB_upadatePlaceInfo(docId, dayIndex, newPlaces);
       if (result) {
-        setCurrentMode(newMode);
+        const newPlanContent = { ...planContent! };
+        newPlanContent.trips[dayIndex].places[number].trafficMode = mode;
+        newPlanContent.trips[dayIndex].lastEditTime = getTimeNow();
+        setPlanContent!(newPlanContent);
+        setIsShowing(false);
       }
     } catch (e) {
       console.error(e);
@@ -103,7 +106,6 @@ const TrafficModeSetting = ({
                 if (currentMode != newMode) {
                   updateMode(planDocId, dayIndex, number);
                 }
-                setIsShowing(false);
               }}
               className="mr-2 rounded border border-solid border-blue-700 bg-blue-500 px-2 py-1 text-lg text-white transition hover:bg-blue-700"
             >

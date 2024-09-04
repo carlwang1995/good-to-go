@@ -2,11 +2,11 @@ import React, { useState, useContext } from "react";
 import Image from "next/image";
 import {
   DayIndexContext,
-  StateContext,
   DocIdContext,
   EditableContext,
+  PlanContentContext,
 } from "@/contexts/ContextProvider";
-import { addTime } from "@/libs/timeConvertor";
+import { addTime, getTimeNow } from "@/libs/timeConvertor";
 import { DB_deleteTripPlanPlace } from "@/libs/db/PlansDoc";
 import StayTimeSetting from "./PlaceStayTimeSetting";
 import { useMapMarkers } from "@/contexts/UseMapMarkers";
@@ -26,7 +26,13 @@ interface PlaceType {
 interface TripType {
   startTime: string;
   places: Array<PlaceType>;
+  lastEditTime: string;
 }
+
+type PlanContentType = {
+  docId: string;
+  trips: { [key: string]: TripType };
+};
 
 type PlaceBoxProps = {
   number: number;
@@ -51,22 +57,21 @@ const PlaceBox = ({
 
   const { setPlaceLatLng } = useMapMarkers();
   const dayIndex = useContext(DayIndexContext);
-  const setState = useContext(StateContext);
   const planDocId = useContext(DocIdContext);
   const isEditable = useContext(EditableContext);
+  const { planContent, setPlanContent } = useContext(PlanContentContext);
 
   if (!dayIndex) {
     throw new Error("Can't access DayIndexContext.");
   }
-  if (!setState) {
-    throw new Error("Can't access StateContext.");
-  }
   if (!planDocId) {
     throw new Error("Can't access DocIdContext.");
   }
-
   if (isEditable === undefined) {
     throw new Error("Can't access MarkerContext.");
+  }
+  if (!planContent || !setPlanContent) {
+    throw new Error("Can't access PlanContentContext.");
   }
 
   const endTime = addTime(startTime, stayTime);
@@ -87,7 +92,10 @@ const PlaceBox = ({
     try {
       const result = await DB_deleteTripPlanPlace(dayIndex, planDocId, place);
       if (result) {
-        setState((prev) => !prev);
+        const newPlanContent = { ...planContent };
+        newPlanContent.trips[dayIndex].places.splice(number, 1);
+        newPlanContent.trips[dayIndex].lastEditTime = getTimeNow();
+        setPlanContent(newPlanContent);
       }
     } catch (e) {
       console.error(e);
@@ -179,7 +187,6 @@ const PlaceBox = ({
           number={number}
           trip={trip}
           place={place}
-          setState={setState}
           setShowStaySetting={setShowStaySetting}
         />
       )}

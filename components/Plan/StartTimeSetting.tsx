@@ -1,34 +1,34 @@
 import React, { useContext, useEffect, useState } from "react";
-import { DayIndexContext } from "@/contexts/ContextProvider";
+import {
+  DayIndexContext,
+  PlanContentContext,
+} from "@/contexts/ContextProvider";
 import { DB_updateTripStartTime } from "@/libs/db/PlansDoc";
-
-interface TripType {
-  startTime: string;
-  places: Array<object>;
-}
+import { getTimeNow } from "@/libs/timeConvertor";
 
 const StartTimeSetting = ({
   planDocId,
-  setState,
   setShowStartTimeSetting,
-  trip,
 }: {
   planDocId: string;
-  setState: React.Dispatch<React.SetStateAction<boolean>>;
   setShowStartTimeSetting: React.Dispatch<React.SetStateAction<boolean>>;
-  trip: TripType | null;
 }) => {
   const [period, setPeriod] = useState("");
   const [hour, setHour] = useState("");
   const [minute, setMinute] = useState("");
 
   const dayIndex = useContext(DayIndexContext);
+  const { planContent, setPlanContent } = useContext(PlanContentContext);
   if (!dayIndex) {
     throw new Error("Can't access DayIndexContext.");
   }
+  if (!planContent || !setPlanContent) {
+    throw new Error("Can't access PlanContentContext.");
+  }
 
   useEffect(() => {
-    if (trip) {
+    if (planContent?.trips[dayIndex]) {
+      const trip = planContent.trips[dayIndex];
       let [hour, minute] = trip.startTime.split(":");
       if (Number(hour) >= 12) {
         setPeriod("PM");
@@ -40,7 +40,7 @@ const StartTimeSetting = ({
         setMinute(minute);
       }
     }
-  }, [trip]);
+  }, [planContent]);
 
   const updateStartTime = async (docId: string, dayIndex: string) => {
     let hh = hour;
@@ -51,7 +51,10 @@ const StartTimeSetting = ({
     const newStartTime = `${hh}:${mm}`;
     const result = await DB_updateTripStartTime(docId, dayIndex, newStartTime);
     if (result) {
-      setState((prev) => !prev);
+      const newPlanContent = { ...planContent! };
+      newPlanContent.trips[dayIndex].startTime = newStartTime;
+      newPlanContent.trips[dayIndex].lastEditTime = getTimeNow();
+      setPlanContent(newPlanContent);
       setShowStartTimeSetting(false);
     }
   };
