@@ -132,7 +132,12 @@ const PlanContent = ({ docId }: { docId: string }) => {
             onClick={dateScrollToLeft}
             className="absolute left-0 top-0 z-10 flex h-full items-center justify-center border border-white bg-white px-1 hover:cursor-pointer hover:border-slate-300"
           >
-            <div className="text-2xl">&#10094;</div>
+            <Image
+              src="/left-arrow-sm.png"
+              width={14}
+              height={14}
+              alt="left arrow"
+            />
           </div>
           <div
             className="flex h-full w-full overflow-x-hidden scroll-smooth whitespace-nowrap px-7"
@@ -154,7 +159,14 @@ const PlanContent = ({ docId }: { docId: string }) => {
             onClick={dateScrollToRight}
             className="hover: absolute right-0 top-0 z-10 flex h-full items-center justify-center border border-white bg-white px-1 hover:cursor-pointer hover:border-slate-300"
           >
-            <div className="text-2xl">&#10095;</div>
+            <div className="text-2xl">
+              <Image
+                src="/right-arrow-sm.png"
+                width={14}
+                height={14}
+                alt="right arrow"
+              />
+            </div>
           </div>
         </div>
       </div>

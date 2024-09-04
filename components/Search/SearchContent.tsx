@@ -4,7 +4,7 @@ import PlaceInfoCard from "./PlaceInfoCard";
 import Image from "next/image";
 import textSearch from "@/libs/google/textSearch";
 import { useMapMarkers } from "@/contexts/UseMapMarkers";
-import Loading from "../Loading";
+import { Loading } from "../Loading";
 import DestinationSwitcher from "./DestinationSwitcher";
 
 type OpenHoursType = {
@@ -122,16 +122,20 @@ const SearchContent = ({
     <>
       <div className="absolute left-0 top-0 z-30 flex h-full flex-col bg-blue-50">
         <div className="flex max-h-16 min-h-16 w-[500px] items-center bg-blue-500 p-3">
-          <span
-            className="mr-3 w-8 text-xl text-white hover:cursor-pointer hover:font-bold"
-            onClick={() => {
-              setIsSearching(false);
-              setIsShowSearchResult(false);
-              setResults([]);
-              setPlaceLatLng(null);
-            }}
-          >
-            ←
+          <span className="mr-3 min-w-7">
+            <Image
+              src="/left-arrow-white.png"
+              width={24}
+              height={24}
+              alt="left arrow"
+              className="hover:cursor-pointer"
+              onClick={() => {
+                setIsSearching(false);
+                setIsShowSearchResult(false);
+                setResults([]);
+                setPlaceLatLng(null);
+              }}
+            />
           </span>
         </div>
         <div className="flex max-h-16 min-h-16 w-full items-center bg-blue-300 p-3">
@@ -188,7 +192,7 @@ const SearchContent = ({
           {searchListBoxArr.length > 0 && searchListBoxArr}
           {isLoading && (
             <div className="mt-4 flex w-full justify-center">
-              <Loading widthPx={50} heightPx={50} />
+              <Loading widthPx={80} heightPx={80} />
             </div>
           )}
         </div>

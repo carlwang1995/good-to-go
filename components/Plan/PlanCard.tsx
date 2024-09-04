@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
-import Loading from "../Loading";
+import { Loading } from "../Loading";
 import PlaceBox from "./PlaceBox";
 import TrafficBox from "./TrafficBox";
 import SearchContent from "../Search/SearchContent";
@@ -258,8 +258,8 @@ const PlanCard = ({ docId, dateCount, planTitleState }: PlanCardProps) => {
     <PlanContentContext.Provider value={{ planContent, setPlanContent }}>
       <DocIdContext.Provider value={planDocId}>
         {isLoading && (
-          <div className="relative z-20 mt-10 flex h-full w-full items-center justify-center bg-blue-50">
-            <Loading widthPx={50} heightPx={50} />
+          <div className="relative z-20 mt-10 flex h-full w-full items-center justify-center">
+            <Loading widthPx={80} heightPx={80} />
           </div>
         )}
         <div className="h-full overflow-x-hidden overflow-y-scroll bg-blue-50">

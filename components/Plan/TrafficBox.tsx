@@ -97,7 +97,7 @@ const TrafficBox = ({
     }
   }, [mode, destinationId, originId]);
 
-  // 假的資料;
+  // 假的資料
   useEffect(() => {
     if (process.env.NODE_ENV === "development") {
       const { distance, duration } = directionsData;

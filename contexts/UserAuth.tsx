@@ -105,7 +105,6 @@ function useProvideAuth() {
       setUser(result.user);
       setUserId(result.user.uid);
       setEmail(result.user.email!);
-      // localStorage.setItem("userId", result.user.uid);
       const userInfo = await DB_getUserInfoByUserId(result.user.uid);
       const userName = userInfo?.userInfo.userName;
       const photoUrl = userInfo?.userInfo.photoUrl;
@@ -131,7 +130,6 @@ function useProvideAuth() {
         setUser(result.user);
         setUserId(result.user.uid);
         setEmail(result.user.email!);
-        // localStorage.setItem("userId", result.user.uid);
         const uploadUser = await DB_createNewMember(
           result.user.uid,
           userName,
@@ -152,7 +150,6 @@ function useProvideAuth() {
 
   const logOut = () => {
     signOut(auth).then(() => {
-      // localStorage.removeItem("userId");
       setUser(false);
       setUserId("");
       setUserName("");
