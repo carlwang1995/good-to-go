@@ -29,11 +29,6 @@ interface TripType {
   lastEditTime: string;
 }
 
-type PlanContentType = {
-  docId: string;
-  trips: { [key: string]: TripType };
-};
-
 type PlaceBoxProps = {
   number: number;
   trip: TripType;

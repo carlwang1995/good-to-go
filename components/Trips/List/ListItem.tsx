@@ -46,7 +46,7 @@ const ListItem = ({
                 </div>
               </div>
               <Image
-                priority={true}
+                priority
                 src={photoUrl}
                 alt="background"
                 fill={true}
@@ -59,7 +59,7 @@ const ListItem = ({
               </div>
               <div className="relative z-10 flex rounded-b-lg bg-white/80 px-3 pb-2">
                 <div>{startDate}</div>
-                <div className="mx-2">~</div>
+                <div className="mx-2">-</div>
                 <div>{endDate}</div>
               </div>
             </div>

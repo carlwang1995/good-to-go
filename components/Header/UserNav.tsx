@@ -5,7 +5,7 @@ import Image from "next/image";
 import UserSetting from "./UserSetting";
 import { useUser } from "@/contexts/UserAuth";
 
-import Loading from "../Loading";
+import { Loading } from "../Loading";
 
 const UserNav = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -21,9 +21,11 @@ const UserNav = () => {
   return (
     <div className="absolute right-0 top-0 flex h-full items-center">
       <div className="mx-3 flex items-center justify-center">
-        <Link href={user ? "/trips" : "/login"}>
-          <p className="text-xl transition hover:font-bold">開始規劃</p>
-        </Link>
+        {!isLoading && (
+          <Link href={user ? "/trips" : "/login"}>
+            <p className="text-xl transition hover:font-bold">開始規劃</p>
+          </Link>
+        )}
       </div>
       {isLoading ? (
         <div className="relative mx-3 flex items-center justify-center">

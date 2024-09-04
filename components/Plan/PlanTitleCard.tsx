@@ -29,12 +29,16 @@ const PlanTitleCard = ({
     <div className="relative z-10 bg-black/30">
       <div className="relative flex h-16 w-full items-center bg-black/60 p-3">
         {user && (
-          <Link
-            href="/trips"
-            className="mr-3 w-8 text-xl text-white hover:font-bold"
-          >
-            &#8592;
-          </Link>
+          <div className="mr-3 min-w-7">
+            <Link href="/trips">
+              <Image
+                src="/left-arrow-white.png"
+                width={24}
+                height={24}
+                alt="left arrow"
+              />
+            </Link>
+          </div>
         )}
         <span className="text-xl text-white">
           {tripInfo && tripInfo.tripName}
