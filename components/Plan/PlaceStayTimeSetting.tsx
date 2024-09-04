@@ -1,6 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { DayIndexContext } from "@/contexts/ContextProvider";
+import {
+  DayIndexContext,
+  PlanContentContext,
+} from "@/contexts/ContextProvider";
 import { DB_upadatePlaceInfo } from "@/libs/db/PlansDoc";
+import { getTimeNow } from "@/libs/timeConvertor";
 
 interface PlaceType {
   id: number;
@@ -11,31 +15,44 @@ interface PlaceType {
   openTime: Array<string>;
   stayTime: string;
   trafficMode: string;
+  photos: Array<string>;
 }
 
 interface TripType {
   startTime: string;
   places: Array<PlaceType>;
+  lastEditTime: string;
 }
+
+type PlanContentType = {
+  docId: string;
+  trips: { [key: string]: TripType };
+};
 
 const PlaceStayTimeSetting = ({
   planDocId,
   number,
   trip,
   place,
-  setState,
   setShowStaySetting,
 }: {
   planDocId: string;
   number: number;
   trip: TripType;
   place: PlaceType;
-  setState: React.Dispatch<React.SetStateAction<boolean>>;
   setShowStaySetting: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const dayIndex = useContext(DayIndexContext);
+  const { planContent, setPlanContent } = useContext(PlanContentContext);
   const [hour, setHour] = useState("");
   const [minute, setMinute] = useState("");
+
+  if (!dayIndex) {
+    throw new Error("StayTimeSetting.tsx不屬於DayIndexContext的子組件。");
+  }
+  if (!planContent || !setPlanContent) {
+    throw new Error("Can't access PlanContentContext.");
+  }
 
   useEffect(() => {
     if (place) {
@@ -45,9 +62,6 @@ const PlaceStayTimeSetting = ({
     }
   }, [place]);
 
-  if (!dayIndex) {
-    throw new Error("StayTimeSetting.tsx不屬於DayIndexContext的子組件。");
-  }
   const updateStaytTime = async (
     docId: string,
     dayIndex: string,
@@ -60,7 +74,10 @@ const PlaceStayTimeSetting = ({
     newPlaces[number].stayTime = newStayTime;
     const result = await DB_upadatePlaceInfo(docId, dayIndex, newPlaces);
     if (result) {
-      setState((prev) => !prev);
+      const newPlanContent = { ...planContent! };
+      newPlanContent.trips[dayIndex].places = newPlaces;
+      newPlanContent.trips[dayIndex].lastEditTime = getTimeNow();
+      setPlanContent!(newPlanContent);
       setShowStaySetting(false);
     }
   };

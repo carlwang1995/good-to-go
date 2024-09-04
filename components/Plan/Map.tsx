@@ -95,7 +95,10 @@ const LeafletMap = () => {
     }
   }, [markers]);
 
-  const colorOptions = { blue: { color: "rgb(0,110,255,0.6)", weight: 6 } };
+  const colorOptions = {
+    blue: { color: "rgb(0,110,255,0.8)", weight: 8 },
+    lightBlue: { color: "rgb(0,110,255,0.3)", weight: 4 },
+  };
   return (
     <MapContainer
       center={[25.051663, 121.550023]}
@@ -120,7 +123,12 @@ const LeafletMap = () => {
         )}
       <FitMapToBounds bounds={markers} />
       <SetPlaceView latlng={placeLatLng} markers={markers} />
-      <Polyline pathOptions={colorOptions.blue} positions={markers} />
+      <Polyline
+        pathOptions={
+          routes.length > 0 ? colorOptions.blue : colorOptions.lightBlue
+        }
+        positions={routes.length > 0 ? routes : markers}
+      />
     </MapContainer>
   );
 };
