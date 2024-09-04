@@ -3,10 +3,11 @@ import Image from "next/image";
 import React, { useState, useContext } from "react";
 import {
   DayIndexContext,
-  StateContext,
   DocIdContext,
+  PlanContentContext,
 } from "@/contexts/ContextProvider";
 import { useMapMarkers } from "@/contexts/UseMapMarkers";
+import { getTimeNow } from "@/libs/timeConvertor";
 
 type PlaceType = {
   id?: number;
@@ -44,12 +45,15 @@ const PlaceInfoBottomBox = ({
   const [minute, setMinute] = useState<string>("30");
 
   const dayIndex = useContext(DayIndexContext); // day1,day2,day3 ...
-  const setState = useContext(StateContext);
   const planDocId = useContext(DocIdContext);
+  const { planContent, setPlanContent } = useContext(PlanContentContext);
   const { setPlaceLatLng } = useMapMarkers();
 
-  if (!dayIndex || !setState || !planDocId) {
+  if (!dayIndex || !planDocId) {
     throw new Error("Can't access context.");
+  }
+  if (!planContent || !setPlanContent) {
+    throw new Error("Can't access PlanContentContext.");
   }
 
   const addPlace = async (
@@ -73,7 +77,10 @@ const PlaceInfoBottomBox = ({
         const result = await DB_updateTripPlan(dayIndex, planDocId, newPlace);
         if (result) {
           setAddDone(true);
-          setState((prev) => !prev);
+          const newPlanContent = { ...planContent };
+          newPlanContent.trips[dayIndex].places.push(newPlace);
+          newPlanContent.trips[dayIndex].lastEditTime = getTimeNow();
+          setPlanContent(newPlanContent);
         }
       } catch (e) {
         console.error("Error:行程資料更新失敗!");

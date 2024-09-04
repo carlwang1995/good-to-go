@@ -3,9 +3,8 @@ import get_directions from "@/libs/google/directions";
 import { convertTimeString } from "@/libs/timeConvertor";
 import Image from "next/image";
 import TrafficModeSetting from "./TrafficModeSetting";
-import { directionsData } from "@/libs/fakeData";
 import { EditableContext } from "@/contexts/ContextProvider";
-import { useMapMarkers } from "@/contexts/UseMapMarkers";
+import { directionsData } from "@/libs/fakeData";
 
 interface PlaceType {
   id: number;
@@ -16,11 +15,13 @@ interface PlaceType {
   openTime: Array<string>;
   stayTime: string;
   trafficMode: string;
+  photos: Array<string>;
 }
 
 interface TripType {
   startTime: string;
   places: Array<PlaceType>;
+  lastEditTime: string;
 }
 
 type TrafficBoxProps = {
@@ -35,6 +36,12 @@ type TrafficBoxProps = {
     destinationId: string,
     duration: string,
   ) => void;
+  handleTrafficRoute: (
+    number: string,
+    originId: string,
+    destinationId: string,
+    routeArr: Array<[]>,
+  ) => void;
 };
 
 const TrafficBox = ({
@@ -44,44 +51,51 @@ const TrafficBox = ({
   destinationId,
   mode,
   handleTrafficTime,
+  handleTrafficRoute,
 }: TrafficBoxProps) => {
-  const [durationTime, setDurationTime] = useState<string>("00:00");
   const [durationText, setDurationText] = useState<string>("--分鐘");
   const [distance, setDistance] = useState<string>("--公里");
   const [isShowModeSetting, setIsShowModeSetting] = useState<boolean>(false);
-  const [currentMode, setCurrentMode] = useState(mode);
-  const { setRoutes } = useMapMarkers();
-
   const isEditable = useContext(EditableContext);
   if (isEditable === undefined) {
     throw new Error("Can't access MarkerContext.");
   }
 
-  useEffect(() => {
-    handleTrafficTime(String(number), originId, destinationId, durationTime);
-  }, [originId, destinationId, durationTime]);
-
   // 真實資料
   useEffect(() => {
-    if (process.env.NODE_ENV === "production" && currentMode) {
-      get_directions(originId, destinationId, currentMode).then((direction) => {
-        if (direction) {
-          const { distance, duration, steps } = direction;
-          // const routeArr = steps.map((step: any) => [
-          //   [step.start_location.lat, step.start_location.lng],
-          //   [step.end_location.lat, step.end_location.lng],
-          // ]);
-          // setRoutes((prev) => [...prev, routeArr]);
-          setDistance(distance.text);
-          setDurationText(duration.text);
-          const formattedTime = convertTimeString(duration.text);
-          setDurationTime(formattedTime);
-        } else {
-          console.error("所在地無此交通方式!");
-        }
-      });
+    if (process.env.NODE_ENV === "production" && mode) {
+      get_directions(originId, destinationId, mode)
+        .then((direction) => {
+          if (direction) {
+            const { distance, duration, steps } = direction;
+            const formattedTime = convertTimeString(duration.text);
+            const routeArr = steps.map((step: any) => [
+              [step.start_location.lat, step.start_location.lng],
+              [step.end_location.lat, step.end_location.lng],
+            ]);
+            handleTrafficTime(
+              String(number),
+              originId,
+              destinationId,
+              formattedTime,
+            );
+            handleTrafficRoute(
+              String(number),
+              originId,
+              destinationId,
+              routeArr,
+            );
+            setDistance(distance.text);
+            setDurationText(duration.text);
+          } else {
+            console.error("所在地無此交通方式!");
+          }
+        })
+        .catch((e) => {
+          console.error(e);
+        });
     }
-  }, [currentMode]);
+  }, [mode, destinationId, originId]);
 
   // 假的資料;
   useEffect(() => {
@@ -90,7 +104,7 @@ const TrafficBox = ({
       setDistance(distance.text);
       setDurationText(duration.text);
       const formattedTime = convertTimeString(duration.text);
-      setDurationTime(formattedTime);
+      handleTrafficTime(String(number), originId, destinationId, formattedTime);
     }
   }, []);
 
@@ -128,11 +142,10 @@ const TrafficBox = ({
       </div>
       {isShowModeSetting && isEditable && (
         <TrafficModeSetting
-          setIsShowing={setIsShowModeSetting}
           number={number}
-          currentMode={currentMode}
-          setCurrentMode={setCurrentMode}
           trip={trip}
+          currentMode={mode}
+          setIsShowing={setIsShowModeSetting}
         />
       )}
     </>
