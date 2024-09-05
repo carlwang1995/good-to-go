@@ -7,9 +7,11 @@
   margin: 0;
   box-sizing: border-box;
   color: black;
+  scrollbar-color: #075985 #f4f4f5;
+  scrollbar-width: thin;
 }
 
 body {
-  background-color: rgb(241, 245, 249);
+  background-color: #f4f4f5;
   font-size: 16px;
 }

@@ -39,10 +39,10 @@ const PlaceInfoCard = ({
           }}
         />
       </div>
-      <div className="h-full overflow-y-auto overflow-x-hidden">
+      <div className="h-full overflow-y-auto overflow-x-hidden bg-zinc-100">
         <PlaceInfoPhotoBox photos={placeInfo?.photos} />
         <div className="p-3">
-          <p className="text-2xl font-bold">
+          <p className="text-2xl font-bold text-sky-800">
             {placeInfo ? placeInfo.name : null}
           </p>
           <p className="mt-4 text-lg">{placeInfo ? placeInfo.address : null}</p>

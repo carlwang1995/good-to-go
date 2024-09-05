@@ -60,13 +60,6 @@ const SetPlaceView = ({
   );
 };
 
-// type LeafletMapProps = {
-//   markers: LatLngExpression[];
-//   placeLatLng: {
-//     number?: number;
-//     position: Array<number>;
-//   } | null;
-// };
 const LeafletMap = () => {
   const { markers, routes, placeLatLng } = useMapMarkers();
   const [icons, setIcons] = useState<Array<DivIcon>>([]);
@@ -125,9 +118,11 @@ const LeafletMap = () => {
       <SetPlaceView latlng={placeLatLng} markers={markers} />
       <Polyline
         pathOptions={
-          routes.length > 0 ? colorOptions.blue : colorOptions.lightBlue
+          process.env.NODE_ENV == "production"
+            ? colorOptions.blue
+            : colorOptions.lightBlue
         }
-        positions={routes.length > 0 ? routes : markers}
+        positions={process.env.NODE_ENV == "production" ? routes : markers}
       />
     </MapContainer>
   );

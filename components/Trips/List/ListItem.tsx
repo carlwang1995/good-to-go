@@ -54,10 +54,10 @@ const ListItem = ({
                 style={{ objectFit: "cover" }}
                 className="absolute left-0 top-0 h-full w-full rounded-lg"
               />
-              <div className="relative z-10 bg-white bg-white/80 px-3 py-2 text-xl font-bold">
+              <div className="relative z-10 bg-white bg-white/90 px-3 py-2 text-xl font-bold text-sky-800">
                 {tripName}
               </div>
-              <div className="relative z-10 flex rounded-b-lg bg-white/80 px-3 pb-2">
+              <div className="relative z-10 flex rounded-b-lg bg-white/90 px-3 pb-2">
                 <div>{startDate}</div>
                 <div className="mx-2">-</div>
                 <div>{endDate}</div>

@@ -44,13 +44,13 @@ const PrivacySettingCard = ({
           <div className="flex justify-center"></div>
           <div className="mx-2 mb-2 flex items-center">
             <Image
-              src="/share.png"
+              src="/share-sky.png"
               alt="share"
               width={30}
               height={30}
               style={{ width: "20px", height: "20px", marginRight: "4px" }}
             />
-            <p className="text-xl font-bold">隱私設定與分享</p>
+            <p className="text-xl font-bold text-sky-800">隱私設定與分享</p>
           </div>
           <div className="m-2 flex items-center">
             <div

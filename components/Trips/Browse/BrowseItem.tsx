@@ -49,13 +49,15 @@ const BrowseItem = ({ trip }: { trip: TripType }) => {
         </div>
         <div className="ml-4 flex flex-col justify-between">
           <div className="mt-2 items-center">
-            <p className="text-2xl font-bold">{trip.tripName}</p>
+            <p className="text-2xl font-bold text-sky-800">{trip.tripName}</p>
             <div className="mt-2 flex items-center">
-              <p className="text-lg">{trip.destination.toString()}</p>
+              <p className="text-lg text-gray-500">
+                {trip.destination.toString()}
+              </p>
             </div>
           </div>
           <div className="mt-2 flex items-end">
-            <p className={`text-lg ${userId === authorId && "text-blue-500"}`}>
+            <p className={`text-lg ${userId === authorId && "text-blue-700"}`}>
               {authorName}
               {userId === authorId && " (您)"}
             </p>

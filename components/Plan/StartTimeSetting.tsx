@@ -8,9 +8,11 @@ import { getTimeNow } from "@/libs/timeConvertor";
 
 const StartTimeSetting = ({
   planDocId,
+  dateCount,
   setShowStartTimeSetting,
 }: {
   planDocId: string;
+  dateCount: string;
   setShowStartTimeSetting: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [period, setPeriod] = useState("");
@@ -66,7 +68,9 @@ const StartTimeSetting = ({
       ></div>
       <div className="z-50 h-fit w-[320px] rounded-lg bg-white">
         <div className="flex h-full w-full flex-col justify-between p-4">
-          <div className="text-xl font-bold">出發時間:</div>
+          <div className="mx-2 text-xl font-bold text-sky-800">
+            出發時間：{dateCount}
+          </div>
           <div className="my-4 flex w-full flex-nowrap items-center justify-between">
             <select
               onChange={(e) => setPeriod(e.target.value)}

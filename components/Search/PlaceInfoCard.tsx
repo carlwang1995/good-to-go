@@ -80,19 +80,19 @@ const PlaceInfoCard = ({
       </div>
       {isLoading ? (
         <div className="my-4 flex justify-center">
-          <Loading widthPx={50} heightPx={50}></Loading>
+          <Loading widthPx={80} heightPx={80}></Loading>
         </div>
       ) : (
         <>
-          <div className="mb-[150px] h-full overflow-y-auto overflow-x-hidden">
+          <div className="mb-[150px] h-full overflow-y-auto overflow-x-hidden bg-zinc-100">
             <PlaceInfoPhotoBox photos={photoUriArr} />
-            <p className="mt-4 px-3 text-2xl font-bold">
+            <p className="mt-4 px-3 text-2xl font-bold text-sky-800">
               {selectedPlace ? selectedPlace.name : null}
             </p>
             <div className="mt-2 flex px-3">
               <p className="mr-1">評價：</p>
               <p className="mr-1">
-                {selectedPlace ? selectedPlace.rating : null}
+                {selectedPlace ? selectedPlace.rating : null}/5.0
               </p>
               <p>
                 {selectedPlace && "(" + String(selectedPlace.ratingCount) + ")"}

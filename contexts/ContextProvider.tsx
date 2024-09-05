@@ -12,16 +12,20 @@ interface PlaceType {
   photos: Array<string>;
 }
 
-interface TripType {
+interface PlanTripType {
   startTime: string;
   places: Array<PlaceType>;
   lastEditTime: string;
 }
 
-type PlanContentType = {
-  docId: string;
-  trips: { [key: string]: TripType };
-} | null;
+type PlanContentType =
+  | {
+      docId: string;
+      trips: {
+        [key: string]: PlanTripType;
+      };
+    }
+  | undefined;
 
 const DayIndexContext = createContext<string>("");
 const DestinationContext = createContext<Array<string>>([]);
