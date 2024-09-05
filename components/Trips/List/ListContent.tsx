@@ -24,13 +24,13 @@ const ListContent = ({ setDisplay, trips }: ListContentProps) => {
       <div className="mt-4 grid w-full grid-cols-3 gap-8">
         <div
           onClick={() => setDisplay((prev) => !prev)}
-          className="flex min-h-[220px] items-center justify-center rounded-lg border border-solid border-slate-500 bg-white hover:cursor-pointer"
+          className="flex min-h-[220px] items-center justify-center rounded-lg border border-solid border-sky-800 bg-white transition hover:cursor-pointer"
         >
           <div className="flex flex-col items-center justify-center">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full border border-solid border-slate-500">
-              <p className="text-2xl text-slate-500">+</p>
+            <div className="flex h-12 w-12 items-center justify-center rounded-full border border-solid border-blue-500">
+              <p className="text-2xl text-blue-500">+</p>
             </div>
-            <div className="text-slate-500">新增行程</div>
+            <div className="text-blue-500">新增行程</div>
           </div>
         </div>
         {trips.length > 0 &&

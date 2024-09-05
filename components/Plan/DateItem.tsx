@@ -18,15 +18,23 @@ const DateItemSelected = ({
   const dateCountString = `第${String(dateNumber + 1)}天`;
   return (
     <div
-      className={`flex h-full min-w-24 flex-col items-center justify-center border-r bg-white transition hover:cursor-pointer ${String(dateNumber + 1) == dayIndex.split("day")[1] ? "border-b-4 border-b-blue-500 font-bold" : "hover:border-b-4 hover:border-b-blue-200"} `}
+      className={`flex h-full min-w-24 flex-col items-center justify-center border-r bg-white transition hover:cursor-pointer ${String(dateNumber + 1) == dayIndex.split("day")[1] ? "border-b-4 border-b-blue-500" : "hover:border-b-4 hover:border-b-blue-200"} `}
       onClick={() => {
         setDateCount(dateCountString);
         const dayIndex: string = "day" + String(dateNumber + 1);
         setDayIndex(dayIndex);
       }}
     >
-      <p>{date}</p>
-      <p>{dateCountString}</p>
+      <p
+        className={`${String(dateNumber + 1) == dayIndex.split("day")[1] && "font-extrabold text-blue-700"}`}
+      >
+        {date}
+      </p>
+      <p
+        className={`${String(dateNumber + 1) == dayIndex.split("day")[1] && "text-blue-700"}`}
+      >
+        {dateCountString}
+      </p>
     </div>
   );
 };

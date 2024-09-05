@@ -97,13 +97,13 @@ const UploadCard = ({
           <div className="flex justify-center"></div>
           <div className="mx-2 flex items-center">
             <Image
-              src="/upload.png"
+              src="/upload-sky.png"
               alt="upload"
               width={30}
               height={30}
               style={{ width: "20px", height: "20px", marginRight: "4px" }}
             />
-            <p className="text-xl font-bold">上傳封面圖</p>
+            <p className="text-xl font-bold text-sky-800">上傳封面圖</p>
           </div>
           <div className="text m-2">
             <span>{uploadState ? `${uploadState}： ` : null}</span>

@@ -116,7 +116,7 @@ const PlaceBox = ({
           className="absolute left-0 top-0 z-10 h-full w-full hover:cursor-pointer"
         ></div>
         <div className="w-ful relative flex h-full">
-          <div className="relative min-h-20 min-w-20 bg-slate-400">
+          <div className="relative min-h-20 min-w-20 bg-blue-300">
             <Image
               src={photos.length > 0 ? photos[0] : "/picture.png"}
               alt="place's image"
@@ -124,7 +124,7 @@ const PlaceBox = ({
               sizes="(min-width:80px)"
               style={{ objectFit: "cover" }}
             />
-            <div className="absolute bottom-0 right-0 flex h-7 w-7 items-center justify-center bg-blue-500/60">
+            <div className="absolute bottom-0 right-0 flex h-7 w-7 items-center justify-center bg-blue-700/80">
               <p className="font-semibold text-white">{String(number + 1)}</p>
             </div>
           </div>
@@ -144,7 +144,7 @@ const PlaceBox = ({
                   }
                   setShowStaySetting(true);
                 }}
-                className={` ${isEditable ? "relative z-30 underline hover:cursor-pointer hover:font-bold" : "relative z-30"} `}
+                className={` ${isEditable ? "text0 relative z-30 underline hover:cursor-pointer hover:font-bold" : "relative z-30"} `}
               >
                 {stayTimeMinute === "00"
                   ? stayTimeHour + "小時"
@@ -155,10 +155,10 @@ const PlaceBox = ({
               <span className="mx-1">|</span>
               <span>{`${startTime} － ${endTime}`}</span>
             </div>
-            <div className="max-w-[355px] overflow-hidden text-ellipsis text-nowrap font-bold">
+            <div className="max-w-[355px] overflow-hidden text-ellipsis text-nowrap text-lg font-bold">
               {name}
             </div>
-            <div className="max-w-[355px] overflow-hidden text-ellipsis text-nowrap">
+            <div className="max-w-[355px] overflow-hidden text-ellipsis text-nowrap text-gray-500">
               {address}
             </div>
           </div>
