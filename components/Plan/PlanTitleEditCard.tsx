@@ -49,12 +49,14 @@ const PlanTitleEditCard = ({
   setTripInfo,
   setShowEditInput,
   setState,
+  setDayIndex,
 }: {
   docId: string;
   tripInfo: TripType | undefined;
   setTripInfo: React.Dispatch<React.SetStateAction<TripType | undefined>>;
   setShowEditInput: React.Dispatch<React.SetStateAction<boolean>>;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
+  setDayIndex: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const [inputDestination, setInputDestination] = useState<string>("");
   const [destinaitonArray, setDestinaitonArray] = useState<
@@ -104,6 +106,7 @@ const PlanTitleEditCard = ({
         endDate!,
       );
       if (newTrips) {
+        setDayIndex("day1");
         const dateRangeResult = await DB_updateTrips(
           newTrips.planDocId,
           newTrips.trips,

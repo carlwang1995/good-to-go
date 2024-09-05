@@ -9,12 +9,7 @@ const Loading = ({
   heightPx: number;
 }) => {
   return (
-    <Image
-      src="/loading-2.gif"
-      alt="loading"
-      width={widthPx}
-      height={heightPx}
-    />
+    <Image src="/loading.gif" alt="loading" width={widthPx} height={heightPx} />
   );
 };
 

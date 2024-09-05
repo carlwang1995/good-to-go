@@ -1,4 +1,5 @@
 import Header from "@/components/Header/Header";
+import Turtorial from "@/components/Turtorial";
 import Image from "next/image";
 
 Header;
@@ -21,12 +22,11 @@ export default function Home() {
             </h2>
           </div>
         </div>
-        <div className="flex w-full justify-center p-4">
-          <h1 className="my-4 text-2xl font-bold text-sky-800">
-            為旅遊輕鬆做準備
-          </h1>
-        </div>
+        <Turtorial />
       </main>
+      <footer className="mt-4 flex h-[80px] w-full items-center justify-center bg-sky-950">
+        <p className="font-bold text-white">Copyright © 2024 Good to GO</p>
+      </footer>
     </>
   );
 }
