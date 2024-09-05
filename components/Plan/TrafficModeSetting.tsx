@@ -83,7 +83,7 @@ const TrafficModeSetting = ({
       <div className="z-50 h-fit min-w-[320px] rounded-lg bg-white">
         <div className="flex h-full w-full flex-col p-4">
           <div className="flex justify-center"></div>
-          <div className="ml-2 text-lg font-bold">
+          <div className="ml-2 text-lg font-bold text-sky-800">
             交通方式：
             {newMode == "driving"
               ? "開車"

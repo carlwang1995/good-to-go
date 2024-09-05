@@ -84,9 +84,9 @@ const PlaceInfoCard = ({
         </div>
       ) : (
         <>
-          <div className="mb-[150px] h-full overflow-y-auto overflow-x-hidden">
+          <div className="mb-[150px] h-full overflow-y-auto overflow-x-hidden bg-zinc-100">
             <PlaceInfoPhotoBox photos={photoUriArr} />
-            <p className="mt-4 px-3 text-2xl font-bold">
+            <p className="mt-4 px-3 text-2xl font-bold text-sky-800">
               {selectedPlace ? selectedPlace.name : null}
             </p>
             <div className="mt-2 flex px-3">

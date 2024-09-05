@@ -265,7 +265,7 @@ const PlanCard = ({ docId, dateCount, planTitleState }: PlanCardProps) => {
             <Loading widthPx={80} heightPx={80} />
           </div>
         ) : (
-          <div className="h-full overflow-x-hidden overflow-y-scroll bg-blue-50">
+          <div className="h-full overflow-x-hidden overflow-y-scroll bg-zinc-100">
             <div className="flex w-full">
               <div className="ml-5 mt-2 flex min-w-[120px] items-center justify-center rounded bg-blue-100 px-4 py-1">
                 <p className="text-lg font-bold text-blue-900">{dateCount}</p>
@@ -278,7 +278,7 @@ const PlanCard = ({ docId, dateCount, planTitleState }: PlanCardProps) => {
               </div>
             </div>
             <div className="ml-5 py-2">
-              <span>出發時間：</span>
+              <span className="text-gray-500">出發時間：</span>
               <span
                 onClick={() => {
                   if (!isEditable) {
@@ -286,7 +286,7 @@ const PlanCard = ({ docId, dateCount, planTitleState }: PlanCardProps) => {
                   }
                   setShowStartTimeSetting(true);
                 }}
-                className={`${isEditable && "underline hover:cursor-pointer hover:font-bold"}`}
+                className={`${isEditable && "font-bold underline hover:cursor-pointer"}`}
               >
                 {planContent && planContent.trips[dayIndex].startTime}
               </span>
@@ -358,6 +358,7 @@ const PlanCard = ({ docId, dateCount, planTitleState }: PlanCardProps) => {
         {showStartTimeSetting && isEditable && (
           <StartTimeSetting
             planDocId={planDocId}
+            dateCount={dateCount}
             setShowStartTimeSetting={setShowStartTimeSetting}
           />
         )}

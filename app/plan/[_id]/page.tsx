@@ -3,7 +3,6 @@ import React from "react";
 import PlanContent from "@/components/Plan/PlanContent";
 import { UseMapContextProvider } from "@/contexts/UseMapMarkers";
 import dynamic from "next/dynamic";
-import { DB_getTripNameByDocId } from "@/libs/db/TripsDoc";
 
 const Map = dynamic(() => import("@/components/Plan/Map"), {
   ssr: false,

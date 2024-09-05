@@ -90,12 +90,12 @@ const PlaceStayTimeSetting = ({
       <div className="z-50 h-fit w-[320px] rounded-lg bg-white">
         <div className="flex h-full w-full flex-col justify-between p-4">
           <div className="flex justify-center">
-            <div className="mb-2 text-center text-xl font-bold">
+            <div className="mb-2 text-center text-xl font-bold text-sky-800">
               {place.name}
             </div>
           </div>
 
-          <div className="ml-2 text-lg">停留時間:</div>
+          <div className="ml-2 text-lg">停留時間：</div>
           <div className="my-2 flex w-full flex-nowrap items-center justify-between">
             <select
               onChange={(e) => setHour(e.target.value)}

@@ -114,14 +114,14 @@ const TrafficBox = ({
         onClick={() => {
           setIsShowModeSetting(true);
         }}
-        className={`mt-[120px] flex h-[40px] w-full items-center justify-between transition ${isEditable ? "hover:cursor-pointer" : null} ${isEditable ? "hover:bg-blue-200" : null} `}
+        className={`mt-[120px] flex h-[40px] w-full items-center justify-between transition ${isEditable && "hover:cursor-pointer hover:bg-blue-100"} `}
       >
         <div className="flex h-full items-center">
-          <div className="ml-14 h-full border-l-4 border-dotted border-blue-500"></div>
+          <div className="ml-14 h-full border-l-2 border-dotted border-blue-400"></div>
 
           <div className="ml-[40px] pl-2 pr-2">
             <Image
-              src={`/trafficIcon/${mode == "driving" ? "car" : mode == "transit" ? "bus" : mode == "walking" ? "walking" : "bike"}.png`}
+              src={`/trafficIcon/${mode == "driving" ? "car-blue" : mode == "transit" ? "bus-blue" : mode == "walking" ? "walking-blue" : "bike-blue"}.png`}
               alt={
                 mode === "driving"
                   ? "car icon"
@@ -135,10 +135,14 @@ const TrafficBox = ({
               height={24}
             />
           </div>
-          <div className="pl-2 pr-2">{distance},</div>
-          <div className="pl-2 pr-2">約 {durationText}</div>
+          <div className="pl-2 pr-2 text-blue-600">{distance},</div>
+          <div className="pl-2 pr-2 text-blue-600">約 {durationText}</div>
         </div>
-        {isEditable ? <div className="mr-5">&#10095;</div> : <></>}
+        {isEditable ? (
+          <div className="mr-5 text-blue-500">&#10095;</div>
+        ) : (
+          <></>
+        )}
       </div>
       {isShowModeSetting && isEditable && (
         <TrafficModeSetting

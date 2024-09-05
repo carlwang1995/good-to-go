@@ -33,7 +33,7 @@ const SignInCard = ({
 
   return (
     <>
-      <h2 className="mb-2 text-2xl font-bold">登入帳號</h2>
+      <h2 className="mb-2 text-2xl font-bold text-sky-800">登入帳號</h2>
       {isLogin ? (
         <>
           <div className="flex items-center p-2">

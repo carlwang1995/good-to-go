@@ -76,7 +76,7 @@ const ResultListBox = ({
             <p className="max-w-[380px] overflow-hidden text-ellipsis text-nowrap font-bold">
               {name}
             </p>
-            <p className="max-w-[380px] overflow-hidden text-ellipsis text-nowrap">
+            <p className="max-w-[380px] overflow-hidden text-ellipsis text-nowrap text-gray-500">
               {address}
             </p>
           </div>
