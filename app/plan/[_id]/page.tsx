@@ -9,10 +9,11 @@ const Map = dynamic(() => import("@/components/Plan/Map"), {
 });
 
 const Plan = async ({ params }: { params: { _id: string } }) => {
+  const docId = params._id;
   return (
     <main className="absolute top-[60px] flex h-[calc(100%-60px)] w-full">
       <UseMapContextProvider>
-        <PlanContent docId={params._id} />
+        <PlanContent docId={docId} />
         <div className="z-0 h-full w-full">
           <Map />
         </div>

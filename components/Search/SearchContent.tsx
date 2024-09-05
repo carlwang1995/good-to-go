@@ -121,7 +121,7 @@ const SearchContent = ({
   return (
     <>
       <div className="absolute left-0 top-0 z-30 flex h-full flex-col bg-blue-50">
-        <div className="flex max-h-16 min-h-16 w-[500px] items-center bg-blue-500 p-3">
+        <div className="flex max-h-16 min-h-16 w-[500px] items-center bg-sky-800 p-3">
           <span className="mr-3 min-w-7">
             <Image
               src="/left-arrow-white.png"
@@ -163,7 +163,7 @@ const SearchContent = ({
             <Image src="/search.png" alt="search" width={30} height={30} />
           </button>
         </div>
-        <div className="relative h-full max-w-[500px] items-center overflow-y-auto overflow-x-hidden bg-scroll pl-3 pr-3">
+        <div className="relative h-full max-w-[500px] items-center overflow-y-auto overflow-x-hidden bg-zinc-100 bg-scroll pl-3 pr-3">
           <div className="mt-2 flex w-full flex-wrap items-center text-lg">
             {message ? (
               message

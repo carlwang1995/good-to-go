@@ -28,24 +28,24 @@ type TripType = {
 
 const PlanContent = ({ docId }: { docId: string }) => {
   const [planTitleState, setPlanTitleState] = useState(false);
+  const [tripInfo, setTripInfo] = useState<TripType>();
   const [dayIndex, setDayIndex] = useState<string>("day1");
   const [dateCount, setDateCount] = useState<string>("第1天");
   const [isEditable, setIsEditable] = useState(false);
+  const [showEditInput, setShowEditInput] = useState(false);
   const dateSectionRef = useRef<HTMLDivElement | null>(null);
   const { user, userId } = useUser();
   const router = useRouter();
-  const [tripInfo, setTripInfo] = useState<TripType>();
-  const [showEditInput, setShowEditInput] = useState(false);
 
   useEffect(() => {
     if (docId) {
-      DB_getTripNameByDocId(docId).then((result: any) => {
+      DB_getTripNameByDocId(docId).then((result) => {
         if (result) {
           setTripInfo(result);
         }
       });
     }
-  }, [planTitleState, docId]);
+  }, []);
 
   // 判斷編輯、檢視權限
   useEffect(() => {
@@ -96,10 +96,10 @@ const PlanContent = ({ docId }: { docId: string }) => {
     }
   };
   return (
-    <div className="flex h-full min-w-[500px] max-w-[500px] flex-col border-r border-slate-200 bg-slate-50">
+    <div className="flex h-full min-w-[500px] max-w-[500px] flex-col">
       <div className="relative border-b border-solid border-slate-300 shadow-lg">
         <Image
-          priority={true}
+          priority
           fill={true}
           sizes="min-width:500px"
           src={
@@ -115,6 +115,7 @@ const PlanContent = ({ docId }: { docId: string }) => {
           <PlanTitleEditCard
             docId={docId}
             tripInfo={tripInfo}
+            setTripInfo={setTripInfo}
             setShowEditInput={setShowEditInput}
             setState={setPlanTitleState}
           />

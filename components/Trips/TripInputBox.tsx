@@ -125,12 +125,12 @@ const TripInput = ({
     }
   };
   return (
-    <div className="w-[500px] rounded-lg bg-white p-10">
-      <div className="text-xl font-bold">建立行程</div>
+    <div className="w-[500px] rounded-lg bg-zinc-100 p-10">
+      <div className="text-xl font-bold text-sky-800">建立行程</div>
       <br />
       <h3>旅遊日期</h3>
       <div
-        className="flex w-full rounded border-[1px] border-solid border-black p-2 hover:cursor-pointer"
+        className="flex w-full rounded border-[1px] border-solid border-black bg-white p-2 hover:cursor-pointer"
         onClick={() => setIsOpenCalendar(true)}
       >
         <div
@@ -156,7 +156,7 @@ const TripInput = ({
       )}
       <br />
       <h3>目的地</h3>
-      <div className="w-full rounded border border-solid border-black p-2">
+      <div className="w-full rounded border border-solid border-black bg-white p-2">
         <div className="flex flex-wrap">
           {destinaitonArray.length > 0 &&
             destinaitonArray.map((target, index) => (
@@ -206,9 +206,9 @@ const TripInput = ({
       )}
       <br />
       <h3>旅程名稱</h3>
-      <div className="flex w-full rounded border border-solid border-black p-2">
+      <div className="flex w-full rounded border border-solid border-black bg-white p-2">
         <input
-          className="w-full outline-none placeholder:text-[#8e8e8e]"
+          className="w-full bg-white outline-none placeholder:text-[#8e8e8e]"
           placeholder="輸入行程名稱"
           onChange={(e) => setInputTripName(e.target.value)}
           value={inputTripName}

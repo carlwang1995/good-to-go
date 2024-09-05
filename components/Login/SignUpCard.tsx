@@ -45,7 +45,7 @@ const SignUpCard = ({
   };
   return (
     <>
-      <h2 className="mb-2 text-2xl font-bold">註冊帳號</h2>
+      <h2 className="mb-2 text-2xl font-bold text-sky-800">註冊帳號</h2>
       {isLogUp ? (
         <>
           <div className="flex items-center p-2">

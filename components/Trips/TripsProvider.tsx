@@ -17,7 +17,7 @@ export const TripsProvider = () => {
 
   return (
     <div className="mx-10 w-[1100px] p-4">
-      <div className="my-5 text-3xl font-bold">
+      <div className="my-5 text-3xl font-bold text-sky-800">
         Hi, {userName ? userName : ""}
       </div>
       <TripsContent userId={userId} />

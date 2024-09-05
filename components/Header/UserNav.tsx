@@ -23,7 +23,9 @@ const UserNav = () => {
       <div className="mx-3 flex items-center justify-center">
         {!isLoading && (
           <Link href={user ? "/trips" : "/login"}>
-            <p className="text-xl transition hover:font-bold">開始規劃</p>
+            <p className="text-xl font-bold text-sky-800 transition">
+              開始規劃
+            </p>
           </Link>
         )}
       </div>
@@ -34,7 +36,7 @@ const UserNav = () => {
       ) : user ? (
         <div className="relative mx-3 flex items-center justify-center">
           <Image
-            className="rounded-full border-4 border-double border-slate-600 hover:cursor-pointer hover:border-2 hover:border-solid"
+            className="rounded-full border-2 border-solid border-sky-800 hover:cursor-pointer"
             src={photoUrl ? photoUrl : "/user.png"}
             alt="member"
             width={35}
@@ -59,7 +61,7 @@ const UserNav = () => {
       ) : (
         <Link style={{ textDecoration: "none" }} href="/login">
           <div className="hover:pointer mx-3 flex h-full items-center justify-center text-xl hover:font-bold">
-            <p>登入</p>
+            <p className="font-bold text-sky-800">登入</p>
           </div>
         </Link>
       )}
