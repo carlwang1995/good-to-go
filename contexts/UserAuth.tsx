@@ -154,6 +154,7 @@ function useProvideAuth() {
       setUserId("");
       setUserName("");
       setPhotoUrl("");
+      localStorage.removeItem("page");
     });
   };
 
