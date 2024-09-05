@@ -1,8 +1,8 @@
 import axios from "axios";
 import { NextResponse } from "next/server";
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
   const name = searchParams.get("name");
   const maxHeightPx = searchParams.get("heightPx");
   const maxWidthPx = searchParams.get("widthPx");

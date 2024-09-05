@@ -7,6 +7,8 @@
   margin: 0;
   box-sizing: border-box;
   color: black;
+  scrollbar-color: rgb(12 74 110) rgb(240 249 255);
+  scrollbar-width: thin;
 }
 
 body {

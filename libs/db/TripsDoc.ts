@@ -12,6 +12,18 @@ import {
   doc,
 } from "firebase/firestore";
 
+type TripType = {
+  userId: string;
+  tripName: string;
+  destination: Array<string>;
+  dates: Array<string>;
+  startDate: string;
+  endDate: string;
+  photo: { fileName: string; photoUrl: string };
+  privacy: boolean;
+  createTime: string;
+};
+
 const DB_createNewTrip = async (trip: object) => {
   try {
     let decRef = await addDoc(collection(db, "trips"), trip);
@@ -45,7 +57,7 @@ const DB_getTripNameByDocId = async (docId: string) => {
   const docRef = doc(db, "trips", docId);
   try {
     const response = await getDoc(docRef);
-    const result = response.data();
+    const result = response.data() as TripType;
     if (result !== undefined) {
       return result;
     } else {

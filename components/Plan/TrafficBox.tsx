@@ -106,7 +106,7 @@ const TrafficBox = ({
       const formattedTime = convertTimeString(duration.text);
       handleTrafficTime(String(number), originId, destinationId, formattedTime);
     }
-  }, []);
+  }, [mode, destinationId, originId]);
 
   return (
     <>

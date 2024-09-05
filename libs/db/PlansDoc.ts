@@ -13,6 +13,28 @@ import {
 } from "firebase/firestore";
 import { getTimeNow } from "../timeConvertor";
 
+type PlaceType = {
+  id: number;
+  placeId: string;
+  name: string;
+  address: string;
+  location: { latitude: number; longitude: number };
+  openTime: Array<string>;
+  stayTime: string;
+  trafficMode: string;
+  photos: Array<string>;
+};
+interface PlanContentType {
+  docId: string;
+  trips: {
+    [key: string]: {
+      startTime: string;
+      places: Array<PlaceType>;
+      lastEditTime: string;
+    };
+  };
+}
+
 const DB_createNewPlan = async (plan: { docId: string; trips: object }) => {
   try {
     await addDoc(collection(db, "plans"), plan);
@@ -48,14 +70,14 @@ const DB_getPlanByTripsDocId = async (docId: string) => {
       planDocIdArr.push(doc.id);
     });
     const planDocId: string = planDocIdArr[0];
-    const planContent: { trips: object } = resultArr[0];
+    const planContent: PlanContentType = resultArr[0];
     return { planDocId, planContent };
   } catch (e) {
     console.error(e);
   }
 };
 
-type PlaceType = {
+type UpdatePlaceType = {
   id?: number;
   placeId: string;
   name: string;
@@ -66,10 +88,11 @@ type PlaceType = {
   stayTime?: string;
   trafficMode?: string;
 };
+
 const DB_updateTripPlan = async (
   dayIndex: string,
   docId: string,
-  place: PlaceType,
+  place: UpdatePlaceType,
 ) => {
   const docRef = doc(db, "plans", docId);
   try {

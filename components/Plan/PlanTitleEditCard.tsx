@@ -20,15 +20,39 @@ type TripType = {
   privacy: boolean;
   createTime: string;
 };
+interface PlaceType {
+  id: number;
+  placeId: string;
+  name: string;
+  address: string;
+  location: { latitude: number; longitude: number };
+  openTime: Array<string>;
+  stayTime: string;
+  trafficMode: string;
+  photos: Array<string>;
+}
+
+interface PlanContentType {
+  docId: string;
+  trips: {
+    [key: string]: {
+      startTime: string;
+      places: Array<PlaceType>;
+      lastEditTime: string;
+    };
+  };
+}
 
 const PlanTitleEditCard = ({
   docId,
   tripInfo,
+  setTripInfo,
   setShowEditInput,
   setState,
 }: {
   docId: string;
   tripInfo: TripType | undefined;
+  setTripInfo: React.Dispatch<React.SetStateAction<TripType | undefined>>;
   setShowEditInput: React.Dispatch<React.SetStateAction<boolean>>;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
@@ -48,7 +72,16 @@ const PlanTitleEditCard = ({
   const [isCreating, setIsCreating] = useState<boolean>(false);
   const [isOpenCalendar, setIsOpenCalendar] = useState<boolean>(false);
 
-  const updateHandler = async (docId: string, value: object) => {
+  const updateHandler = async (
+    docId: string,
+    value: {
+      dates: string[];
+      startDate: string;
+      endDate: string;
+      tripName: string;
+      destination: string[];
+    },
+  ) => {
     try {
       if (!tripInfo) {
         return;
@@ -75,13 +108,21 @@ const PlanTitleEditCard = ({
           newTrips.planDocId,
           newTrips.trips,
         );
-        if (dateRangeResult.error) {
+        if (dateRangeResult.ok) {
+          setState((prev) => !prev);
+        } else if (dateRangeResult.error) {
           throw new Error(dateRangeResult.message);
         }
       }
       const result = await DB_updateTripInfoByDocId(docId, value);
       if (result.ok) {
-        setState((prev) => !prev);
+        const newTripInfo = { ...tripInfo };
+        newTripInfo.dates = value.dates;
+        newTripInfo.startDate = value.startDate;
+        newTripInfo.endDate = value.endDate;
+        newTripInfo.destination = value.destination;
+        newTripInfo.tripName = value.tripName;
+        setTripInfo(newTripInfo);
       }
     } catch (e) {
       console.error(e);
@@ -123,10 +164,10 @@ const PlanTitleEditCard = ({
               }
               const value = {
                 dates: getDateBetween(startDate!, endDate!),
-                startDate: startDate,
-                endDate: endDate,
-                tripName: inputTripName,
-                destination: destinaitonArray,
+                startDate: startDate!,
+                endDate: endDate!,
+                tripName: inputTripName!,
+                destination: destinaitonArray!,
               };
               updateHandler(docId, value);
             }}

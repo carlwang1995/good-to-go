@@ -80,7 +80,7 @@ const PlaceInfoCard = ({
       </div>
       {isLoading ? (
         <div className="my-4 flex justify-center">
-          <Loading widthPx={50} heightPx={50}></Loading>
+          <Loading widthPx={80} heightPx={80}></Loading>
         </div>
       ) : (
         <>
@@ -92,7 +92,7 @@ const PlaceInfoCard = ({
             <div className="mt-2 flex px-3">
               <p className="mr-1">評價：</p>
               <p className="mr-1">
-                {selectedPlace ? selectedPlace.rating : null}
+                {selectedPlace ? selectedPlace.rating : null}/5.0
               </p>
               <p>
                 {selectedPlace && "(" + String(selectedPlace.ratingCount) + ")"}
