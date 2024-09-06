@@ -13,6 +13,7 @@ const PrivacySettingCard = ({
   currentPrivacy: boolean;
 }) => {
   const [privacy, setPrivacy] = useState(currentPrivacy);
+  const [copyMessage, setCopyMessage] = useState("");
 
   const setState = useContext(StateContext);
   if (!setState) {
@@ -69,11 +70,29 @@ const PrivacySettingCard = ({
                 <p>
                   行程將分享至「探索行程」列表，所有人都可以瀏覽。或透過以下連結分享：
                 </p>
-                <p className="text-sm text-gray-500">
-                  {process.env.NODE_ENV === "development"
-                    ? `http://localhost:3000/plan/${docId}`
-                    : `https://goodtogo-project.vercel.app/plan/${docId}`}
-                </p>
+                <div className="mt-2 flex items-center">
+                  <p className="mr-2 text-sm text-gray-500">
+                    {process.env.NODE_ENV === "development"
+                      ? `http://localhost:3000/plan/${docId}`
+                      : `https://goodtogo-project.vercel.app/plan/${docId}`}
+                  </p>
+                  <div
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        process.env.NODE_ENV === "development"
+                          ? `http://localhost:3000/plan/${docId}`
+                          : `https://goodtogo-project.vercel.app/plan/${docId}`,
+                      );
+                      setCopyMessage("已複製");
+                    }}
+                    className="hover:cursor-pointer"
+                  >
+                    <Image src="/copy.png" alt="copy" width={24} height={24} />
+                  </div>
+                  {copyMessage && (
+                    <p className="ml-2 text-green-500">&#10003; 已複製</p>
+                  )}
+                </div>
               </>
             ) : (
               <p className="pb-[20px]">只有您可以瀏覽此行程。</p>

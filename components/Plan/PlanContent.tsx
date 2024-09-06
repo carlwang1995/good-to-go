@@ -118,6 +118,7 @@ const PlanContent = ({ docId }: { docId: string }) => {
             setTripInfo={setTripInfo}
             setShowEditInput={setShowEditInput}
             setState={setPlanTitleState}
+            setDayIndex={setDayIndex}
           />
         ) : (
           <PlanTitleCard

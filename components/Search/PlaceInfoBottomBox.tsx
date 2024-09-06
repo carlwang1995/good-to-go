@@ -89,12 +89,12 @@ const PlaceInfoBottomBox = ({
     }
   };
   return (
-    <div className="absolute bottom-0 flex h-[150px] min-h-[150px] w-full flex-col justify-center pb-1 shadow-[0_-2px_10px_2px_rgba(0,0,0,0.1)]">
+    <div className="absolute bottom-0 flex h-[130px] min-h-[130px] w-full flex-col justify-center bg-white pb-1 shadow-[0_-2px_10px_2px_rgba(0,0,0,0.1)]">
       {addDone ? (
         <div className="flex h-full items-center justify-center">
-          <div className="my-2 flex flex-col">
-            <div className="p-2 text-xl font-bold text-green-500">
-              加入成功！
+          <div className="flex flex-col items-center">
+            <div className="p-2 text-xl text-green-500">
+              &#10004; 加入成功！
             </div>
             <button
               onClick={() => {
@@ -102,7 +102,7 @@ const PlaceInfoBottomBox = ({
                 setIsShowSearchResult(false);
                 setPlaceLatLng(null);
               }}
-              className="rounded border border-solid border-black bg-red-500 p-1 text-xl text-white hover:cursor-pointer hover:bg-red-700"
+              className="w-fit rounded bg-red-400 px-2 py-1 text-xl text-white hover:bg-red-600"
             >
               結束搜尋
             </button>
@@ -110,7 +110,7 @@ const PlaceInfoBottomBox = ({
         </div>
       ) : (
         <>
-          <div className="flex w-full items-center justify-center px-3">
+          <div className="mb-4 flex w-full items-center justify-center">
             <Image
               className="mr-1 h-[15px]"
               src="/stay-time-icon.png"
@@ -119,7 +119,7 @@ const PlaceInfoBottomBox = ({
               height={15}
             ></Image>
             <p>預計停留：</p>
-            <div className="my-2 flex flex-nowrap items-center">
+            <div className="flex flex-nowrap items-center">
               <select
                 onChange={(e) => setHour(e.target.value)}
                 value={hour}
@@ -176,7 +176,7 @@ const PlaceInfoBottomBox = ({
                 addPlace(selectedPlace, planDocId);
                 setPlaceLatLng(null);
               }}
-              className="mt-2 rounded border border-solid border-blue-700 bg-blue-500 px-2 py-1 text-lg text-white transition hover:bg-blue-700"
+              className="rounded border border-blue-700 bg-blue-500 px-2 py-1 text-xl text-white transition hover:bg-blue-700"
             >
               加入行程
             </button>

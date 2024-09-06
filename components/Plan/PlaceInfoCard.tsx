@@ -45,15 +45,27 @@ const PlaceInfoCard = ({
           <p className="text-2xl font-bold text-sky-800">
             {placeInfo ? placeInfo.name : null}
           </p>
-          <p className="mt-4 text-lg">{placeInfo ? placeInfo.address : null}</p>
+          <p className="mt-2 text-lg">{placeInfo ? placeInfo.address : null}</p>
         </div>
-        <div className="mt-4 flex px-3 text-lg font-semibold">營業時間：</div>
-        <div className="felx-col flexr mb-4 mt-2 px-3">
-          {placeInfo?.openTime.map((weekday, index) => (
-            <p key={index} className="mt-1">
-              {weekday}
-            </p>
-          ))}
+        <div className="mt-4 flex items-center px-3">
+          <Image src="/clock.png" alt="clcok" width={24} height={24} />
+          <div className="ml-2 text-lg font-bold text-sky-800">營業時間</div>
+        </div>
+        <div className="mb-4 mt-2 flex px-3">
+          <Image
+            src="/week.png"
+            alt="week"
+            width={24}
+            height={24}
+            className="mt-2 h-[24px]"
+          />
+          <div className="mb-4 ml-2 flex flex-col">
+            {placeInfo?.openTime.map((weekday, index) => (
+              <p key={index} className="mt-2">
+                {weekday}
+              </p>
+            ))}
+          </div>
         </div>
       </div>
     </div>
