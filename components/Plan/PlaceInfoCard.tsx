@@ -25,7 +25,7 @@ const PlaceInfoCard = ({
   const { setPlaceLatLng } = useMapMarkers();
 
   return (
-    <div className="fixed bottom-0 left-[500px] z-20 flex h-[calc(100%-60px)] w-[380px] flex-col overflow-hidden bg-white">
+    <div className="fixed bottom-0 left-[500px] z-20 flex h-[calc(100%-60px)] w-[380px] flex-col overflow-hidden bg-white max-[980px]:left-0 max-[980px]:h-[calc(70%-40px)] max-[980px]:w-full">
       <div className="flex min-h-16 items-center justify-end">
         <Image
           src="/close.png"
