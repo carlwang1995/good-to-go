@@ -96,8 +96,8 @@ const PlanContent = ({ docId }: { docId: string }) => {
     }
   };
   return (
-    <div className="flex h-full min-w-[500px] max-w-[500px] flex-col">
-      <div className="relative border-b border-solid border-slate-300 shadow-lg">
+    <div className="flex h-full min-w-[500px] flex-col max-[980px]:min-h-[70%] max-[980px]:min-w-full">
+      <div className="relative z-10 w-full border-b border-solid border-slate-300 shadow-lg">
         <Image
           priority
           fill={true}
