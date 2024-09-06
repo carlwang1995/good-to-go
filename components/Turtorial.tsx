@@ -32,6 +32,7 @@ const Turtorial = () => {
                 alt="create-trip"
                 fill
                 className="object-cover"
+                sizes="height:300px"
               />
             </div>
             <div className="mx-2 my-4 flex h-[300px] w-1/2 flex-col justify-center">
@@ -56,6 +57,7 @@ const Turtorial = () => {
                 alt="plan-trip"
                 fill
                 className="object-cover"
+                sizes="height:300px"
               />
             </div>
             <div className="mx-2 my-4 flex h-[300px] w-1/2 flex-col justify-center">
@@ -80,6 +82,7 @@ const Turtorial = () => {
                 alt="share-trip"
                 fill
                 className="object-cover"
+                sizes="height:300px"
               />
             </div>
             <div className="mx-2 my-4 flex h-[300px] w-1/2 flex-col justify-center">
