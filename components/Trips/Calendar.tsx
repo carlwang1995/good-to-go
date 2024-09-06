@@ -60,33 +60,62 @@ const CalendarCard = ({
   };
 
   return (
-    <div className="absolute z-10 h-[460px] w-fit rounded-lg bg-white p-5">
-      <DateRange
-        showDateDisplay={false}
-        onChange={(item: any) => setDateRange([item.selection])}
-        moveRangeOnFirstSelection={false}
-        ranges={dateRange}
-        months={2}
-        direction="horizontal"
-        locale={zhCN}
-      />
-      <div className="absolute bottom-5 right-5 flex justify-end">
-        <button
-          className="mr-3 mt-5 rounded px-2 py-1 text-lg text-blue-500 hover:bg-blue-50"
-          onClick={() => {
-            setIsOpenCalendar(false);
-          }}
-        >
-          返回
-        </button>
-        <button
-          className="mt-5 rounded border border-solid border-black bg-blue-500 px-2 py-1 text-lg text-white transition hover:cursor-pointer hover:bg-blue-700"
-          onClick={confirmDateRange}
-        >
-          確認
-        </button>
+    <>
+      <div className="absolute z-10 flex h-[440px] w-fit rounded-lg bg-white p-1 max-[700px]:hidden">
+        <DateRange
+          showDateDisplay={false}
+          onChange={(item: any) => setDateRange([item.selection])}
+          moveRangeOnFirstSelection={false}
+          ranges={dateRange}
+          months={2}
+          direction="horizontal"
+          locale={zhCN}
+        />
+        <div className="absolute bottom-5 right-5 flex justify-end">
+          <button
+            className="mr-3 rounded px-2 py-1 text-lg text-blue-500 hover:bg-blue-50"
+            onClick={() => {
+              setIsOpenCalendar(false);
+            }}
+          >
+            返回
+          </button>
+          <button
+            className="rounded border border-black bg-blue-500 px-2 py-1 text-lg text-white transition hover:cursor-pointer hover:bg-blue-700"
+            onClick={confirmDateRange}
+          >
+            確認
+          </button>
+        </div>
       </div>
-    </div>
+      <div className="absolute z-10 flex h-[440px] w-fit rounded-lg bg-white p-1 min-[700px]:hidden">
+        <DateRange
+          showDateDisplay={false}
+          onChange={(item: any) => setDateRange([item.selection])}
+          moveRangeOnFirstSelection={false}
+          ranges={dateRange}
+          months={1}
+          direction="horizontal"
+          locale={zhCN}
+        />
+        <div className="absolute bottom-5 right-5 flex justify-end">
+          <button
+            className="mr-3 rounded px-2 py-1 text-lg text-blue-500 hover:bg-blue-50"
+            onClick={() => {
+              setIsOpenCalendar(false);
+            }}
+          >
+            返回
+          </button>
+          <button
+            className="rounded border border-black bg-blue-500 px-2 py-1 text-lg text-white transition hover:cursor-pointer hover:bg-blue-700"
+            onClick={confirmDateRange}
+          >
+            確認
+          </button>
+        </div>
+      </div>
+    </>
   );
 };
 

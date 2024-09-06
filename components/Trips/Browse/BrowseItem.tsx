@@ -30,8 +30,8 @@ const BrowseItem = ({ trip }: { trip: TripType }) => {
 
   return (
     <Link href={`/plan/${trip.docId}`}>
-      <div className="my-2 flex h-48 w-full rounded-md bg-white p-4 shadow-md transition hover:cursor-pointer hover:shadow-xl">
-        <div className="relative h-full w-64 rounded-lg bg-slate-500">
+      <div className="my-2 flex h-fit w-full rounded-md bg-white p-4 shadow-md transition hover:cursor-pointer hover:shadow-xl max-sm:block">
+        <div className="relative h-48 rounded-lg bg-slate-500 max-sm:min-w-48 sm:min-w-64">
           <Image
             src={trip.photo.photoUrl}
             priority={true}
@@ -47,22 +47,27 @@ const BrowseItem = ({ trip }: { trip: TripType }) => {
             </p>
           </div>
         </div>
+        {/* --- */}
         <div className="ml-4 flex flex-col justify-between">
           <div className="mt-2 items-center">
-            <p className="text-2xl font-bold text-sky-800">{trip.tripName}</p>
+            <p className="text-2xl font-bold text-sky-800 max-sm:text-xl">
+              {trip.tripName}
+            </p>
             <div className="mt-2 flex items-center">
-              <p className="text-lg text-gray-500">
+              <p className="text-lg text-gray-500 max-sm:text-base">
                 {trip.destination.toString()}
               </p>
             </div>
           </div>
           <div className="mt-2 flex items-end">
-            <p className={`text-lg ${userId === authorId && "text-blue-700"}`}>
+            <p
+              className={`text-lg ${userId === authorId && "text-blue-700"} max-sm:text-base`}
+            >
               {authorName}
               {userId === authorId && " (您)"}
             </p>
             <span className="mx-1">｜</span>
-            <p className="text-base text-gray-400">
+            <p className="text-base text-gray-400 max-sm:text-sm">
               {trip.createTime.split(" ")[0]}
             </p>
           </div>

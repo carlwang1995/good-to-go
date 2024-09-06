@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 
 type UserSettingProps = {
+  user: string | boolean;
   userName: string;
   userEmail: string;
   photoUrl: string;
@@ -15,7 +16,7 @@ const UserSetting = ({
   signOut,
 }: UserSettingProps) => {
   return (
-    <div className="absolute right-0 top-[50px] z-10 w-[300px] rounded-xl bg-white p-5">
+    <div className="absolute right-0 top-[50px] z-10 w-[300px] rounded-xl bg-white p-5 max-sm:hidden">
       <div className="flex items-center">
         <Image
           src={photoUrl ? photoUrl : "/user.png"}

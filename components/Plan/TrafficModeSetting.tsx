@@ -80,7 +80,7 @@ const TrafficModeSetting = ({
         onClick={() => setIsShowing(false)}
         className="absolute h-full w-full items-center justify-center"
       ></div>
-      <div className="z-50 h-fit min-w-[320px] rounded-lg bg-white">
+      <div className="z-50 h-fit min-w-[320px] rounded-lg bg-zinc-100">
         <div className="flex h-full w-full flex-col p-4">
           <div className="flex justify-center"></div>
           <div className="ml-2 text-lg font-bold text-sky-800">
