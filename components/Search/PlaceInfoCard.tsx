@@ -84,13 +84,17 @@ const PlaceInfoCard = ({
         </div>
       ) : (
         <>
-          <div className="mb-[150px] h-full overflow-y-auto overflow-x-hidden bg-zinc-100">
+          <div className="mb-[130px] h-full overflow-y-auto overflow-x-hidden bg-zinc-100">
             <PlaceInfoPhotoBox photos={photoUriArr} />
             <p className="mt-4 px-3 text-2xl font-bold text-sky-800">
               {selectedPlace ? selectedPlace.name : null}
             </p>
-            <div className="mt-2 flex px-3">
-              <p className="mr-1">評價：</p>
+            <p className="mt-2 px-3 text-lg">
+              {selectedPlace ? selectedPlace.address : null}
+            </p>
+            <div className="mt-4 flex items-center px-3">
+              <Image src="/star.png" alt="star" width={24} height={24} />
+              <p className="ml-2 mr-1">評價：</p>
               <p className="mr-1">
                 {selectedPlace ? selectedPlace.rating : null}/5.0
               </p>
@@ -98,9 +102,6 @@ const PlaceInfoCard = ({
                 {selectedPlace && "(" + String(selectedPlace.ratingCount) + ")"}
               </p>
             </div>
-            <p className="mt-4 px-3 text-lg">
-              {selectedPlace ? selectedPlace.address : null}
-            </p>
             <div className="mt-4 flex items-center px-3">
               <Image
                 src={`/${selectedPlace?.openNow ? "open" : "closed"}.png`}
@@ -108,8 +109,8 @@ const PlaceInfoCard = ({
                 width={24}
                 height={24}
               />
-              <div className="ml-2 flex text-lg">
-                <p className="font-bold text-sky-800">營業現況：</p>
+              <div className="ml-2 flex">
+                <p className="">營業狀況：</p>
                 {selectedPlace?.openNow ? (
                   <p className="text-green-500">營業中</p>
                 ) : (
@@ -125,7 +126,7 @@ const PlaceInfoCard = ({
                 height={24}
                 className="mt-2 h-[24px]"
               />
-              <div className="ml-2 flex flex-col">
+              <div className="mb-4 ml-2 flex flex-col">
                 {selectedPlace?.openTime.map((weekday, index) => (
                   <p key={index} className="mt-2">
                     {weekday}
