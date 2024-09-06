@@ -77,7 +77,7 @@ const SignInCard = ({
           </div>
           <button
             onClick={() => router.push("/")}
-            className="mt-4 flex w-full items-center justify-center rounded border border-solid border-blue-700 bg-blue-500 px-2 py-1 text-lg transition hover:bg-blue-700"
+            className="m-4 flex w-full items-center justify-center rounded border border-blue-700 bg-blue-500 px-2 py-1 text-lg transition hover:bg-blue-700"
           >
             <p className="text-white">返回首頁</p>
           </button>

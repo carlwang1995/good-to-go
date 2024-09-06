@@ -40,7 +40,7 @@ const PrivacySettingCard = ({
         onClick={() => setShowPravicy(false)}
         className="absolute h-full w-full items-center justify-center"
       ></div>
-      <div className="z-50 h-fit w-[380px] min-w-[600px] rounded-lg bg-white">
+      <div className="z-50 mx-4 h-fit rounded-lg bg-white max-sm:w-full sm:min-w-[600px]">
         <div className="flex h-full w-full flex-col p-4">
           <div className="flex justify-center"></div>
           <div className="mx-2 mb-2 flex items-center">
@@ -64,17 +64,32 @@ const PrivacySettingCard = ({
             </div>
             <div className="ml-1 text-lg">{privacy ? "公開" : "私人"}</div>
           </div>
-          <div className="m-2 text-wrap">
+          <div className="m-2">
             {privacy ? (
               <>
-                <p>
+                <p className="text-wrap">
                   行程將分享至「探索行程」列表，所有人都可以瀏覽。或透過以下連結分享：
                 </p>
-                <div className="mt-2 flex items-center">
-                  <p className="mr-2 text-sm text-gray-500">
+                <div className="mt-2 flex h-fit items-center text-wrap max-sm:block">
+                  <p className="mr-2 text-sm text-gray-500 max-sm:hidden max-sm:break-all">
                     {process.env.NODE_ENV === "development"
                       ? `http://localhost:3000/plan/${docId}`
                       : `https://goodtogo-project.vercel.app/plan/${docId}`}
+                  </p>
+                  <p
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        process.env.NODE_ENV === "development"
+                          ? `http://localhost:3000/plan/${docId}`
+                          : `https://goodtogo-project.vercel.app/plan/${docId}`,
+                      );
+                      setCopyMessage("已複製");
+                    }}
+                    className="mr-2 hidden text-sm text-gray-500 max-sm:block max-sm:break-all"
+                  >
+                    {process.env.NODE_ENV === "development"
+                      ? `http://localhost:3000/plan/${docId} (按一下即可複製)`
+                      : `https://goodtogo-project.vercel.app/plan/${docId} (按一下即可複製)`}
                   </p>
                   <div
                     onClick={() => {
@@ -87,7 +102,13 @@ const PrivacySettingCard = ({
                     }}
                     className="hover:cursor-pointer"
                   >
-                    <Image src="/copy.png" alt="copy" width={24} height={24} />
+                    <Image
+                      src="/copy.png"
+                      alt="copy"
+                      width={24}
+                      height={24}
+                      className="max-sm:hidden"
+                    />
                   </div>
                   {copyMessage && (
                     <p className="ml-2 text-green-500">&#10003; 已複製</p>

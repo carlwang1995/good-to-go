@@ -92,9 +92,8 @@ const UploadCard = ({
         onClick={() => setShowUpload(false)}
         className="absolute h-full w-full items-center justify-center"
       ></div>
-      <div className="z-50 h-fit min-w-[380px] rounded-lg bg-white">
-        <div className="flex h-full w-full flex-col p-4">
-          <div className="flex justify-center"></div>
+      <div className="z-50 mx-4 h-fit w-[380px] rounded-lg bg-white max-[420px]:w-full">
+        <div className="flex h-full w-full flex-col p-4 max-[420px]:px-2">
           <div className="mx-2 flex items-center">
             <Image
               src="/upload-sky.png"
@@ -109,7 +108,7 @@ const UploadCard = ({
             <span>{uploadState ? `${uploadState}： ` : null}</span>
             <span>{uploadState && uploadProgress ? uploadProgress : null}</span>
           </div>
-          <div className="mx-2 my-4 overflow-hidden border border-solid border-slate-500 p-2">
+          <div className="mx-2 my-4 overflow-hidden border border-sky-800 p-1">
             {message ? (
               <div>{message}</div>
             ) : (

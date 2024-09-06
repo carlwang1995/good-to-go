@@ -16,6 +16,7 @@ const CreateTripCard = ({ setDisplay }: CreateTripCardProps) => {
       <TripInputBox
         startDate={startDate}
         endDate={endDate}
+        isOpenCalendar={isOpenCalendar}
         setIsOpenCalendar={setIsOpenCalendar}
         setDisplay={setDisplay}
         setStartDate={setStartDate}

@@ -66,7 +66,7 @@ const StartTimeSetting = ({
         onClick={() => setShowStartTimeSetting(false)}
         className="absolute h-full w-full items-center justify-center bg-black/80"
       ></div>
-      <div className="z-50 h-fit w-[320px] rounded-lg bg-white">
+      <div className="z-50 h-fit w-[320px] rounded-lg bg-zinc-100">
         <div className="flex h-full w-full flex-col justify-between p-4">
           <div className="mx-2 text-xl font-bold text-sky-800">
             出發時間：{dateCount}
@@ -75,7 +75,7 @@ const StartTimeSetting = ({
             <select
               onChange={(e) => setPeriod(e.target.value)}
               value={period}
-              className="m-2 w-1/3 rounded border border-solid border-slate-400 p-2"
+              className="m-2 w-1/3 rounded border border-solid border-slate-400 bg-white p-2"
             >
               <option value="AM">AM</option>
               <option value="PM">PM</option>
@@ -83,7 +83,7 @@ const StartTimeSetting = ({
             <select
               onChange={(e) => setHour(e.target.value)}
               value={hour}
-              className="m-2 w-1/3 rounded border border-solid border-slate-400 p-2"
+              className="m-2 w-1/3 rounded border border-solid border-slate-400 bg-white p-2"
             >
               <option value="00">12</option>
               <option value="01">01</option>
@@ -102,7 +102,7 @@ const StartTimeSetting = ({
             <select
               onChange={(e) => setMinute(e.target.value)}
               value={minute}
-              className="m-2 w-1/3 rounded border border-solid border-slate-400 p-2"
+              className="m-2 w-1/3 rounded border border-solid border-slate-400 bg-white p-2"
             >
               <option value="00">00</option>
               <option value="05">05</option>

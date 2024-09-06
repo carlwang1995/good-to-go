@@ -12,6 +12,7 @@ import { getTimeNow } from "@/libs/timeConvertor";
 type TripInputProps = {
   startDate: string;
   endDate: string;
+  isOpenCalendar: boolean;
   setStartDate: React.Dispatch<React.SetStateAction<string>>;
   setEndDate: React.Dispatch<React.SetStateAction<string>>;
   setDisplay: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,6 +22,7 @@ type TripInputProps = {
 const TripInput = ({
   startDate,
   endDate,
+  isOpenCalendar,
   setStartDate,
   setEndDate,
   setDisplay,
@@ -125,7 +127,9 @@ const TripInput = ({
     }
   };
   return (
-    <div className="w-[500px] rounded-lg bg-zinc-100 p-10">
+    <div
+      className={`mx-4 w-[500px] rounded-lg bg-zinc-100 p-10 ${isOpenCalendar && "hidden"}`}
+    >
       <div className="text-xl font-bold text-sky-800">建立行程</div>
       <br />
       <h3>旅遊日期</h3>
@@ -172,8 +176,23 @@ const TripInput = ({
         <div className="relative flex w-full">
           <input
             autoFocus
-            className="w-full outline-none placeholder:text-[#8e8e8e]"
+            className="w-full outline-none placeholder:text-[#8e8e8e] max-sm:hidden"
             placeholder="輸入後按下「Enter」，加入多個城市"
+            value={inputDestination}
+            onChange={(e: any) => {
+              setInputDestination(e.target.value);
+            }}
+            onKeyDown={(e: any) => {
+              if (e.key === "Enter" && inputDestination) {
+                setDestinaitonArray((prev) => [...prev, inputDestination]);
+                setInputDestination("");
+              }
+            }}
+          ></input>
+          <input
+            autoFocus
+            className="hidden w-full outline-none placeholder:text-[#8e8e8e] max-sm:block"
+            placeholder="加入多個城市"
             value={inputDestination}
             onChange={(e: any) => {
               setInputDestination(e.target.value);

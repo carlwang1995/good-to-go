@@ -87,7 +87,7 @@ const PlaceStayTimeSetting = ({
         onClick={() => setShowStaySetting(false)}
         className="absolute h-full w-full items-center justify-center"
       ></div>
-      <div className="z-50 h-fit w-[320px] rounded-lg bg-white">
+      <div className="z-50 h-fit w-[320px] rounded-lg bg-zinc-100">
         <div className="flex h-full w-full flex-col justify-between p-4">
           <div className="flex justify-center">
             <div className="mb-2 text-center text-xl font-bold text-sky-800">
@@ -100,7 +100,7 @@ const PlaceStayTimeSetting = ({
             <select
               onChange={(e) => setHour(e.target.value)}
               value={hour}
-              className="m-2 w-1/2 rounded border border-solid border-slate-400 p-2"
+              className="m-2 w-1/2 rounded border border-solid border-slate-400 bg-white p-2"
             >
               <option value="00">0 小時</option>
               <option value="01">1 小時</option>
@@ -130,7 +130,7 @@ const PlaceStayTimeSetting = ({
             <select
               onChange={(e) => setMinute(e.target.value)}
               value={minute}
-              className="m-2 w-1/2 rounded border border-solid border-slate-400 p-2"
+              className="m-2 w-1/2 rounded border border-solid border-slate-400 bg-white p-2"
             >
               <option value="00">0 分鐘</option>
               <option value="05">5 分鐘</option>
