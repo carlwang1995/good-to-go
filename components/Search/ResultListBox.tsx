@@ -71,7 +71,7 @@ const ResultListBox = ({
           setAddDone(false);
         }}
       >
-        <div className="m-2 flex">
+        <div className="m-2 flex overflow-x-hidden">
           <div className="ml-2 flex h-full flex-col justify-center">
             <p className="max-w-[380px] overflow-hidden text-ellipsis text-nowrap font-bold">
               {name}

@@ -60,12 +60,12 @@ const CalendarCard = ({
   };
 
   return (
-    <>
+    <div className="relative z-[100]">
       <div
         onClick={() => setIsOpenCalendar(false)}
-        className="fixed right-0 top-0 z-40 h-screen w-screen"
+        className="fixed right-0 top-0 z-[400] h-screen w-screen max-[980px]:bg-black/50"
       ></div>
-      <div className="fixed left-3 top-44 z-50 h-[460px] w-fit rounded-lg border bg-white p-5 shadow-lg">
+      <div className="fixed left-3 top-44 z-[500] h-[460px] w-fit rounded-lg border bg-white p-1 shadow-lg max-[980px]:left-[calc(50%-170px)] max-[980px]:top-[calc(50%-170px)]">
         <DateRange
           showDateDisplay={false}
           onChange={(item: any) => setDateRange([item.selection])}
@@ -92,7 +92,7 @@ const CalendarCard = ({
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

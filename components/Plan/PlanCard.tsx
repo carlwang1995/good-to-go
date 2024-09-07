@@ -261,24 +261,28 @@ const PlanCard = ({ docId, dateCount, planTitleState }: PlanCardProps) => {
     <PlanContentContext.Provider value={{ planContent, setPlanContent }}>
       <DocIdContext.Provider value={planDocId}>
         {isLoading ? (
-          <div className="relative z-20 mt-10 flex h-full w-full items-center justify-center">
+          <div className="relative z-10 mt-10 flex h-full w-full items-center justify-center">
             <Loading widthPx={80} heightPx={80} />
           </div>
         ) : (
           <div className="h-full overflow-x-hidden overflow-y-scroll bg-zinc-100">
             <div className="flex w-full">
-              <div className="ml-5 mt-2 flex min-w-[120px] items-center justify-center rounded bg-blue-100 px-4 py-1">
-                <p className="text-lg font-bold text-blue-900">{dateCount}</p>
+              <div className="ml-5 mt-2 flex min-w-[120px] items-center justify-center rounded bg-blue-100 px-4 py-1 max-sm:min-w-[110px]">
+                <p className="text-lg font-bold text-blue-900 max-sm:text-base">
+                  {dateCount}
+                </p>
               </div>
               <div className="mr-5 flex w-full items-end justify-end">
-                <p className="text-sm italic text-gray-400">最後編輯於:</p>
-                <p className="ml-1 text-sm italic text-gray-400">
+                <p className="text-sm italic text-gray-400 max-sm:text-xs">
+                  最後編輯於:
+                </p>
+                <p className="ml-1 text-sm italic text-gray-400 max-sm:text-xs">
                   {lastEditTime}
                 </p>
               </div>
             </div>
             <div className="ml-5 py-2">
-              <span className="text-gray-500">出發時間：</span>
+              <span className="text-gray-500 max-sm:text-sm">出發時間：</span>
               <span
                 onClick={() => {
                   if (!isEditable) {
@@ -316,7 +320,15 @@ const PlanCard = ({ docId, dateCount, planTitleState }: PlanCardProps) => {
                                     alt="arrow"
                                     width={30}
                                     height={30}
-                                    className="absolute bottom-11 right-0 z-20 p-1 hover:cursor-move"
+                                    className="absolute bottom-11 right-0 z-[15] p-1 hover:cursor-move max-sm:hidden"
+                                  />
+                                  <Image
+                                    {...provided.dragHandleProps}
+                                    src="/pagemenu.png"
+                                    alt="move"
+                                    width={30}
+                                    height={30}
+                                    className="absolute bottom-7 left-4 z-[15] hidden p-1 hover:cursor-move max-sm:block"
                                   />
                                   <div>{placeBox}</div>
                                 </div>

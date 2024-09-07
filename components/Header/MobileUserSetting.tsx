@@ -21,6 +21,14 @@ const MobileUserSetting = ({
 }: UserSettingProps) => {
   return (
     <div className="fixed right-0 top-0 z-50 flex h-dvh w-[250px] flex-col bg-sky-900/90 sm:hidden">
+      <div
+        onClick={() => {
+          setIsOpenMobileSetting(false);
+        }}
+        className="absolute right-3 top-1 text-lg text-white hover:cursor-pointer"
+      >
+        &#10006;
+      </div>
       {user && (
         <>
           <div className="m-4 flex h-fit w-full items-center overflow-hidden">

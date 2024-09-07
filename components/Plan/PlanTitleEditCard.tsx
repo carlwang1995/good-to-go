@@ -138,7 +138,7 @@ const PlanTitleEditCard = ({
   return (
     <>
       <div className="relative z-10 bg-black/30">
-        <div className="relative flex h-16 w-full items-center bg-black/60 p-3">
+        <div className="relative flex h-16 w-full items-center bg-black/60 p-3 max-[980px]:h-12">
           <div className="mr-3 min-w-7">
             <Image
               src="/left-arrow-white.png"
@@ -156,7 +156,7 @@ const PlanTitleEditCard = ({
               autoFocus
               onChange={(e) => setInputTripName(e.target.value)}
               value={inputTripName}
-              className="w-full border-b-2 border-white bg-transparent text-xl text-white outline-none"
+              className="w-full border-b-2 border-white bg-transparent text-xl text-white outline-none max-[980px]:overflow-hidden max-[980px]:text-ellipsis max-[980px]:text-nowrap max-[980px]:text-base"
               placeholder={tripInfo.tripName}
             ></input>
           )}
@@ -179,10 +179,10 @@ const PlanTitleEditCard = ({
             {isCreating ? <Loading widthPx={20} heightPx={20} /> : "完成"}
           </button>
         </div>
-        <div className="flex min-h-24 w-full flex-col justify-center p-3">
+        <div className="flex min-h-24 w-full flex-col justify-center px-3 py-3 max-[980px]:py-1">
           <div
             onClick={() => setIsOpenCalendar(true)}
-            className="mt-[10px] w-fit transition hover:cursor-pointer hover:bg-white/30"
+            className="mt-[10px] w-fit transition hover:cursor-pointer hover:bg-white/30 max-[980px]:mt-2 max-[980px]:text-sm"
           >
             <span className="text-white">{startDate}</span>
             <span className="text-white"> - </span>
@@ -204,7 +204,7 @@ const PlanTitleEditCard = ({
             </div>
             <div className="relative flex w-full">
               <input
-                className="w-full border-b-2 border-solid border-white bg-transparent p-1 text-sm text-white outline-none placeholder:text-white"
+                className="w-full border-b-2 border-solid border-white bg-transparent p-1 text-sm text-white outline-none placeholder:text-white max-[980px]:text-xs"
                 placeholder="輸入後按下「Enter」，加入多個城市"
                 value={inputDestination}
                 onChange={(e: any) => {

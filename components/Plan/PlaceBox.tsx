@@ -100,7 +100,7 @@ const PlaceBox = ({
   return (
     <>
       <div
-        className="relative z-10 mb-[40px] flex h-[120px] w-full border-t border-solid border-gray-200 bg-white p-5 shadow-md transition hover:shadow-lg"
+        className="relative mb-[40px] flex h-[120px] w-full border-t border-solid border-gray-200 bg-white p-5 shadow-md transition hover:shadow-lg max-sm:h-fit max-sm:p-2"
         onMouseEnter={() => setShowDeleteBtn((pre) => !pre)}
         onMouseLeave={() => setShowDeleteBtn((pre) => !pre)}
       >
@@ -116,7 +116,7 @@ const PlaceBox = ({
           className="absolute left-0 top-0 z-10 h-full w-full hover:cursor-pointer"
         ></div>
         <div className="w-ful relative flex h-full">
-          <div className="relative min-h-20 min-w-20 bg-blue-300">
+          <div className="relative min-h-20 min-w-20 bg-blue-300 max-sm:hidden">
             <Image
               src={photos.length > 0 ? photos[0] : "/picture.png"}
               alt="place's image"
@@ -128,38 +128,45 @@ const PlaceBox = ({
               <p className="font-semibold text-white">{String(number + 1)}</p>
             </div>
           </div>
-          <div className="ml-2 flex w-full flex-col justify-center">
-            <div className="flex items-center">
-              <Image
-                className="mr-1 h-[15px]"
-                src="/stay-time-icon.png"
-                alt="stayTimeIcon"
-                width={15}
-                height={15}
-              />
-              <span
-                onClick={() => {
-                  if (!isEditable) {
-                    return;
-                  }
-                  setShowStaySetting(true);
-                }}
-                className={` ${isEditable ? "text0 relative z-30 underline hover:cursor-pointer hover:font-bold" : "relative z-30"} `}
-              >
-                {stayTimeMinute === "00"
-                  ? stayTimeHour + "小時"
-                  : stayTimeHour === "0"
-                    ? stayTimeMinute + "分鐘"
-                    : stayTimeHour + "時" + stayTimeMinute + "分"}
-              </span>
-              <span className="mx-1">|</span>
-              <span>{`${startTime} － ${endTime}`}</span>
+          <div
+            className={`flex items-center ${isEditable ? "max-sm:ml-12" : "max-sm:ml-4"}`}
+          >
+            <div className="hidden min-h-7 min-w-7 items-center justify-center bg-blue-700/80 max-sm:flex">
+              <p className="font-semibold text-white">{String(number + 1)}</p>
             </div>
-            <div className="max-w-[355px] overflow-hidden text-ellipsis text-nowrap text-lg font-bold">
-              {name}
-            </div>
-            <div className="max-w-[355px] overflow-hidden text-ellipsis text-nowrap text-gray-500">
-              {address}
+            <div className="ml-2 flex w-full flex-col justify-center">
+              <div className="flex items-center">
+                <Image
+                  className="mr-1 h-[15px]"
+                  src="/stay-time-icon.png"
+                  alt="stayTimeIcon"
+                  width={15}
+                  height={15}
+                />
+                <span
+                  onClick={() => {
+                    if (!isEditable) {
+                      return;
+                    }
+                    setShowStaySetting(true);
+                  }}
+                  className={` ${isEditable ? "text0 relative z-10 underline hover:cursor-pointer hover:font-bold" : "relative z-30"} `}
+                >
+                  {stayTimeMinute === "00"
+                    ? stayTimeHour + "小時"
+                    : stayTimeHour === "0"
+                      ? stayTimeMinute + "分鐘"
+                      : stayTimeHour + "時" + stayTimeMinute + "分"}
+                </span>
+                <span className="mx-1">|</span>
+                <span>{`${startTime} － ${endTime}`}</span>
+              </div>
+              <div className="max-w-[355px] overflow-hidden text-ellipsis text-nowrap text-lg font-bold max-sm:text-base">
+                {name}
+              </div>
+              <div className="max-w-[355px] overflow-hidden text-ellipsis text-nowrap text-gray-500 max-sm:text-sm">
+                {address}
+              </div>
             </div>
           </div>
         </div>
@@ -170,9 +177,21 @@ const PlaceBox = ({
               setPlaceLatLng(null);
               setShowPlaceInfo(false);
             }}
-            className="absolute right-0 top-0 z-30 rounded p-1 hover:cursor-pointer"
+            className="absolute right-0 top-0 z-10 rounded p-1 hover:cursor-pointer max-sm:hidden"
           >
             <Image src="/delete.png" alt="delete" width={20} height={20} />
+          </div>
+        )}
+        {isEditable && (
+          <div
+            onClick={async () => {
+              await deleteTripInfoBox(dayIndex, planDocId, place);
+              setPlaceLatLng(null);
+              setShowPlaceInfo(false);
+            }}
+            className="absolute right-1 top-1 z-10 hidden rounded p-1 hover:cursor-pointer max-sm:block"
+          >
+            <Image src="/close-red.png" alt="delete" width={15} height={15} />
           </div>
         )}
       </div>

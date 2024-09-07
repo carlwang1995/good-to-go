@@ -43,9 +43,10 @@ const SetPlaceView = ({
   useEffect(() => {
     if (map && latlng) {
       map.setView(latlng.position);
-    } else if (markers.length > 0 && !latlng) {
-      map.fitBounds(markers, { padding: [50, 50] });
     }
+    // else if (markers.length > 0 && !latlng) {
+    //   map.fitBounds(markers, { padding: [50, 50] });
+    // }
   }, [latlng, map]);
   return (
     <>

@@ -120,8 +120,8 @@ const SearchContent = ({
   }, [results]);
   return (
     <>
-      <div className="absolute left-0 top-0 z-30 flex h-full flex-col bg-blue-50">
-        <div className="flex max-h-16 min-h-16 w-[500px] items-center bg-sky-800 p-3">
+      <div className="absolute left-0 top-0 z-[31] flex h-full w-[500px] flex-col bg-zinc-100 max-[980px]:w-full">
+        <div className="flex max-h-16 min-h-16 w-full items-center bg-sky-800 p-3 max-[980px]:min-h-12">
           <span className="mr-3 min-w-7">
             <Image
               src="/left-arrow-white.png"
@@ -163,7 +163,7 @@ const SearchContent = ({
             <Image src="/search.png" alt="search" width={30} height={30} />
           </button>
         </div>
-        <div className="relative h-full max-w-[500px] items-center overflow-y-auto overflow-x-hidden bg-zinc-100 bg-scroll pl-3 pr-3">
+        <div className="relative h-full w-full items-center overflow-y-auto overflow-x-hidden bg-scroll pl-3 pr-3">
           <div className="mt-2 flex w-full flex-wrap items-center text-lg">
             {message ? (
               message
@@ -192,7 +192,7 @@ const SearchContent = ({
           {searchListBoxArr.length > 0 && searchListBoxArr}
           {isLoading && (
             <div className="mt-4 flex w-full justify-center">
-              <Loading widthPx={80} heightPx={80} />
+              <Loading widthPx={50} heightPx={50} />
             </div>
           )}
         </div>
