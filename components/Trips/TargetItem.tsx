@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 type TargetItemProps = {
@@ -19,18 +20,20 @@ const TargetItem = ({
     setDestinaitonArray(newArray);
   };
   return (
-    <div className="relative mb-2 mr-2 flex items-center justify-center border border-solid border-slate-400 px-2 py-1">
+    <div className="relative mb-2 mr-2 flex items-center justify-center border border-gray-500 px-2 py-1">
       <p className="mr-2 max-w-[360px] overflow-hidden text-ellipsis text-nowrap">
         {target}
       </p>
-      <span
+      <Image
         onClick={() => {
           removeTarget(number);
         }}
-        className="text-red-800 hover:cursor-pointer"
-      >
-        &#10006;
-      </span>
+        className="hover:cursor-pointer"
+        src="/close-r.png"
+        alt="close"
+        width={12}
+        height={12}
+      />
     </div>
   );
 };

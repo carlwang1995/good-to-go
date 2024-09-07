@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 type TargetItemProps = {
   number: number;
@@ -27,14 +28,16 @@ const TargetItem = ({
       <p className="mr-2 max-w-[360px] overflow-hidden text-ellipsis text-nowrap">
         {target}
       </p>
-      <span
+      <Image
         onClick={() => {
           removeTarget(number);
         }}
-        className="text-red-800 hover:cursor-pointer"
-      >
-        &#10006;
-      </span>
+        className="hover:cursor-pointer"
+        src="/close-r.png"
+        alt="close"
+        width={12}
+        height={12}
+      />
     </div>
   );
 };
