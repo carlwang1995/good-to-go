@@ -211,7 +211,7 @@ const TripInput = ({
                 setInputDestination("");
               }
             }}
-            src="/insert-black.png"
+            src="/insert-blue.png"
             alt="insert"
             width={50}
             height={50}
