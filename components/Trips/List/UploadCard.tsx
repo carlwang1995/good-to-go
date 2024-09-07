@@ -105,12 +105,20 @@ const UploadCard = ({
             <p className="text-xl font-bold text-sky-800">上傳封面圖</p>
           </div>
           <div className="text m-2">
-            <span>{uploadState ? `${uploadState}： ` : null}</span>
-            <span>{uploadState && uploadProgress ? uploadProgress : null}</span>
+            <span>{uploadState && `${uploadState}： `}</span>
+            <span>{uploadState && uploadProgress && uploadProgress}</span>
+            <div className="w-full">
+              {uploadState && uploadProgress && (
+                <div
+                  className={`h-2 bg-blue-500`}
+                  style={{ width: uploadProgress }}
+                ></div>
+              )}
+            </div>
           </div>
           <div className="mx-2 my-4 overflow-hidden border border-sky-800 p-1">
             {message ? (
-              <div>{message}</div>
+              <div className="mx-2 text-sky-600">{message}</div>
             ) : (
               <input
                 onChange={(e) => {
