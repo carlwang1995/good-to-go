@@ -33,6 +33,7 @@ const PlanContent = ({ docId }: { docId: string }) => {
   const [dateCount, setDateCount] = useState<string>("第1天");
   const [isEditable, setIsEditable] = useState(false);
   const [showEditInput, setShowEditInput] = useState(false);
+  const [showMobileMap, setShowMobileMap] = useState(true);
   const dateSectionRef = useRef<HTMLDivElement | null>(null);
   const { user, userId } = useUser();
   const router = useRouter();
@@ -96,8 +97,44 @@ const PlanContent = ({ docId }: { docId: string }) => {
     }
   };
   return (
-    <div className="flex h-full min-w-[500px] flex-col max-[980px]:min-h-[70%] max-[980px]:min-w-full">
-      <div className="relative z-10 w-full border-b border-solid border-slate-300 shadow-lg">
+    <div
+      className={`relative flex h-full min-w-[500px] max-w-[500px] flex-col transition-all max-[980px]:min-w-full ${showMobileMap ? "max-[980px]:min-h-[65%]" : "max-[980px]:min-h-[100%]"}`}
+    >
+      {showMobileMap && (
+        <div className="absolute -top-6 flex w-full justify-center min-[980px]:hidden">
+          <div
+            onClick={() => setShowMobileMap(false)}
+            className="z-[25] flex w-52 items-center justify-center rounded-t-xl border border-zinc-500 bg-zinc-100 shadow-md hover:cursor-pointer"
+          >
+            <Image
+              src="/arrow-up.png"
+              alt="arrow up"
+              width={15}
+              height={15}
+              className="my-1"
+            />
+          </div>
+        </div>
+      )}
+
+      {!showMobileMap && (
+        <div className="absolute top-0 flex w-full justify-center min-[980px]:hidden">
+          <div
+            onClick={() => setShowMobileMap(true)}
+            className="z-[35] flex w-52 items-center justify-center rounded-b-xl border border-zinc-500 bg-zinc-100/50 shadow-md hover:cursor-pointer"
+          >
+            <Image
+              src="/arrow-down.png"
+              alt="arrow up"
+              width={15}
+              height={15}
+              className="my-1"
+            />
+          </div>
+        </div>
+      )}
+
+      <div className="relative z-30 w-full border-b border-solid border-slate-300 shadow-lg">
         <Image
           priority
           fill={true}
@@ -132,7 +169,7 @@ const PlanContent = ({ docId }: { docId: string }) => {
         <div className="relative flex h-14 w-full bg-white">
           <div
             onClick={dateScrollToLeft}
-            className="absolute left-0 top-0 z-10 flex h-full items-center justify-center border border-white bg-white px-1 hover:cursor-pointer hover:border-slate-300"
+            className="absolute left-0 top-0 z-10 flex h-full items-center justify-center border border-white bg-white px-1 hover:cursor-pointer hover:border-slate-300 max-sm:hidden"
           >
             <Image
               src="/left-arrow-sm.png"
@@ -142,7 +179,7 @@ const PlanContent = ({ docId }: { docId: string }) => {
             />
           </div>
           <div
-            className="flex h-full w-full overflow-x-hidden scroll-smooth whitespace-nowrap px-7"
+            className="flex h-full w-full overflow-x-hidden overflow-y-hidden scroll-smooth whitespace-nowrap px-7 max-sm:overflow-x-auto max-sm:px-1"
             ref={dateSectionRef}
           >
             {tripInfo &&
@@ -159,7 +196,7 @@ const PlanContent = ({ docId }: { docId: string }) => {
           </div>
           <div
             onClick={dateScrollToRight}
-            className="hover: absolute right-0 top-0 z-10 flex h-full items-center justify-center border border-white bg-white px-1 hover:cursor-pointer hover:border-slate-300"
+            className="hover: absolute right-0 top-0 z-10 flex h-full items-center justify-center border border-white bg-white px-1 hover:cursor-pointer hover:border-slate-300 max-sm:hidden"
           >
             <div className="text-2xl">
               <Image

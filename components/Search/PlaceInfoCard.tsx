@@ -63,8 +63,8 @@ const PlaceInfoCard = ({
   }, [selectedPlace]);
 
   return (
-    <div className="absolute left-[500px] top-0 z-20 flex h-full w-[380px] flex-col overflow-y-auto overflow-x-hidden border-l border-slate-300 bg-white">
-      <div className="flex min-h-16 items-center justify-end">
+    <div className="absolute left-[500px] top-0 z-[32] flex h-full w-[380px] flex-col overflow-y-auto overflow-x-hidden border border-slate-300 bg-white max-[980px]:left-0 max-[980px]:w-full">
+      <div className="flex min-h-16 items-center justify-end max-[980px]:hidden">
         <Image
           src="/close.png"
           alt="close"
@@ -80,23 +80,40 @@ const PlaceInfoCard = ({
       </div>
       {isLoading ? (
         <div className="my-4 flex justify-center">
-          <Loading widthPx={80} heightPx={80}></Loading>
+          <Loading widthPx={50} heightPx={50}></Loading>
         </div>
       ) : (
         <>
           <div className="mb-[130px] h-full overflow-y-auto overflow-x-hidden bg-zinc-100">
+            <div className="absolute right-0 top-0 z-10 hidden min-h-12 w-full items-center justify-start bg-black/50 max-[980px]:flex">
+              <Image
+                src="/left-arrow-white.png"
+                alt="close"
+                width={24}
+                height={24}
+                className="ml-3 hover:cursor-pointer"
+                onClick={() => {
+                  setIsShowSearchResult(false);
+                  setAddDone(false);
+                  setPlaceLatLng(null);
+                }}
+              />
+              <p className="ml-4 text-lg text-white">
+                {selectedPlace && selectedPlace.name}
+              </p>
+            </div>
             <PlaceInfoPhotoBox photos={photoUriArr} />
             <p className="mt-4 px-3 text-2xl font-bold text-sky-800">
-              {selectedPlace ? selectedPlace.name : null}
+              {selectedPlace && selectedPlace.name}
             </p>
             <p className="mt-2 px-3 text-lg">
-              {selectedPlace ? selectedPlace.address : null}
+              {selectedPlace && selectedPlace.address}
             </p>
             <div className="mt-4 flex items-center px-3">
               <Image src="/star.png" alt="star" width={24} height={24} />
               <p className="ml-2 mr-1">評價：</p>
               <p className="mr-1">
-                {selectedPlace ? selectedPlace.rating : null}/5.0
+                {selectedPlace && selectedPlace.rating}/5.0
               </p>
               <p>
                 {selectedPlace && "(" + String(selectedPlace.ratingCount) + ")"}

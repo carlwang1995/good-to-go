@@ -25,8 +25,8 @@ const PlaceInfoCard = ({
   const { setPlaceLatLng } = useMapMarkers();
 
   return (
-    <div className="fixed bottom-0 left-[500px] z-20 flex h-[calc(100%-60px)] w-[380px] flex-col overflow-hidden bg-white max-[980px]:left-0 max-[980px]:h-[calc(70%-40px)] max-[980px]:w-full">
-      <div className="flex min-h-16 items-center justify-end">
+    <div className="absolute bottom-0 left-[500px] z-[31] flex h-full w-[380px] flex-col overflow-hidden bg-white max-[980px]:left-0 max-[980px]:w-full">
+      <div className="flex min-h-16 items-center justify-end max-[980px]:hidden">
         <Image
           src="/close.png"
           alt="close"
@@ -40,12 +40,28 @@ const PlaceInfoCard = ({
         />
       </div>
       <div className="h-full overflow-y-auto overflow-x-hidden bg-zinc-100">
+        <div className="absolute right-0 top-0 z-10 hidden min-h-12 w-full items-center justify-start bg-black/50 max-[980px]:flex">
+          <Image
+            src="/left-arrow-white.png"
+            alt="close"
+            width={24}
+            height={24}
+            className="ml-3 hover:cursor-pointer"
+            onClick={() => {
+              setShowPlaceInfo(false);
+              setPlaceLatLng(null);
+            }}
+          />
+          <p className="ml-4 text-lg text-white">
+            {placeInfo && placeInfo.name}
+          </p>
+        </div>
         <PlaceInfoPhotoBox photos={placeInfo?.photos} />
         <div className="p-3">
           <p className="text-2xl font-bold text-sky-800">
-            {placeInfo ? placeInfo.name : null}
+            {placeInfo && placeInfo.name}
           </p>
-          <p className="mt-2 text-lg">{placeInfo ? placeInfo.address : null}</p>
+          <p className="mt-2 text-lg">{placeInfo && placeInfo.address}</p>
         </div>
         <div className="mt-4 flex items-center px-3">
           <Image src="/clock.png" alt="clcok" width={24} height={24} />

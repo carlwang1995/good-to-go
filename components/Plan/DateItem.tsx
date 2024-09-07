@@ -26,12 +26,12 @@ const DateItemSelected = ({
       }}
     >
       <p
-        className={`${String(dateNumber + 1) == dayIndex.split("day")[1] && "font-extrabold text-blue-700"}`}
+        className={`${String(dateNumber + 1) == dayIndex.split("day")[1] && "font-extrabold text-blue-700"} max-sm:text-sm`}
       >
         {date}
       </p>
       <p
-        className={`${String(dateNumber + 1) == dayIndex.split("day")[1] && "text-blue-700"}`}
+        className={`${String(dateNumber + 1) == dayIndex.split("day")[1] && "text-blue-700"} max-sm:text-sm`}
       >
         {dateCountString}
       </p>

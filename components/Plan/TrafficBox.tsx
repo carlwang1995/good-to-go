@@ -114,7 +114,7 @@ const TrafficBox = ({
         onClick={() => {
           setIsShowModeSetting(true);
         }}
-        className={`mt-[120px] flex h-[40px] w-full items-center justify-between transition ${isEditable && "hover:cursor-pointer hover:bg-blue-100"} `}
+        className={`mt-[120px] flex h-[40px] w-full items-center justify-between transition ${isEditable && "hover:cursor-pointer hover:bg-blue-100"} max-sm:mt-[85px]`}
       >
         <div className="flex h-full items-center">
           <div className="ml-14 h-full border-l-2 border-dotted border-blue-400"></div>
@@ -135,8 +135,12 @@ const TrafficBox = ({
               height={24}
             />
           </div>
-          <div className="pl-2 pr-2 text-blue-600">{distance},</div>
-          <div className="pl-2 pr-2 text-blue-600">約 {durationText}</div>
+          <div className="pl-2 pr-2 text-blue-600 max-sm:text-sm">
+            {distance},
+          </div>
+          <div className="pl-2 pr-2 text-blue-600 max-sm:text-sm">
+            約 {durationText}
+          </div>
         </div>
         {isEditable ? (
           <div className="mr-5 text-blue-500">&#10095;</div>
