@@ -27,6 +27,7 @@ const Turtorial = () => {
           <div className="flex w-full max-sm:flex-col max-sm:items-center">
             <div className="relative mx-2 my-4 h-[300px] min-w-[420px] shadow-lg max-[430px]:h-[240px] max-[430px]:min-w-[336px]">
               <Image
+                unoptimized
                 priority
                 src="/turtorial/create-trip.gif"
                 alt="create-trip"
@@ -52,6 +53,7 @@ const Turtorial = () => {
           <div className="flex w-full max-sm:flex-col max-sm:items-center">
             <div className="relative mx-2 my-4 h-[300px] min-w-[420px] shadow-lg max-[430px]:h-[240px] max-[430px]:min-w-[336px]">
               <Image
+                unoptimized
                 priority
                 src="/turtorial/plan-trip.gif"
                 alt="plan-trip"
@@ -77,6 +79,7 @@ const Turtorial = () => {
           <div className="flex w-full max-sm:flex-col max-sm:items-center">
             <div className="relative mx-2 my-4 h-[300px] min-w-[420px] shadow-lg max-[430px]:h-[240px] max-[430px]:min-w-[336px]">
               <Image
+                unoptimized
                 priority
                 src="/turtorial/share-trip.gif"
                 alt="share-trip"

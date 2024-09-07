@@ -104,7 +104,7 @@ const PlanContent = ({ docId }: { docId: string }) => {
         <div className="absolute -top-6 flex w-full justify-center min-[980px]:hidden">
           <div
             onClick={() => setShowMobileMap(false)}
-            className="z-[25] flex w-52 items-center justify-center rounded-t-xl border border-zinc-500 bg-zinc-100/80 shadow-md hover:cursor-pointer"
+            className="z-[25] flex w-[40%] items-center justify-center rounded-t-xl border border-black bg-white/80 shadow-md hover:cursor-pointer"
           >
             <Image
               src="/arrow-up.png"
@@ -121,7 +121,7 @@ const PlanContent = ({ docId }: { docId: string }) => {
         <div className="absolute top-0 flex w-full justify-center min-[980px]:hidden">
           <div
             onClick={() => setShowMobileMap(true)}
-            className="z-[35] flex w-52 items-center justify-center rounded-b-xl border border-zinc-500 bg-zinc-100/50 shadow-md hover:cursor-pointer"
+            className="z-[35] flex w-[40%] items-center justify-center rounded-b-xl bg-white/50 shadow-md hover:cursor-pointer"
           >
             <Image
               src="/arrow-down.png"
