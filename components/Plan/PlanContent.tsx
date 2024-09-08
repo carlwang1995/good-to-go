@@ -98,7 +98,7 @@ const PlanContent = ({ docId }: { docId: string }) => {
   };
   return (
     <div
-      className={`relative flex h-full min-w-[500px] max-w-[500px] flex-col transition-all max-[980px]:min-w-full ${showMobileMap ? "max-[980px]:min-h-[65%]" : "max-[980px]:min-h-[100%]"}`}
+      className={`relative flex h-full min-w-[500px] max-w-[500px] flex-col transition-all max-[980px]:min-w-full ${showMobileMap ? "max-[980px]:min-h-[60%]" : "max-[980px]:min-h-[calc(100%-60px)]"}`}
     >
       {showMobileMap && (
         <div className="absolute -top-6 flex w-full justify-center min-[980px]:hidden">
