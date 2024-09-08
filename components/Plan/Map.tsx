@@ -5,6 +5,7 @@ import {
   TileLayer,
   useMap,
   Polyline,
+  ZoomControl,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { DivIcon, LatLngExpression } from "leaflet";
@@ -25,7 +26,6 @@ const FitMapToBounds = ({ bounds }: { bounds: any }) => {
 // 景點位置圖層：繪製圖示，並依景點座標移動位置
 const SetPlaceView = ({
   latlng,
-  markers,
 }: {
   latlng: {
     number?: number;
@@ -42,11 +42,8 @@ const SetPlaceView = ({
   const map = useMap();
   useEffect(() => {
     if (map && latlng) {
-      map.setView(latlng.position, 14);
+      map.setView(latlng.position, 16);
     }
-    // else if (markers.length > 0 && !latlng) {
-    //   map.fitBounds(markers, { padding: [50, 50] });
-    // }
   }, [latlng, map]);
   return (
     <>
@@ -99,6 +96,9 @@ const LeafletMap = () => {
       zoom={14}
       scrollWheelZoom={true}
       className="h-full w-full"
+      zoomControl={false}
+      maxZoom={16}
+      minZoom={4}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -115,6 +115,7 @@ const LeafletMap = () => {
               />
             ),
         )}
+      <ZoomControl position="bottomright" />
       <FitMapToBounds bounds={markers} />
       <SetPlaceView latlng={placeLatLng} markers={markers} />
       <Polyline
