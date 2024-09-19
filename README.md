@@ -1,4 +1,5 @@
 # Good to GO
+## Short Summary
 🌏 Good to GO is a travel itinerary planning website that allows users to create trips, search for places, and edit travel plans freely.     
 🔗 [Website Link](https://goodtogo-project.vercel.app/)
 * Test account : test@test.com
