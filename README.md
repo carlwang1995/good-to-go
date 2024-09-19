@@ -15,7 +15,7 @@
 ### Front-End
 * **Framework:** Next.js, React Hook (`useState`, `useEffect`, `useContext`, `useRef`)
 * **Global State Management:** React Context API
-* **Router Management:** Next.js APP Router
+* **Router Management:** Next.js App Router
 * **Styling:** Tailwind CSS
 * **Code Formatter:** Prettier
 ### Back-End
