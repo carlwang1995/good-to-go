@@ -10,7 +10,7 @@
 * Users can customize the trip covers by uploading photos.
 * Users can share a URL link with others and post it on the public trips page.
 * Responsive web design.
-## Core Techniques
+## Core Techniques and Tools
 ### Front-End
 * **Framework:** Next.js, React Hook (`useState`, `useEffect`, `useContext`, `useRef`)
 * **Global State Management:** React Context API
