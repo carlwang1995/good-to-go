@@ -20,6 +20,7 @@
 * **Styling :** Tailwind CSS
 * **Code Formatter :** Prettier
 ### Back-End
+* Next.js API Route
 * Firebase Firestore Database
 * Firebase Storage
 * Firebase Authentication
