@@ -2,7 +2,7 @@
 🌏 Good to GO is a travel itinerary planning website that allows users to create trips, search for places, and edit travel plans freely.     
 🔗 [Website Link](https://goodtogo-project.vercel.app/)
 * Test account : test@test.com
-* Test password : test
+* Test password : 111111
 ## Main Features
 * Authenticate with Google login, and users' email addresses and passwords.
 * Developed draggable / droppable UI that allows users to freely edit the order of trips.
