@@ -9,7 +9,7 @@
 * Developed the interface that allows real-time editing, with data synchronized to the database without any noticeable delay.
 * Users can customize the trip covers by uploading photos.
 * Users can share a URL link with others and post it on the public trips page.
-* Responsive web design
+* Responsive web design.
 ## Core Techniques
 ### Front-End
 * **Framework:** Next.js, React Hook (`useState`, `useEffect`, `useContext`, `useRef`)
