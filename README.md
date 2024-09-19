@@ -28,3 +28,4 @@
   * Place Photos API
   * Direction API
 * @hello-pangea/dnd ( similar to `react-beautiful-dnd` )
+* react-date-range
