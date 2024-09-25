@@ -29,9 +29,16 @@ Good to GO is a travel itinerary planning website that allows users to create tr
 * **react-date-range**
 ## Component Structure
 ## Features
-* Authenticate with Google login, and users' email addresses and passwords.
+### Trip
+#### Create a Trip
+#### Share the Trip
+Users can share a URL link with others and post it on the public trips page.
+#### Upload Trip's Cover Photo
+Users can customize the trip covers by uploading photos.
+
 * Developed draggable / droppable UI that allows users to freely edit the order of trips.
 * Developed the interface that allows real-time editing, with data synchronized to the database without any noticeable delay.
-* Users can customize the trip covers by uploading photos.
-* Users can share a URL link with others and post it on the public trips page.
-* Responsive web design.
+
+## Contact
+* **Name:** Wei-Yao Wang
+* **Email:** z5n9800z@gmail.com 
