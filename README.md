@@ -28,7 +28,6 @@ Good to GO is a travel itinerary planning website that allows users to create tr
 * **@hello-pangea/dnd** ( similar to `react-beautiful-dnd` )
 * **react-date-range**
 ## Component Structure
-## Custom Hooks
 ## Features
 * Authenticate with Google login, and users' email addresses and passwords.
 * Developed draggable / droppable UI that allows users to freely edit the order of trips.
