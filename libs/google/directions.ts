@@ -10,9 +10,8 @@ export default async function get_directions(
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    console.log("發出directions fetch");
+    // console.log("發出directions fetch");
     const data = await response.json();
-    // console.log(data);
     if (data.routes.status === "ZERO_RESULTS") {
       return false;
     }

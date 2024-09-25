@@ -29,7 +29,7 @@ const PlanTitleCard = ({
     <div className="relative z-10 bg-black/30">
       <div className="relative flex h-16 w-full items-center bg-black/60 p-3 max-[980px]:h-12">
         {user && (
-          <div className="mr-3 min-w-7">
+          <button className="mr-3 min-w-7">
             <Link href="/trips">
               <Image
                 src="/left-arrow-white.png"
@@ -38,7 +38,7 @@ const PlanTitleCard = ({
                 alt="left arrow"
               />
             </Link>
-          </div>
+          </button>
         )}
         <span className="mr-6 text-xl text-white max-sm:overflow-hidden max-sm:text-ellipsis max-sm:text-nowrap max-sm:text-lg">
           {tripInfo && tripInfo.tripName}

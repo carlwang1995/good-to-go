@@ -15,14 +15,8 @@ interface PlaceType {
   photos: Array<string>;
 }
 
-const PlaceInfoCard = ({
-  placeInfo,
-  setShowPlaceInfo,
-}: {
-  placeInfo: PlaceType | undefined;
-  setShowPlaceInfo: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
-  const { setPlaceLatLng } = useMapMarkers();
+const PlaceInfoCard = () => {
+  const { setPlaceLatLng, placeInfo, setShowPlaceInfo } = useMapMarkers();
 
   return (
     <div className="absolute bottom-0 left-[500px] z-[31] flex h-full w-[380px] flex-col overflow-hidden bg-white max-[980px]:left-0 max-[980px]:w-full">

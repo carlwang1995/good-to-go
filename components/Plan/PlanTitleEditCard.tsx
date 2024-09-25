@@ -139,7 +139,7 @@ const PlanTitleEditCard = ({
     <>
       <div className="relative z-10 bg-black/30">
         <div className="relative flex h-16 w-full items-center bg-black/60 p-3 max-[980px]:h-12">
-          <div className="mr-3 min-w-7">
+          <button className="mr-3 min-w-7">
             <Image
               src="/left-arrow-white.png"
               width={24}
@@ -150,7 +150,7 @@ const PlanTitleEditCard = ({
                 setShowEditInput(false);
               }}
             />
-          </div>
+          </button>
           {tripInfo && (
             <input
               autoFocus

@@ -38,7 +38,7 @@ const UserSetting = ({
           onClick={() => {
             signOut();
           }}
-          className="rounded border border-solid border-blue-700 bg-blue-500 px-2 py-1 text-lg text-white transition hover:bg-blue-700"
+          className="btn_blue"
         >
           登出
         </button>

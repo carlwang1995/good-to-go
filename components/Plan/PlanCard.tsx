@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Loading } from "../Loading";
 import PlaceBox from "./PlaceBox";
 import TrafficBox from "./TrafficBox";
-import SearchContent from "../Search/SearchContent";
+import SearchContent from "./Search/SearchContent";
 import OpenSearchBtn from "./OpenSearchBtn";
 import PlaceInfoCard from "./PlaceInfoCard";
 import StartTimeSetting from "./StartTimeSetting";
@@ -73,7 +73,6 @@ const PlanCard = ({ docId, dateCount, planTitleState }: PlanCardProps) => {
     undefined,
   );
   const [lastEditTime, setLastEditTime] = useState<string | undefined>("");
-  const [placeInfo, setPlaceInfo] = useState<PlaceType>();
   const [placeBoxArray, setPlaceBoxArray] =
     useState<Array<React.ReactElement> | null>(null);
   const [trafficBoxArray, setTrafficBoxArray] =
@@ -87,11 +86,19 @@ const PlanCard = ({ docId, dateCount, planTitleState }: PlanCardProps) => {
   const [destinationList, setDestinationList] = useState(destinationArr[0]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSearching, setIsSearching] = useState<boolean>(false);
-  const [showPlaceInfo, setShowPlaceInfo] = useState<boolean>(false);
   const [showStartTimeSetting, setShowStartTimeSetting] =
     useState<boolean>(false);
 
-  const { setMarkers, setPlaceLatLng, setRoutes } = useMapMarkers();
+  const {
+    placeInfo,
+    showPlaceInfo,
+    setMarkers,
+    setPlaceLatLng,
+    setRoutes,
+    setPlaces,
+    setPlaceInfo,
+    setShowPlaceInfo,
+  } = useMapMarkers();
 
   // 將景點間的交通時間處理為[{number-id-id : duraction},{number-id-id : duraction},{number-id-id : duraction}...]
   const handleTrafficTime = (
@@ -188,6 +195,7 @@ const PlanCard = ({ docId, dateCount, planTitleState }: PlanCardProps) => {
     setLastEditTime(planContent?.trips[dayIndex].lastEditTime);
     const trip = planContent?.trips[dayIndex];
     if (trip && trip.places.length > 0) {
+      setPlaces(trip.places);
       const newDepartArray: Array<string> = [];
       const newPlaceBoxArray: Array<React.JSX.Element> = [];
       const newTrafficBoxArray: Array<React.JSX.Element> = [];
@@ -220,8 +228,6 @@ const PlanCard = ({ docId, dateCount, planTitleState }: PlanCardProps) => {
             trip={trip}
             place={trip.places[i]}
             startTime={newDepartArray[i]}
-            setShowPlaceInfo={setShowPlaceInfo}
-            setPlaceInfo={setPlaceInfo}
           />,
         );
       }
@@ -316,19 +322,11 @@ const PlanCard = ({ docId, dateCount, planTitleState }: PlanCardProps) => {
                                 >
                                   <Image
                                     {...provided.dragHandleProps}
-                                    src="/up-and-down-arrow.png"
-                                    alt="arrow"
-                                    width={30}
-                                    height={30}
-                                    className="absolute bottom-11 right-0 z-[15] p-1 hover:cursor-move max-sm:hidden"
-                                  />
-                                  <Image
-                                    {...provided.dragHandleProps}
-                                    src="/pagemenu.png"
+                                    src="/drag.png"
                                     alt="move"
-                                    width={30}
-                                    height={30}
-                                    className="absolute bottom-7 left-4 z-[15] hidden p-1 hover:cursor-move max-sm:block"
+                                    width={32}
+                                    height={32}
+                                    className="absolute bottom-11 right-0 z-[15] p-1 hover:cursor-move max-sm:bottom-7 max-sm:left-4"
                                   />
                                   <div>{placeBox}</div>
                                 </div>
@@ -361,12 +359,7 @@ const PlanCard = ({ docId, dateCount, planTitleState }: PlanCardProps) => {
             setDestinationList={setDestinationList}
           />
         )}
-        {showPlaceInfo && (
-          <PlaceInfoCard
-            placeInfo={placeInfo}
-            setShowPlaceInfo={setShowPlaceInfo}
-          />
-        )}
+        {showPlaceInfo && <PlaceInfoCard />}
         {showStartTimeSetting && isEditable && (
           <StartTimeSetting
             planDocId={planDocId}

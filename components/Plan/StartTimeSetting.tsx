@@ -118,16 +118,16 @@ const StartTimeSetting = ({
               <option value="55">55</option>
             </select>
           </div>
-          <div className="flex justify-end">
+          <div className="mr-2 flex justify-end">
             <button
               onClick={() => setShowStartTimeSetting(false)}
-              className="mr-4 rounded px-2 py-1 text-lg text-blue-500 transition hover:bg-blue-50"
+              className="btn_white mr-3"
             >
               關閉
             </button>
             <button
               onClick={() => updateStartTime(planDocId, dayIndex)}
-              className="mr-2 rounded border border-solid border-blue-700 bg-blue-500 px-2 py-1 text-lg text-white transition hover:bg-blue-700"
+              className="btn_blue"
             >
               確認
             </button>

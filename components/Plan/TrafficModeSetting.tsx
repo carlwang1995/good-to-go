@@ -94,10 +94,10 @@ const TrafficModeSetting = ({
                   : "自行車"}
           </div>
           <TrafficModeButton mode={newMode} setMode={setNewMode} />
-          <div className="flex justify-end">
+          <div className="mr-2 flex justify-end">
             <button
               onClick={() => setIsShowing(false)}
-              className="mr-4 rounded px-2 py-1 text-lg text-blue-500 transition hover:bg-blue-50"
+              className="btn_white mr-3"
             >
               返回
             </button>
@@ -107,7 +107,7 @@ const TrafficModeSetting = ({
                   updateMode(planDocId, dayIndex, number);
                 }
               }}
-              className="mr-2 rounded border border-solid border-blue-700 bg-blue-500 px-2 py-1 text-lg text-white transition hover:bg-blue-700"
+              className="btn_blue"
             >
               確認
             </button>

@@ -17,7 +17,7 @@ const DateItemSelected = ({
 }: DateItemProps) => {
   const dateCountString = `第${String(dateNumber + 1)}天`;
   return (
-    <div
+    <button
       className={`flex h-full min-w-24 flex-col items-center justify-center border-r bg-white transition hover:cursor-pointer ${String(dateNumber + 1) == dayIndex.split("day")[1] ? "border-b-4 border-b-blue-500" : "hover:border-b-4 hover:border-b-blue-200"} `}
       onClick={() => {
         setDateCount(dateCountString);
@@ -35,7 +35,7 @@ const DateItemSelected = ({
       >
         {dateCountString}
       </p>
-    </div>
+    </button>
   );
 };
 

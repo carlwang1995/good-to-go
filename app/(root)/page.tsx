@@ -1,8 +1,8 @@
 import Header from "@/components/Header/Header";
-import Turtorial from "@/components/Turtorial";
 import Image from "next/image";
-import { Alkatra, Mochiy_Pop_P_One } from "next/font/google";
+import { Alkatra } from "next/font/google";
 import StartupButton from "@/components/StartupButton";
+import TurtorialCard from "@/components/TurtorialCard";
 
 const fontStyle = Alkatra({ weight: "700", subsets: ["latin"] });
 
@@ -12,7 +12,7 @@ export default function Home() {
     <div className="overflow-x-hidden">
       <Header />
       <main className="flex flex-col items-center pt-[60px]">
-        <div className="relative flex h-[calc(100dvh-60px)] w-full flex-col items-center justify-center">
+        <section className="relative flex h-[calc(100dvh-60px)] w-full flex-col items-center justify-center">
           <Image
             src="/banner/banner-4.jpg"
             alt="banner"
@@ -33,8 +33,20 @@ export default function Home() {
           <div className="z-10 mt-4 flex h-fit w-[1100px] items-center justify-center px-4 max-[1100px]:w-full">
             <StartupButton />
           </div>
-        </div>
-        <Turtorial />
+        </section>
+        <section className="flex w-full items-center justify-center p-4">
+          <Image
+            src="/clipboard.png"
+            alt="clipboard"
+            width={32}
+            height={32}
+            className="mr-1 h-[32px]"
+          />
+          <h1 className="my-4 text-2xl font-bold text-sky-800">
+            為旅遊輕鬆做準備
+          </h1>
+        </section>
+        <TurtorialCard />
       </main>
       <footer className="mt-4 flex h-[80px] w-full items-center justify-center bg-sky-950">
         <p className="font-bold text-white">Copyright © 2024 Good to GO</p>

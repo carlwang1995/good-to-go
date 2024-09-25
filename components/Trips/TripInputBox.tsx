@@ -1,13 +1,13 @@
 import React, { useState } from "react";
+import Image from "next/image";
+import TargetItem from "./TargetItem";
 import { DB_createNewTrip } from "@/libs/db/TripsDoc";
 import { DB_createNewPlan } from "@/libs/db/PlansDoc";
 import { useUser } from "@/contexts/UserAuth";
 import { useRouter } from "next/navigation";
 import { getDateBetween } from "@/libs/getDatesBetween";
-import TargetItem from "./TargetItem";
-import { photos } from "@/libs/photosArr";
-import Image from "next/image";
 import { getTimeNow } from "@/libs/timeConvertor";
+import { coverPhotos } from "@/constants";
 
 type TripInputProps = {
   startDate: string;
@@ -96,7 +96,7 @@ const TripInput = ({
       dates,
       photo: {
         fileName: "default",
-        photoUrl: `/background/${photos[Math.floor(Math.random() * photos.length)]}`,
+        photoUrl: `/background/${coverPhotos[Math.floor(Math.random() * coverPhotos.length)]}`,
       },
       createTime: formatDate,
       privacy: false,
@@ -236,14 +236,11 @@ const TripInput = ({
       {!isTripName && <p className="text-sm text-red-500">請輸入行程名稱</p>}
       <br />
       <div className="flex justify-end">
-        <button
-          onClick={cancelEdit}
-          className="mr-3 mt-5 w-14 rounded px-2 py-1 text-lg text-blue-500 transition hover:bg-blue-50"
-        >
+        <button onClick={cancelEdit} className="btn_white mr-2">
           取消
         </button>
         {isCreating ? (
-          <button className="mt-5 flex w-14 items-center justify-center rounded border border-solid border-black px-2 py-1 text-lg hover:cursor-default">
+          <button className="flex w-14 items-center justify-center rounded border border-solid border-black px-2 py-1 text-lg hover:cursor-default">
             <Image src="/loading.gif" width={20} height={20} alt="loading" />
           </button>
         ) : (
@@ -252,7 +249,7 @@ const TripInput = ({
               checkInput();
               createTrip(startDate, endDate, destinaitonArray, inputTripName);
             }}
-            className="mt-5 w-14 rounded border border-solid border-blue-700 bg-blue-500 px-2 py-1 text-lg text-white transition hover:bg-blue-700"
+            className="btn_blue"
           >
             完成
           </button>

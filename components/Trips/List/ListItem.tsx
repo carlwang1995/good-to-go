@@ -34,8 +34,8 @@ const ListItem = ({
 
   return (
     <>
-      <div className="rounded-lg bg-white">
-        <div className="relative rounded-lg shadow-lg transition hover:shadow-xl">
+      <li className="rounded-lg bg-white shadow-lg transition-all hover:shadow-xl">
+        <div className="relative rounded-lg">
           <Link href={`plan/${docId}`}>
             <div className="relative z-10 flex min-h-[220px] w-full flex-col justify-end rounded-lg">
               <div className={`absolute left-0 top-0 z-10 rounded-tl-lg`}>
@@ -68,7 +68,7 @@ const ListItem = ({
             onClick={() => setShowSetting(true)}
             className="absolute right-2 top-2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/60 transition hover:cursor-pointer hover:bg-white hover:shadow-lg"
           >
-            <Image src="/menu.png" alt="setting icon" width={20} height={20} />
+            <Image src="/dots.png" alt="setting icon" width={20} height={20} />
           </div>
           {showSetting && (
             <ListSetting
@@ -80,7 +80,7 @@ const ListItem = ({
             />
           )}
         </div>
-      </div>
+      </li>
       {showUpload && (
         <UploadCard
           docId={docId}

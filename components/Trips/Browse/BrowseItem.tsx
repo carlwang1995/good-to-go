@@ -29,8 +29,8 @@ const BrowseItem = ({ trip }: { trip: TripType }) => {
   }, []);
 
   return (
-    <Link href={`/plan/${trip.docId}`}>
-      <div className="my-2 flex h-fit w-full rounded-md bg-white p-4 shadow-md transition hover:cursor-pointer hover:shadow-xl max-sm:block">
+    <li className="my-3 h-fit w-full rounded-md bg-white p-4 shadow-md transition hover:-translate-x-1 hover:-translate-y-1 hover:cursor-pointer hover:shadow-xl">
+      <Link href={`/plan/${trip.docId}`} className="flex max-sm:block">
         <div className="relative h-48 rounded-lg bg-slate-500 max-sm:min-w-48 sm:min-w-64">
           <Image
             src={trip.photo.photoUrl}
@@ -72,8 +72,8 @@ const BrowseItem = ({ trip }: { trip: TripType }) => {
             </p>
           </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </li>
   );
 };
 
