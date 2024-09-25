@@ -104,13 +104,13 @@ const PlanContent = ({ docId }: { docId: string }) => {
         <div className="absolute -top-6 flex w-full justify-center min-[980px]:hidden">
           <div
             onClick={() => setShowMobileMap(false)}
-            className="z-[25] flex w-[40%] items-center justify-center rounded-t-xl border border-black bg-white/80 shadow-md hover:cursor-pointer"
+            className="z-[25] flex w-[40%] items-center justify-center rounded-t-xl border border-black/30 bg-white/80 shadow-md hover:cursor-pointer"
           >
             <Image
-              src="/arrow-up.png"
+              src="/up-arrow.png"
               alt="arrow up"
-              width={15}
-              height={15}
+              width={16}
+              height={16}
               className="my-1"
             />
           </div>
@@ -124,10 +124,10 @@ const PlanContent = ({ docId }: { docId: string }) => {
             className="z-[35] flex w-[40%] items-center justify-center rounded-b-xl bg-white/50 shadow-md hover:cursor-pointer"
           >
             <Image
-              src="/arrow-down.png"
+              src="/down-arrow.png"
               alt="arrow up"
-              width={15}
-              height={15}
+              width={16}
+              height={16}
               className="my-1"
             />
           </div>
@@ -167,7 +167,7 @@ const PlanContent = ({ docId }: { docId: string }) => {
         )}
 
         <div className="relative flex h-14 w-full bg-white">
-          <div
+          <button
             onClick={dateScrollToLeft}
             className="absolute left-0 top-0 z-10 flex h-full items-center justify-center border border-white bg-white px-1 hover:cursor-pointer hover:border-slate-300 max-sm:hidden"
           >
@@ -177,7 +177,7 @@ const PlanContent = ({ docId }: { docId: string }) => {
               height={14}
               alt="left arrow"
             />
-          </div>
+          </button>
           <div
             className="flex h-full w-full overflow-x-hidden overflow-y-hidden scroll-smooth whitespace-nowrap px-7 max-sm:overflow-x-auto max-sm:px-1"
             ref={dateSectionRef}
@@ -194,7 +194,7 @@ const PlanContent = ({ docId }: { docId: string }) => {
                 />
               ))}
           </div>
-          <div
+          <button
             onClick={dateScrollToRight}
             className="hover: absolute right-0 top-0 z-10 flex h-full items-center justify-center border border-white bg-white px-1 hover:cursor-pointer hover:border-slate-300 max-sm:hidden"
           >
@@ -206,7 +206,7 @@ const PlanContent = ({ docId }: { docId: string }) => {
                 alt="right arrow"
               />
             </div>
-          </div>
+          </button>
         </div>
       </div>
       {tripInfo && userId !== undefined && (

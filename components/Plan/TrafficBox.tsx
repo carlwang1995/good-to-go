@@ -4,7 +4,7 @@ import { convertTimeString } from "@/libs/timeConvertor";
 import Image from "next/image";
 import TrafficModeSetting from "./TrafficModeSetting";
 import { EditableContext } from "@/contexts/ContextProvider";
-import { directionsData } from "@/libs/fakeData";
+import { directionsData } from "@/constants";
 
 interface PlaceType {
   id: number;

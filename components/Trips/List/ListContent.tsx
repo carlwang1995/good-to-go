@@ -21,8 +21,8 @@ type ListContentProps = {
 const ListContent = ({ setDisplay, trips }: ListContentProps) => {
   return (
     <>
-      <div className="mt-4 grid w-full grid-cols-3 gap-8 max-[1000px]:grid-cols-2 max-sm:grid-cols-1">
-        <div
+      <ul className="mt-4 grid w-full grid-cols-3 gap-8 max-[1000px]:grid-cols-2 max-sm:grid-cols-1">
+        <li
           onClick={() => setDisplay((prev) => !prev)}
           className="flex min-h-[220px] items-center justify-center rounded-lg border border-solid border-sky-800 bg-white transition hover:cursor-pointer"
         >
@@ -32,7 +32,7 @@ const ListContent = ({ setDisplay, trips }: ListContentProps) => {
             </div>
             <div className="text-blue-500">新增行程</div>
           </div>
-        </div>
+        </li>
         {trips.length > 0 &&
           trips.map((trip, index) => (
             <ListItem
@@ -48,7 +48,7 @@ const ListContent = ({ setDisplay, trips }: ListContentProps) => {
               destination={trip.destination}
             />
           ))}
-      </div>
+      </ul>
     </>
   );
 };

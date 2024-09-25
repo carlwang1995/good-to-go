@@ -15,3 +15,40 @@ body {
   background-color: #f4f4f5;
   font-size: 16px;
 }
+
+@layer utilities {
+  .btn_blue {
+    @apply w-fit rounded border border-solid border-blue-700 bg-blue-500 px-2 py-1 text-lg text-white transition hover:bg-blue-700;
+  }
+  .btn_white {
+    @apply w-fit rounded px-2 py-1 text-lg text-blue-500 transition hover:bg-blue-50;
+  }
+  .btn_red {
+    @apply w-fit rounded border border-solid border-red-600 bg-red-400 px-2 py-1 text-lg text-white transition hover:bg-red-600;
+  }
+  .btn_undone {
+    @apply w-fit rounded border border-gray-200 bg-gray-200 px-2 py-1 text-lg text-gray-400 hover:cursor-default;
+  }
+}
+.slide-in-left {
+  opacity: 0;
+  transform: translateX(100px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+.slide-in-left.active {
+  animation: slideInLeft 0.5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

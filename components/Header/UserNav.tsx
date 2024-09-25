@@ -22,8 +22,8 @@ const UserNav = () => {
 
   return (
     <>
-      <div className="absolute right-0 top-0 flex h-full items-center max-sm:hidden">
-        <div className="mx-3 flex items-center justify-center">
+      <ul className="absolute right-0 top-0 flex h-full items-center max-sm:hidden">
+        <li className="mx-3 flex items-center justify-center">
           {!isLoading && (
             <Link href={user ? "/trips" : "/login"}>
               <p className="text-xl font-bold text-sky-800 transition">
@@ -31,13 +31,13 @@ const UserNav = () => {
               </p>
             </Link>
           )}
-        </div>
+        </li>
         {isLoading ? (
-          <div className="relative mx-3 flex items-center justify-center">
+          <li className="relative mx-3 flex items-center justify-center">
             <Loading widthPx={35} heightPx={35} />
-          </div>
+          </li>
         ) : user ? (
-          <div className="relative flex items-center justify-center">
+          <li className="relative flex items-center justify-center">
             <Image
               className="rounded-full border-2 border-solid border-sky-800 hover:cursor-pointer"
               src={photoUrl ? photoUrl : "/user.png"}
@@ -46,15 +46,15 @@ const UserNav = () => {
               height={35}
               onClick={() => setIsOpenSetting(!isOpenSetting)}
             />
-          </div>
+          </li>
         ) : (
-          <Link style={{ textDecoration: "none" }} href="/login">
-            <div className="hover:pointer mx-3 flex h-full items-center justify-center text-xl hover:font-bold">
+          <li className="hover:pointer mx-3 flex h-full items-center justify-center text-xl hover:font-bold">
+            <Link style={{ textDecoration: "none" }} href="/login">
               <p className="font-bold text-sky-800">登入</p>
-            </div>
-          </Link>
+            </Link>
+          </li>
         )}
-      </div>
+      </ul>
       <div
         onClick={() => {
           setIsOpenMobileSetting(true);

@@ -73,17 +73,14 @@ const CalendarCard = ({
         />
         <div className="absolute bottom-5 right-5 flex justify-end">
           <button
-            className="mr-3 rounded px-2 py-1 text-lg text-blue-500 hover:bg-blue-50"
+            className="btn_white mr-3"
             onClick={() => {
               setIsOpenCalendar(false);
             }}
           >
             返回
           </button>
-          <button
-            className="rounded border border-black bg-blue-500 px-2 py-1 text-lg text-white transition hover:cursor-pointer hover:bg-blue-700"
-            onClick={confirmDateRange}
-          >
+          <button className="btn_blue" onClick={confirmDateRange}>
             確認
           </button>
         </div>
@@ -100,17 +97,14 @@ const CalendarCard = ({
         />
         <div className="absolute bottom-5 right-5 flex justify-end">
           <button
-            className="mr-3 rounded px-2 py-1 text-lg text-blue-500 hover:bg-blue-50"
+            className="btn_white mr-3"
             onClick={() => {
               setIsOpenCalendar(false);
             }}
           >
             返回
           </button>
-          <button
-            className="rounded border border-black bg-blue-500 px-2 py-1 text-lg text-white transition hover:cursor-pointer hover:bg-blue-700"
-            onClick={confirmDateRange}
-          >
+          <button className="btn_blue" onClick={confirmDateRange}>
             確認
           </button>
         </div>

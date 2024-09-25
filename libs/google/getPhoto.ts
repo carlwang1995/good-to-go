@@ -10,7 +10,7 @@ export default async function get_photo(
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    console.log("發出Photo fetch");
+    // console.log("發出Photo fetch");
     const data = await response.json();
     return data.photoUri;
   } catch (e) {

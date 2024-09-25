@@ -41,7 +41,7 @@ const TripsContent = ({ userId }: { userId: string }) => {
   }, [userId, state]);
 
   useEffect(() => {
-    if (localStorage.getItem("page") === "browse") {
+    if (sessionStorage.getItem("page") === "browse") {
       setContent(false);
     } else {
       setContent(true);
@@ -54,7 +54,7 @@ const TripsContent = ({ userId }: { userId: string }) => {
         <div
           onClick={() => {
             setContent(true);
-            localStorage.setItem("page", "list");
+            sessionStorage.setItem("page", "list");
           }}
           className={`border-b-4 border-solid p-2 text-lg transition hover:cursor-pointer ${content ? "border-blue-700 font-bold text-blue-700 hover:border-blue-700" : "border-transparent hover:border-blue-300 hover:text-blue-300"} `}
         >
@@ -63,7 +63,7 @@ const TripsContent = ({ userId }: { userId: string }) => {
         <div
           onClick={() => {
             setContent(false);
-            localStorage.setItem("page", "browse");
+            sessionStorage.setItem("page", "browse");
           }}
           className={`border-b-4 border-solid p-2 text-lg transition hover:cursor-pointer ${!content ? "border-blue-700 font-bold text-blue-700 hover:border-blue-700" : "border-transparent hover:border-blue-300 hover:text-blue-300"} `}
         >

@@ -34,23 +34,14 @@ type PlaceBoxProps = {
   trip: TripType;
   place: PlaceType;
   startTime: string;
-  setShowPlaceInfo: React.Dispatch<React.SetStateAction<boolean>>;
-  setPlaceInfo: React.Dispatch<React.SetStateAction<PlaceType | undefined>>;
 };
 
-const PlaceBox = ({
-  number,
-  trip,
-  place,
-  startTime,
-  setShowPlaceInfo,
-  setPlaceInfo,
-}: PlaceBoxProps) => {
+const PlaceBox = ({ number, trip, place, startTime }: PlaceBoxProps) => {
   const [showDeleteBtn, setShowDeleteBtn] = useState<boolean>(false);
   const [showStayTimeSetting, setShowStaySetting] = useState<boolean>(false);
+  const { setPlaceLatLng, setPlaceInfo, setShowPlaceInfo } = useMapMarkers();
   const { stayTime, name, address, location, photos } = place;
 
-  const { setPlaceLatLng } = useMapMarkers();
   const dayIndex = useContext(DayIndexContext);
   const planDocId = useContext(DocIdContext);
   const isEditable = useContext(EditableContext);
@@ -101,8 +92,8 @@ const PlaceBox = ({
     <>
       <div
         className="relative mb-[40px] flex h-[120px] w-full border-t border-solid border-gray-200 bg-white p-5 shadow-md transition hover:shadow-lg max-sm:h-fit max-sm:p-2"
-        onMouseEnter={() => setShowDeleteBtn((pre) => !pre)}
-        onMouseLeave={() => setShowDeleteBtn((pre) => !pre)}
+        onMouseEnter={() => setShowDeleteBtn(true)}
+        onMouseLeave={() => setShowDeleteBtn(false)}
       >
         <div
           onClick={() => {
@@ -170,14 +161,14 @@ const PlaceBox = ({
             </div>
           </div>
         </div>
-        {showDeleteBtn && isEditable && (
+        {isEditable && (
           <div
             onClick={async () => {
               await deleteTripInfoBox(dayIndex, planDocId, place);
               setPlaceLatLng(null);
               setShowPlaceInfo(false);
             }}
-            className="absolute right-0 top-0 z-10 rounded p-1 hover:cursor-pointer max-sm:hidden"
+            className={`absolute right-0 top-0 z-10 rounded p-1 hover:cursor-pointer max-sm:hidden ${showDeleteBtn ? "visible" : "invisible"}`}
           >
             <Image src="/delete.png" alt="delete" width={20} height={20} />
           </div>

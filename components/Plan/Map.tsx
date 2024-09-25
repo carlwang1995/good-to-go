@@ -31,7 +31,6 @@ const SetPlaceView = ({
     number?: number;
     position: any;
   } | null;
-  markers: any;
 }) => {
   const selectIcon = new DivIcon({
     iconAnchor: [25, 50],
@@ -59,15 +58,28 @@ const SetPlaceView = ({
 };
 
 const LeafletMap = () => {
-  const { markers, routes, placeLatLng } = useMapMarkers();
+  const {
+    markers,
+    routes,
+    placeLatLng,
+    places,
+    setPlaceLatLng,
+    setPlaceInfo,
+    setShowPlaceInfo,
+  } = useMapMarkers();
   const [icons, setIcons] = useState<Array<DivIcon>>([]);
+
+  const markerHandler = (index: number, latlng: any) => {
+    setPlaceLatLng({ number: index + 1, position: latlng });
+    setShowPlaceInfo(true);
+    setPlaceInfo(places![index]);
+  };
 
   const mapMarkers = markers.map((location: any) => {
     return {
       geocode: [location[0], location[1]],
     };
   });
-
   useEffect(() => {
     setIcons([]);
     if (markers.length > 0) {
@@ -112,12 +124,15 @@ const LeafletMap = () => {
                 position={marker.geocode}
                 key={index}
                 icon={icons[index]}
+                eventHandlers={{
+                  click: () => markerHandler(index, marker.geocode),
+                }}
               />
             ),
         )}
       <ZoomControl position="bottomright" />
       <FitMapToBounds bounds={markers} />
-      <SetPlaceView latlng={placeLatLng} markers={markers} />
+      <SetPlaceView latlng={placeLatLng} />
       <Polyline
         pathOptions={
           process.env.NODE_ENV == "production"
