@@ -6,7 +6,9 @@ Good to GO is a travel itinerary planning website that allows users to create tr
 ***Link：***[https://goodtogo-project.vercel.app/](https://goodtogo-project.vercel.app/)
 * Test account : test@test.com
 * Test password : 111111
-* ***Or you can just hit the "Login as Tester" button as well."***
+* *Or you can just hit the "Login as Tester" button as well."*
+
+![Login](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/login.png)
 ## Techniques
 ### Front-End
 * **Next.js**
@@ -33,11 +35,25 @@ Good to GO is a travel itinerary planning website that allows users to create tr
 ## Features
 ### Trip
 #### Create a Trip
-#### Share the Trip
-Users can share a URL link with others and post it on the public trips page.
-#### Upload Trip's Cover Photo
-Users can customize the trip covers by uploading photos.
+* Create a Trip.
 
+![Create a Trip](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/createTrip.gif)
+#### Share the Trip
+* Users can share a URL link with others and post it on the public trips page.
+
+![Share the Trip](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/setPrivacy.gif)
+#### Upload Trip's Cover Photo
+* Users can customize the trip covers by uploading photos.
+
+![Upload Trip's Cover Photo](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/uploadPhoto.gif)
+### Plan
+#### Add Places
+#### DnD
+![DND](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/DND%26Delete.gif)
+#### Setting Plan Detail
+![Setting Plan Detail](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/SettingPlanDetail.gif)
+#### Setting Trip Info
+![Setting Trip Info](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/SettingTripInfo.gif)
 * Developed draggable / droppable UI that allows users to freely edit the order of trips.
 * Developed the interface that allows real-time editing, with data synchronized to the database without any noticeable delay.
 
