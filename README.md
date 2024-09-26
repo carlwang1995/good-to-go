@@ -48,6 +48,7 @@ Good to GO is a travel itinerary planning website that allows users to create tr
 ![Upload Trip's Cover Photo](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/uploadPhoto.gif)
 ### Plan
 #### Add Places
+![Add Places](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/addPlaces.gif)
 #### DnD
 * Developed draggable / droppable UI that allows users to freely edit the order of trips.
 
