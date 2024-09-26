@@ -34,8 +34,6 @@ Good to GO is a travel itinerary planning website that allows users to create tr
 ## Features
 ### Trip
 #### Create a Trip
-* Create a Trip.
-
 ![Create a Trip](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/createTrip.gif)
 #### Share the Trip
 * Users can share a URL link with others and post it on the public trips page.
