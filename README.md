@@ -33,25 +33,27 @@ Good to GO is a travel itinerary planning website that allows users to create tr
 * **react-date-range**
 ## Features
 ### Trip
-#### Create a Trip
+* **Create a Trip**
+
 ![Create a Trip](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/createTrip.gif)
-#### Share the Trip
-* Users can share a URL link with others and post it on the public trips page.
+* **Share the Trip**
+  * Users can share a URL link with others and post it on the public trips page.
 
 ![Share the Trip](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/setPrivacy.gif)
-#### Upload Trip's Cover Photo
-* Users can customize the trip covers by uploading photos.
+* **Upload Trip's Cover Photo**
+  * Users can customize the trip covers by uploading photos.
 
 ![Upload Trip's Cover Photo](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/uploadPhoto.gif)
 ### Plan
-#### Add Places
+* **Add Places**
+
 ![Add Places](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/addPlaces.gif)
-#### DnD
-* Developed draggable / droppable UI that allows users to freely edit the order of trips.
+* **Drag and Drop**
+  * Developed draggable / droppable UI that allows users to freely edit the order of trips.
 
 ![DND](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/DND%26Delete.gif)
-### Editing Interface
-* Developed the interface that allows real-time editing, with data synchronized to the database without any noticeable delay.
+* **Editing Interface**
+  * Developed the interface that allows real-time editing, with data synchronized to the database without any noticeable delay.
 
 ![Setting Plan Detail](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/SettingPlanDetail.gif)
 ![Setting Trip Info](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/SettingTripInfo.gif)
