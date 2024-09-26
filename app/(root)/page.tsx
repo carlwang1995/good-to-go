@@ -18,6 +18,7 @@ export default function Home() {
             alt="banner"
             fill
             priority
+            loading="eager"
             className="absolute right-0 top-0 object-cover"
           />
           <div className="z-10 flex w-[1100px] items-center px-4 max-[1100px]:w-full">

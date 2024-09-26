@@ -1,5 +1,4 @@
 "use server";
-import React from "react";
 import FormProvider from "@/components/Login/FormProvider";
 import Image from "next/image";
 const Login = () => {
@@ -12,6 +11,7 @@ const Login = () => {
           alt="banner"
           fill
           priority
+          loading="eager"
           className="absolute right-0 top-0 z-0 object-cover"
         />
       </main>

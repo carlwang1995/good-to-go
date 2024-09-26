@@ -34,7 +34,6 @@ const BrowseItem = ({ trip }: { trip: TripType }) => {
         <div className="relative h-48 rounded-lg bg-slate-500 max-sm:min-w-48 sm:min-w-64">
           <Image
             src={trip.photo.photoUrl}
-            priority={true}
             alt="trip's photo"
             fill={true}
             sizes="{min-width:'256px'}"
