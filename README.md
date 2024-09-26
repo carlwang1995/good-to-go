@@ -49,13 +49,17 @@ Good to GO is a travel itinerary planning website that allows users to create tr
 ### Plan
 #### Add Places
 #### DnD
-![DND](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/DND%26Delete.gif)
-#### Setting Plan Detail
-![Setting Plan Detail](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/SettingPlanDetail.gif)
-#### Setting Trip Info
-![Setting Trip Info](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/SettingTripInfo.gif)
 * Developed draggable / droppable UI that allows users to freely edit the order of trips.
+
+![DND](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/DND%26Delete.gif)
+### Editing Interface
 * Developed the interface that allows real-time editing, with data synchronized to the database without any noticeable delay.
+##### Setting Plan Detail
+![Setting Plan Detail](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/SettingPlanDetail.gif)
+##### Setting Trip Info
+![Setting Trip Info](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/SettingTripInfo.gif)
+
+
 
 ## Contact
 * **Name:** Wei-Yao Wang
