@@ -1,3 +1,4 @@
+![Home](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/homePage.jpg)
 # Good to GO
 ## Introduction
 Good to GO is a travel itinerary planning website that allows users to create trips, search for places, and edit travel plans freely.
@@ -5,6 +6,7 @@ Good to GO is a travel itinerary planning website that allows users to create tr
 ***Link：***[https://goodtogo-project.vercel.app/](https://goodtogo-project.vercel.app/)
 * Test account : test@test.com
 * Test password : 111111
+* ***Or you can just hit the "Login as Tester" button as well."***
 ## Techniques
 ### Front-End
 * **Next.js**
