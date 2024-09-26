@@ -53,7 +53,7 @@ const ResultListBox = ({
   return (
     <>
       <div
-        className="mb-4 mt-4 flex rounded border border-solid bg-white shadow-md transition hover:cursor-pointer hover:shadow-xl"
+        className="mb-4 mt-4 flex rounded border border-solid bg-white shadow-md transition hover:-translate-x-1 hover:-translate-y-1 hover:cursor-pointer hover:shadow-xl"
         onClick={() => {
           setSelectedPlace({
             placeId,

@@ -18,8 +18,7 @@ const TurtorialBox = ({ title, imageUrl, msg }: TurtorialBoxProps) => {
       <div className="flex w-full max-sm:flex-col max-sm:items-center">
         <div className="relative mx-2 my-4 h-[300px] min-w-[420px] shadow-lg max-[430px]:h-[240px] max-[430px]:min-w-[336px]">
           <Image
-            unoptimized
-            priority
+            loading="lazy"
             src={`${imageUrl}`}
             alt="create-trip"
             fill

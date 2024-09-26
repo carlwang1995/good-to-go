@@ -46,7 +46,6 @@ const ListItem = ({
                 </div>
               </div>
               <Image
-                priority
                 src={photoUrl}
                 alt="background"
                 fill={true}

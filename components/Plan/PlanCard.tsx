@@ -90,13 +90,11 @@ const PlanCard = ({ docId, dateCount, planTitleState }: PlanCardProps) => {
     useState<boolean>(false);
 
   const {
-    placeInfo,
     showPlaceInfo,
     setMarkers,
     setPlaceLatLng,
     setRoutes,
     setPlaces,
-    setPlaceInfo,
     setShowPlaceInfo,
   } = useMapMarkers();
 
@@ -192,8 +190,11 @@ const PlanCard = ({ docId, dateCount, planTitleState }: PlanCardProps) => {
     setRoutes([]);
     setPlaceLatLng(null);
     setShowPlaceInfo(false);
-    setLastEditTime(planContent?.trips[dayIndex].lastEditTime);
-    const trip = planContent?.trips[dayIndex];
+    if (!planContent || !dayIndex) {
+      return;
+    }
+    setLastEditTime(planContent.trips[dayIndex].lastEditTime);
+    const trip = planContent.trips[dayIndex];
     if (trip && trip.places.length > 0) {
       setPlaces(trip.places);
       const newDepartArray: Array<string> = [];

@@ -46,7 +46,7 @@ const PlaceBox = ({ number, trip, place, startTime }: PlaceBoxProps) => {
   const planDocId = useContext(DocIdContext);
   const isEditable = useContext(EditableContext);
   const { planContent, setPlanContent } = useContext(PlanContentContext);
-
+  console.log(place);
   if (!dayIndex) {
     throw new Error("Can't access DayIndexContext.");
   }
