@@ -32,6 +32,11 @@ Good to GO is a travel itinerary planning website that allows users to create tr
 * **@hello-pangea/dnd** ( similar to `react-beautiful-dnd` )
 * **react-date-range**
 ## Component Structure
+![Routing Tree](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/structure/RoutingTree.jpg)
+![Login](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/structure/Login.jpg)
+![Header](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/structure/Header.jpg)
+![Trips](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/structure/Trips.jpg)
+![Plans](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/structure/Plans.jpg)
 ## Features
 ### Trip
 #### Create a Trip
