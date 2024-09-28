@@ -9,6 +9,7 @@ import {
 } from "firebase/storage";
 import { DB_updateTripInfoByDocId } from "@/libs/db/TripsDoc";
 import Image from "next/image";
+import { Button } from "@/components/Button";
 
 const UploadCard = ({
   docId,
@@ -101,6 +102,7 @@ const UploadCard = ({
               width={30}
               height={30}
               style={{ width: "20px", height: "20px", marginRight: "4px" }}
+              loading="eager"
             />
             <p className="text-xl font-bold text-sky-800">上傳封面圖</p>
           </div>
@@ -133,25 +135,23 @@ const UploadCard = ({
             )}
           </div>
           <div className="mr-2 flex justify-end">
-            <button
-              onClick={() => setShowUpload(false)}
-              className="btn_white mr-3"
-            >
-              關閉
-            </button>
+            <Button
+              title="關閉"
+              type="cancel"
+              onSmash={() => setShowUpload(false)}
+            />
             {!message && image ? (
-              <button
-                onClick={async () => {
+              <Button
+                title="上傳"
+                type="confirm"
+                onSmash={async () => {
                   if (image) {
                     uploadTripImage(docId, image);
                   }
                 }}
-                className="btn_blue"
-              >
-                上傳
-              </button>
+              />
             ) : (
-              <button className="btn_undone">上傳</button>
+              <Button title="上傳" type="undone" />
             )}
           </div>
         </div>

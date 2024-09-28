@@ -51,24 +51,24 @@ const TripsContent = ({ userId }: { userId: string }) => {
   return (
     <StateContext.Provider value={setState}>
       <div className="flex">
-        <div
+        <button
           onClick={() => {
             setContent(true);
             sessionStorage.setItem("page", "list");
           }}
-          className={`border-b-4 border-solid p-2 text-lg transition hover:cursor-pointer ${content ? "border-blue-700 font-bold text-blue-700 hover:border-blue-700" : "border-transparent hover:border-blue-300 hover:text-blue-300"} `}
+          className={`border-b-4 border-solid p-2 text-lg transition ${content ? "border-blue-700 font-bold text-blue-700 hover:border-blue-700" : "border-transparent hover:border-blue-300 hover:text-blue-300"} `}
         >
           我的行程
-        </div>
-        <div
+        </button>
+        <button
           onClick={() => {
             setContent(false);
             sessionStorage.setItem("page", "browse");
           }}
-          className={`border-b-4 border-solid p-2 text-lg transition hover:cursor-pointer ${!content ? "border-blue-700 font-bold text-blue-700 hover:border-blue-700" : "border-transparent hover:border-blue-300 hover:text-blue-300"} `}
+          className={`border-b-4 border-solid p-2 text-lg transition ${!content ? "border-blue-700 font-bold text-blue-700 hover:border-blue-700" : "border-transparent hover:border-blue-300 hover:text-blue-300"} `}
         >
           探索行程
-        </div>
+        </button>
       </div>
       <hr className="border-slate-400" />
       {content ? (

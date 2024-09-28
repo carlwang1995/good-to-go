@@ -4,6 +4,7 @@ import "react-date-range/dist/theme/default.css"; // theme css file
 import { DateRange } from "react-date-range";
 import { zhCN } from "date-fns/locale";
 import { format } from "date-fns";
+import { Button } from "../Button";
 
 type CalendarCardProps = {
   currentStartDate?: string;
@@ -96,17 +97,14 @@ const CalendarCard = ({
           locale={zhCN}
         />
         <div className="absolute bottom-5 right-5 flex justify-end">
-          <button
-            className="btn_white mr-3"
-            onClick={() => {
+          <Button
+            title="返回"
+            type="cancel"
+            onSmash={() => {
               setIsOpenCalendar(false);
             }}
-          >
-            返回
-          </button>
-          <button className="btn_blue" onClick={confirmDateRange}>
-            確認
-          </button>
+          />
+          <Button title="確認" type="confirm" onSmash={confirmDateRange} />
         </div>
       </div>
     </>

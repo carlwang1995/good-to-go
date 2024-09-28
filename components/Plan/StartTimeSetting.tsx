@@ -5,6 +5,7 @@ import {
 } from "@/contexts/ContextProvider";
 import { DB_updateTripStartTime } from "@/libs/db/PlansDoc";
 import { getTimeNow } from "@/libs/timeConvertor";
+import { Button } from "../Button";
 
 const StartTimeSetting = ({
   planDocId,
@@ -119,18 +120,16 @@ const StartTimeSetting = ({
             </select>
           </div>
           <div className="mr-2 flex justify-end">
-            <button
-              onClick={() => setShowStartTimeSetting(false)}
-              className="btn_white mr-3"
-            >
-              關閉
-            </button>
-            <button
-              onClick={() => updateStartTime(planDocId, dayIndex)}
-              className="btn_blue"
-            >
-              確認
-            </button>
+            <Button
+              title="關閉"
+              type="cancel"
+              onSmash={() => setShowStartTimeSetting(false)}
+            />
+            <Button
+              title="確認"
+              type="confirm"
+              onSmash={() => updateStartTime(planDocId, dayIndex)}
+            />
           </div>
         </div>
       </div>

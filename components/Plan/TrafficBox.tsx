@@ -110,7 +110,7 @@ const TrafficBox = ({
 
   return (
     <>
-      <div
+      <button
         onClick={() => {
           setIsShowModeSetting(true);
         }}
@@ -147,7 +147,7 @@ const TrafficBox = ({
         ) : (
           <></>
         )}
-      </div>
+      </button>
       {isShowModeSetting && isEditable && (
         <TrafficModeSetting
           number={number}

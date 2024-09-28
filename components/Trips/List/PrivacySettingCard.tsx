@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { StateContext } from "@/contexts/ContextProvider";
 import { DB_updateTripInfoByDocId } from "@/libs/db/TripsDoc";
 import Image from "next/image";
+import { Button } from "@/components/Button";
 
 const PrivacySettingCard = ({
   setShowPravicy,
@@ -50,6 +51,7 @@ const PrivacySettingCard = ({
               width={30}
               height={30}
               style={{ width: "20px", height: "20px", marginRight: "4px" }}
+              loading="eager"
             />
             <p className="text-xl font-bold text-sky-800">隱私設定與分享</p>
           </div>
@@ -120,22 +122,20 @@ const PrivacySettingCard = ({
             )}
           </div>
           <div className="mr-2 flex justify-end">
-            <button
-              onClick={() => setShowPravicy(false)}
-              className="btn_white mr-3"
-            >
-              取消
-            </button>
-            <button
-              onClick={() => {
+            <Button
+              title="取消"
+              type="cancel"
+              onSmash={() => setShowPravicy(false)}
+            />
+            <Button
+              title="完成"
+              type="confirm"
+              onSmash={() => {
                 if (docId) {
                   upadtePrivacy(docId, privacy);
                 }
               }}
-              className="btn_blue"
-            >
-              完成
-            </button>
+            />
           </div>
         </div>
       </div>

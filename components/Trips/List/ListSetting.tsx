@@ -67,6 +67,7 @@ const ListSetting = ({
             width={15}
             height={15}
             className="mr-1 h-full w-fit"
+            loading="eager"
           />
           隱私設定與分享
         </li>
@@ -83,6 +84,7 @@ const ListSetting = ({
             width={15}
             height={15}
             className="mr-1 h-full w-fit"
+            loading="eager"
           />
           上傳封面圖
         </li>
@@ -100,6 +102,7 @@ const ListSetting = ({
             width={15}
             height={15}
             className="mr-1 h-full w-fit"
+            loading="eager"
           />
           刪除行程
         </li>
