@@ -46,7 +46,6 @@ const BrowseItem = ({ trip }: { trip: TripType }) => {
             </p>
           </div>
         </div>
-        {/* --- */}
         <div className="ml-4 flex flex-col justify-between">
           <div className="mt-2 items-center">
             <p className="text-2xl font-bold text-sky-800 max-sm:text-xl">

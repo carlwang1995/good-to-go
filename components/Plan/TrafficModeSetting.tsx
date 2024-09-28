@@ -7,6 +7,7 @@ import {
 import { DB_upadatePlaceInfo } from "@/libs/db/PlansDoc";
 import TrafficModeButton from "./TrafficModeButton";
 import { getTimeNow } from "@/libs/timeConvertor";
+import { Button } from "../Button";
 
 interface PlaceType {
   id: number;
@@ -95,22 +96,20 @@ const TrafficModeSetting = ({
           </div>
           <TrafficModeButton mode={newMode} setMode={setNewMode} />
           <div className="mr-2 flex justify-end">
-            <button
-              onClick={() => setIsShowing(false)}
-              className="btn_white mr-3"
-            >
-              返回
-            </button>
-            <button
-              onClick={() => {
+            <Button
+              title="返回"
+              type="cancel"
+              onSmash={() => setIsShowing(false)}
+            />
+            <Button
+              title="確認"
+              type="confirm"
+              onSmash={() => {
                 if (currentMode != newMode) {
                   updateMode(planDocId, dayIndex, number);
                 }
               }}
-              className="btn_blue"
-            >
-              確認
-            </button>
+            />
           </div>
         </div>
       </div>

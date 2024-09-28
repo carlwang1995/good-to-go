@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { Button } from "../Button";
 
 type UserSettingProps = {
   user: string | boolean;
@@ -34,14 +35,13 @@ const UserSetting = ({
       </div>
       <hr className="my-4 border-slate-300" />
       <div className="flex justify-center">
-        <button
-          onClick={() => {
+        <Button
+          title="登出"
+          type="confirm"
+          onSmash={() => {
             signOut();
           }}
-          className="btn_blue"
-        >
-          登出
-        </button>
+        />
       </div>
     </div>
   );

@@ -8,6 +8,7 @@ import {
 } from "@/contexts/ContextProvider";
 import { useMapMarkers } from "@/contexts/UseMapMarkers";
 import { getTimeNow } from "@/libs/timeConvertor";
+import { Button } from "@/components/Button";
 
 type PlaceType = {
   id?: number;
@@ -94,16 +95,15 @@ const PlaceInfoBottomBox = ({
         <div className="flex h-full items-center justify-center">
           <div className="flex flex-col items-center">
             <div className="p-2 text-xl text-green-500">加入成功！</div>
-            <button
-              onClick={() => {
+            <Button
+              title="結束搜尋"
+              type="close"
+              onSmash={() => {
                 setIsSearching(false);
                 setIsShowSearchResult(false);
                 setPlaceLatLng(null);
               }}
-              className="btn_red"
-            >
-              結束搜尋
-            </button>
+            />
           </div>
         </div>
       ) : (
@@ -169,15 +169,14 @@ const PlaceInfoBottomBox = ({
             </div>
           </div>
           <div className="flex items-center justify-center">
-            <button
-              onClick={() => {
+            <Button
+              title="加入行程"
+              type="confirm"
+              onSmash={() => {
                 addPlace(selectedPlace, planDocId);
                 setPlaceLatLng(null);
               }}
-              className="btn_blue w-fit"
-            >
-              加入行程
-            </button>
+            />
           </div>
         </>
       )}

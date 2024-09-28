@@ -5,6 +5,7 @@ import {
 } from "@/contexts/ContextProvider";
 import { DB_upadatePlaceInfo } from "@/libs/db/PlansDoc";
 import { getTimeNow } from "@/libs/timeConvertor";
+import { Button } from "../Button";
 
 interface PlaceType {
   id: number;
@@ -147,18 +148,16 @@ const PlaceStayTimeSetting = ({
             </select>
           </div>
           <div className="mr-2 flex justify-end">
-            <button
-              onClick={() => setShowStaySetting(false)}
-              className="btn_white mr-3"
-            >
-              關閉
-            </button>
-            <button
-              onClick={() => updateStaytTime(planDocId, dayIndex, number)}
-              className="btn_blue"
-            >
-              確認
-            </button>
+            <Button
+              title="關閉"
+              type="cancel"
+              onSmash={() => setShowStaySetting(false)}
+            />
+            <Button
+              title="確認"
+              type="confirm"
+              onSmash={() => updateStaytTime(planDocId, dayIndex, number)}
+            />
           </div>
         </div>
       </div>

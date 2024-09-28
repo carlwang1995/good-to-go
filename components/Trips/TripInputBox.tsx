@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { getDateBetween } from "@/libs/getDatesBetween";
 import { getTimeNow } from "@/libs/timeConvertor";
 import { coverPhotos } from "@/constants";
+import { Button } from "../Button";
 
 type TripInputProps = {
   startDate: string;
@@ -236,23 +237,20 @@ const TripInput = ({
       {!isTripName && <p className="text-sm text-red-500">請輸入行程名稱</p>}
       <br />
       <div className="flex justify-end">
-        <button onClick={cancelEdit} className="btn_white mr-2">
-          取消
-        </button>
+        <Button title="取消" type="cancel" onSmash={cancelEdit} />
         {isCreating ? (
           <button className="flex w-14 items-center justify-center rounded border border-solid border-black px-2 py-1 text-lg hover:cursor-default">
             <Image src="/loading.gif" width={20} height={20} alt="loading" />
           </button>
         ) : (
-          <button
-            onClick={() => {
+          <Button
+            title="完成"
+            type="confirm"
+            onSmash={() => {
               checkInput();
               createTrip(startDate, endDate, destinaitonArray, inputTripName);
             }}
-            className="btn_blue"
-          >
-            完成
-          </button>
+          />
         )}
       </div>
     </div>
