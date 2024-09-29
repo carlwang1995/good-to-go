@@ -224,7 +224,7 @@ const PlanCard = ({ docId, dateCount, planTitleState }: PlanCardProps) => {
       for (let i = 0; i < trip.places.length; i++) {
         newPlaceBoxArray.push(
           <PlaceBox
-            key={i}
+            key={trip.places[i].id + trip.places[i].placeId}
             number={i}
             trip={trip}
             place={trip.places[i]}
@@ -236,7 +236,7 @@ const PlanCard = ({ docId, dateCount, planTitleState }: PlanCardProps) => {
       for (let i = 0; i < trip.places.length - 1; i++) {
         newTrafficBoxArray.push(
           <TrafficBox
-            key={i}
+            key={trip.places[i].id + trip.places[i].placeId}
             number={i}
             trip={trip}
             mode={trip.places[i].trafficMode}

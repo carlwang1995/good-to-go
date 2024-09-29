@@ -99,7 +99,7 @@ const SearchContent = ({
       for (let i = 0; i < results.length; i++) {
         newArr.push(
           <ResultListBox
-            key={i}
+            key={results[i].id}
             placeId={results[i].id}
             name={results[i].displayName.text}
             address={results[i].formattedAddress}
