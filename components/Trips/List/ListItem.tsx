@@ -63,12 +63,12 @@ const ListItem = ({
               </div>
             </div>
           </Link>
-          <div
+          <button
             onClick={() => setShowSetting(true)}
             className="absolute right-2 top-2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/60 transition hover:cursor-pointer hover:bg-white hover:shadow-lg"
           >
             <Image src="/dots.png" alt="setting icon" width={20} height={20} />
-          </div>
+          </button>
           {showSetting && (
             <ListSetting
               docId={docId}

@@ -185,7 +185,7 @@ const PlanContent = ({ docId }: { docId: string }) => {
             {tripInfo &&
               tripInfo.dates.map((date, index) => (
                 <DateItem
-                  key={index}
+                  key={date}
                   date={date}
                   dateNumber={index}
                   dayIndex={dayIndex}

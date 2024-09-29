@@ -34,9 +34,9 @@ const ListContent = ({ setDisplay, trips }: ListContentProps) => {
           </div>
         </li>
         {trips.length > 0 &&
-          trips.map((trip, index) => (
+          trips.map((trip) => (
             <ListItem
-              key={index}
+              key={trip.docId}
               docId={trip.docId}
               tripName={trip.tripName}
               dates={trip.dates}

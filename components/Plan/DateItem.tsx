@@ -8,7 +8,7 @@ type DateItemProps = {
   setDayIndex: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const DateItemSelected = ({
+const DateItem = ({
   date,
   dateNumber,
   dayIndex,
@@ -39,4 +39,4 @@ const DateItemSelected = ({
   );
 };
 
-export default DateItemSelected;
+export default DateItem;
