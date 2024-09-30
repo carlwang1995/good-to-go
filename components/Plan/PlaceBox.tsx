@@ -39,7 +39,7 @@ type PlaceBoxProps = {
 const PlaceBox = ({ number, trip, place, startTime }: PlaceBoxProps) => {
   const [showDeleteBtn, setShowDeleteBtn] = useState<boolean>(false);
   const [showStayTimeSetting, setShowStaySetting] = useState<boolean>(false);
-  const { setPlaceLatLng, setPlaceInfo, setShowPlaceInfo } = useMapMarkers();
+  const { setPlaceInfo, setShowPlaceInfo, setPlaceMarker } = useMapMarkers();
   const { stayTime, name, address, location, photos } = place;
 
   const dayIndex = useContext(DayIndexContext);
@@ -99,7 +99,7 @@ const PlaceBox = ({ number, trip, place, startTime }: PlaceBoxProps) => {
           onClick={() => {
             setPlaceInfo(place);
             setShowPlaceInfo(true);
-            setPlaceLatLng({
+            setPlaceMarker({
               number: number + 1,
               position: [location.latitude, location.longitude],
             });
@@ -165,7 +165,7 @@ const PlaceBox = ({ number, trip, place, startTime }: PlaceBoxProps) => {
           <div
             onClick={async () => {
               await deleteTripInfoBox(dayIndex, planDocId, place);
-              setPlaceLatLng(null);
+              setPlaceMarker(null);
               setShowPlaceInfo(false);
             }}
             className={`absolute right-0 top-0 z-10 rounded p-1 hover:cursor-pointer max-sm:hidden ${showDeleteBtn ? "visible" : "invisible"}`}
@@ -177,7 +177,7 @@ const PlaceBox = ({ number, trip, place, startTime }: PlaceBoxProps) => {
           <div
             onClick={async () => {
               await deleteTripInfoBox(dayIndex, planDocId, place);
-              setPlaceLatLng(null);
+              setPlaceMarker(null);
               setShowPlaceInfo(false);
             }}
             className="absolute right-1 top-1 z-10 hidden rounded p-1 hover:cursor-pointer max-sm:block"

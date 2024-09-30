@@ -56,7 +56,7 @@ const SearchContent = ({
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const { setPlaceLatLng } = useMapMarkers();
+  const { setPlaceMarker } = useMapMarkers();
 
   // 搜尋景點
   const searchPlaces = async (destination: string, input: string) => {
@@ -133,7 +133,7 @@ const SearchContent = ({
                 setIsSearching(false);
                 setIsShowSearchResult(false);
                 setResults([]);
-                setPlaceLatLng(null);
+                setPlaceMarker(null);
               }}
             />
           </span>
@@ -181,7 +181,7 @@ const SearchContent = ({
                   setMessage("");
                   setSearchListBoxArr([]);
                   setIsShowSearchResult(false);
-                  setPlaceLatLng(null);
+                  setPlaceMarker(null);
                 }}
                 className="text-base italic text-blue-700 hover:cursor-pointer hover:underline"
               >

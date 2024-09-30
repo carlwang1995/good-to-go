@@ -90,9 +90,9 @@ const PlanCard = ({ docId, dateCount, planTitleState }: PlanCardProps) => {
     useState<boolean>(false);
 
   const {
-    showPlaceInfo,
+    mapState,
     setMarkers,
-    setPlaceLatLng,
+    setPlaceMarker,
     setRoutes,
     setPlaces,
     setShowPlaceInfo,
@@ -188,7 +188,7 @@ const PlanCard = ({ docId, dateCount, planTitleState }: PlanCardProps) => {
 
   useEffect(() => {
     setRoutes([]);
-    setPlaceLatLng(null);
+    setPlaceMarker(null);
     setShowPlaceInfo(false);
     if (!planContent || !dayIndex) {
       return;
@@ -360,7 +360,7 @@ const PlanCard = ({ docId, dateCount, planTitleState }: PlanCardProps) => {
             setDestinationList={setDestinationList}
           />
         )}
-        {showPlaceInfo && <PlaceInfoCard />}
+        {mapState.showPlaceInfo && <PlaceInfoCard />}
         {showStartTimeSetting && isEditable && (
           <StartTimeSetting
             planDocId={planDocId}

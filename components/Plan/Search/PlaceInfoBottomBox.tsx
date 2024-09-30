@@ -48,7 +48,7 @@ const PlaceInfoBottomBox = ({
   const dayIndex = useContext(DayIndexContext); // day1,day2,day3 ...
   const planDocId = useContext(DocIdContext);
   const { planContent, setPlanContent } = useContext(PlanContentContext);
-  const { setPlaceLatLng } = useMapMarkers();
+  const { setPlaceMarker } = useMapMarkers();
 
   if (!dayIndex || !planDocId) {
     throw new Error("Can't access context.");
@@ -101,7 +101,7 @@ const PlaceInfoBottomBox = ({
               onSmash={() => {
                 setIsSearching(false);
                 setIsShowSearchResult(false);
-                setPlaceLatLng(null);
+                setPlaceMarker(null);
               }}
             />
           </div>
@@ -174,7 +174,7 @@ const PlaceInfoBottomBox = ({
               type="confirm"
               onSmash={() => {
                 addPlace(selectedPlace, planDocId);
-                setPlaceLatLng(null);
+                setPlaceMarker(null);
               }}
             />
           </div>

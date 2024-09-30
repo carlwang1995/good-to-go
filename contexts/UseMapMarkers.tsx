@@ -1,25 +1,18 @@
 "use client";
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useReducer } from "react";
 import { LatLngExpression } from "leaflet";
 
 type MapContextType = {
-  markers: LatLngExpression[];
-  routes: LatLngExpression[];
-  placeLatLng: { number?: number; position: Array<number> } | null;
-  places: Array<PlaceType> | undefined;
-  placeInfo: PlaceType | undefined;
-  showPlaceInfo: boolean;
-  setMarkers: React.Dispatch<React.SetStateAction<LatLngExpression[]>>;
-  setRoutes: React.Dispatch<React.SetStateAction<LatLngExpression[]>>;
-  setPlaceLatLng: React.Dispatch<
-    React.SetStateAction<{ number?: number; position: Array<number> } | null>
-  >;
-  setPlaces: React.Dispatch<React.SetStateAction<Array<PlaceType> | undefined>>;
-  setPlaceInfo: React.Dispatch<React.SetStateAction<PlaceType | undefined>>;
-  setShowPlaceInfo: React.Dispatch<React.SetStateAction<boolean>>;
+  mapState: MapState;
+  setMarkers: (markers: LatLngExpression[]) => void;
+  setRoutes: (routes: LatLngExpression[]) => void;
+  setPlaceMarker: (
+    placeMarker: { number?: number; position: Array<number> } | null,
+  ) => void;
+  setPlaces: (places: PlaceType[] | null) => void;
+  setPlaceInfo: (placeInfo: PlaceType | null) => void;
+  setShowPlaceInfo: (showPlaceInfo: boolean) => void;
 };
-
-const MapContext = createContext<MapContextType | undefined>(undefined);
 
 interface PlaceType {
   id: number;
@@ -33,34 +26,102 @@ interface PlaceType {
   photos: Array<string>;
 }
 
+type MapState = {
+  markers: LatLngExpression[];
+  routes: LatLngExpression[];
+  placeMarker: {
+    number?: number;
+    position: number[];
+  } | null;
+  places: PlaceType[] | null;
+  placeInfo: PlaceType | null;
+  showPlaceInfo: boolean;
+};
+
+type MapAction =
+  | {
+      type: "set_markers";
+      newMarkers: LatLngExpression[];
+    }
+  | {
+      type: "set_routes";
+      newRoutes: LatLngExpression[];
+    }
+  | {
+      type: "set_place_marker";
+      newPlaceMarker: {
+        number?: number;
+        position: number[];
+      } | null;
+    }
+  | {
+      type: "set_places";
+      newPlaces: PlaceType[] | null;
+    }
+  | {
+      type: "set_place_info";
+      newPlaceInfo: PlaceType | null;
+    }
+  | {
+      type: "show_place_info";
+      showPlaceInfo: boolean;
+    };
+
+const MapContext = createContext<MapContextType | null>(null);
+
+const initialState = {
+  markers: [],
+  routes: [],
+  placeMarker: null,
+  places: null,
+  placeInfo: null,
+  showPlaceInfo: false,
+};
+
 export const UseMapContextProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  const [markers, setMarkers] = useState<LatLngExpression[]>([]);
-  const [routes, setRoutes] = useState<LatLngExpression[]>([]);
-  const [placeLatLng, setPlaceLatLng] = useState<{
-    number?: number;
-    position: Array<number>;
-  } | null>(null);
-  const [places, setPlaces] = useState<Array<PlaceType>>();
-  const [placeInfo, setPlaceInfo] = useState<PlaceType>();
-  const [showPlaceInfo, setShowPlaceInfo] = useState(false);
+  const [mapState, dispatch] = useReducer(mapReducer, initialState);
+
+  const setMarkers = (markers: LatLngExpression[]) => {
+    dispatch({ type: "set_markers", newMarkers: markers });
+  };
+
+  const setRoutes = (routes: LatLngExpression[]) => {
+    dispatch({ type: "set_routes", newRoutes: routes });
+  };
+
+  const setPlaces = (places: PlaceType[] | null) => {
+    dispatch({ type: "set_places", newPlaces: places });
+  };
+
+  const setPlaceInfo = (place: PlaceType | null) => {
+    dispatch({ type: "set_place_info", newPlaceInfo: place });
+  };
+
+  const setPlaceMarker = (
+    placeMarker: {
+      number?: number;
+      position: number[];
+    } | null,
+  ) => {
+    dispatch({ type: "set_place_marker", newPlaceMarker: placeMarker });
+  };
+  const setShowPlaceInfo = (boolean: boolean) => {
+    dispatch({ type: "show_place_info", showPlaceInfo: boolean });
+  };
+
   return (
     <MapContext.Provider
       value={{
-        markers,
-        routes,
-        placeLatLng,
-        places,
-        placeInfo,
-        showPlaceInfo,
+        mapState,
         setMarkers,
-        setPlaceLatLng,
         setRoutes,
         setPlaces,
         setPlaceInfo,
+        setPlaceMarker,
         setShowPlaceInfo,
       }}
     >
@@ -76,3 +137,22 @@ export const useMapMarkers = () => {
   }
   return context;
 };
+
+function mapReducer(state: MapState, action: MapAction) {
+  switch (action.type) {
+    case "set_markers":
+      return { ...state, markers: action.newMarkers };
+    case "set_routes":
+      return { ...state, routes: action.newRoutes };
+    case "set_place_marker":
+      return { ...state, placeMarker: action.newPlaceMarker };
+    case "set_places":
+      return { ...state, places: action.newPlaces };
+    case "set_place_info":
+      return { ...state, placeInfo: action.newPlaceInfo };
+    case "show_place_info":
+      return { ...state, showPlaceInfo: action.showPlaceInfo };
+    default:
+      throw new Error("Unknown action.");
+  }
+}
