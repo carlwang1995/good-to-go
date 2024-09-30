@@ -4,7 +4,7 @@ const OpenSearchBtn = ({
   setShowPlaceInfo,
 }: {
   setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
-  setShowPlaceInfo: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowPlaceInfo: (showPlaceInfo: boolean) => void;
 }) => {
   return (
     <div className="flex flex-col items-center justify-center pb-[40px]">

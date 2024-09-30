@@ -42,7 +42,7 @@ const ResultListBox = ({
   setSelectedPlace,
   setIsShowSearchResult,
 }: ResultListBoxProps) => {
-  const { setPlaceLatLng } = useMapMarkers();
+  const { setPlaceMarker } = useMapMarkers();
 
   if (!openNow) {
     openNow = true;
@@ -66,7 +66,7 @@ const ResultListBox = ({
             ratingCount,
             photos,
           });
-          setPlaceLatLng({ position: [location.latitude, location.longitude] });
+          setPlaceMarker({ position: [location.latitude, location.longitude] });
           setIsShowSearchResult(true);
           setAddDone(false);
         }}

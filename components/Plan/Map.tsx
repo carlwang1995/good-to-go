@@ -58,33 +58,26 @@ const SetPlaceView = ({
 };
 
 const LeafletMap = () => {
-  const {
-    markers,
-    routes,
-    placeLatLng,
-    places,
-    setPlaceLatLng,
-    setPlaceInfo,
-    setShowPlaceInfo,
-  } = useMapMarkers();
+  const { mapState, setPlaceMarker, setPlaceInfo, setShowPlaceInfo } =
+    useMapMarkers();
   const [icons, setIcons] = useState<Array<DivIcon>>([]);
 
   const markerHandler = (index: number, latlng: any) => {
-    setPlaceLatLng({ number: index + 1, position: latlng });
+    setPlaceMarker({ number: index + 1, position: latlng });
     setShowPlaceInfo(true);
-    setPlaceInfo(places![index]);
+    setPlaceInfo(mapState.places![index]);
   };
 
-  const mapMarkers = markers.map((location: any) => {
+  const mapMarkers = mapState.markers.map((location: any) => {
     return {
       geocode: [location[0], location[1]],
     };
   });
   useEffect(() => {
     setIcons([]);
-    if (markers.length > 0) {
+    if (mapState.markers.length > 0) {
       let myIcons = [];
-      for (let i = 1; i <= markers.length; i++) {
+      for (let i = 1; i <= mapState.markers.length; i++) {
         myIcons.push(
           new DivIcon({
             iconAnchor: [22.5, 45],
@@ -96,7 +89,7 @@ const LeafletMap = () => {
       }
       setIcons(myIcons);
     }
-  }, [markers]);
+  }, [mapState.markers]);
 
   const colorOptions = {
     blue: { color: "rgb(0,110,255,0.8)", weight: 8 },
@@ -131,15 +124,19 @@ const LeafletMap = () => {
             ),
         )}
       <ZoomControl position="bottomright" />
-      <FitMapToBounds bounds={markers} />
-      <SetPlaceView latlng={placeLatLng} />
+      <FitMapToBounds bounds={mapState.markers} />
+      <SetPlaceView latlng={mapState.placeMarker} />
       <Polyline
         pathOptions={
           process.env.NODE_ENV == "production"
             ? colorOptions.blue
             : colorOptions.lightBlue
         }
-        positions={process.env.NODE_ENV == "production" ? routes : markers}
+        positions={
+          process.env.NODE_ENV == "production"
+            ? mapState.routes
+            : mapState.markers
+        }
       />
     </MapContainer>
   );

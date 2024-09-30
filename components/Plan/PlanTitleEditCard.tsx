@@ -207,10 +207,10 @@ const PlanTitleEditCard = ({
                 className="w-full border-b-2 border-solid border-white bg-transparent p-1 text-sm text-white outline-none placeholder:text-white max-[980px]:text-xs"
                 placeholder="輸入後按下「Enter」，加入多個城市"
                 value={inputDestination}
-                onChange={(e: any) => {
+                onChange={(e) => {
                   setInputDestination(e.target.value);
                 }}
-                onKeyDown={(e: any) => {
+                onKeyDown={(e) => {
                   if (e.key === "Enter" && inputDestination) {
                     setDestinaitonArray((prev) => [...prev!, inputDestination]);
                     setInputDestination("");

@@ -37,7 +37,7 @@ const PlaceInfoCard = ({
   const [isLoading, setIsLoading] = useState(true);
   const [photoUriArr, setPhotoUriArr] = useState<Array<string>>([]);
 
-  const { setPlaceLatLng } = useMapMarkers();
+  const { setPlaceMarker } = useMapMarkers();
 
   useEffect(() => {
     setPhotoUriArr([]);
@@ -74,7 +74,7 @@ const PlaceInfoCard = ({
           onClick={() => {
             setIsShowSearchResult(false);
             setAddDone(false);
-            setPlaceLatLng(null);
+            setPlaceMarker(null);
           }}
         />
       </div>
@@ -95,7 +95,7 @@ const PlaceInfoCard = ({
                 onClick={() => {
                   setIsShowSearchResult(false);
                   setAddDone(false);
-                  setPlaceLatLng(null);
+                  setPlaceMarker(null);
                 }}
               />
               <p className="ml-4 text-lg text-white">

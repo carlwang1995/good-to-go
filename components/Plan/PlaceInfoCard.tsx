@@ -16,7 +16,7 @@ interface PlaceType {
 }
 
 const PlaceInfoCard = () => {
-  const { setPlaceLatLng, placeInfo, setShowPlaceInfo } = useMapMarkers();
+  const { mapState, setPlaceMarker, setShowPlaceInfo } = useMapMarkers();
 
   return (
     <div className="absolute bottom-0 left-[500px] z-[31] flex h-full w-[380px] flex-col overflow-hidden bg-white max-[980px]:left-0 max-[980px]:w-full">
@@ -29,7 +29,7 @@ const PlaceInfoCard = () => {
           className="m-4 px-1 hover:cursor-pointer"
           onClick={() => {
             setShowPlaceInfo(false);
-            setPlaceLatLng(null);
+            setPlaceMarker(null);
           }}
         />
       </div>
@@ -43,19 +43,21 @@ const PlaceInfoCard = () => {
             className="ml-3 hover:cursor-pointer"
             onClick={() => {
               setShowPlaceInfo(false);
-              setPlaceLatLng(null);
+              setPlaceMarker(null);
             }}
           />
           <p className="ml-4 text-lg text-white">
-            {placeInfo && placeInfo.name}
+            {mapState.placeInfo && mapState.placeInfo.name}
           </p>
         </div>
-        <PlaceInfoPhotoBox photos={placeInfo?.photos} />
+        <PlaceInfoPhotoBox photos={mapState.placeInfo?.photos} />
         <div className="p-3">
           <p className="text-2xl font-bold text-sky-800">
-            {placeInfo && placeInfo.name}
+            {mapState.placeInfo && mapState.placeInfo.name}
           </p>
-          <p className="mt-2 text-lg">{placeInfo && placeInfo.address}</p>
+          <p className="mt-2 text-lg">
+            {mapState.placeInfo && mapState.placeInfo.address}
+          </p>
         </div>
         <div className="mt-4 flex items-center px-3">
           <Image src="/clock.png" alt="clcok" width={24} height={24} />
@@ -70,7 +72,7 @@ const PlaceInfoCard = () => {
             className="mt-2 h-[24px]"
           />
           <div className="mb-4 ml-2 flex flex-col">
-            {placeInfo?.openTime.map((weekday, index) => (
+            {mapState.placeInfo?.openTime.map((weekday, index) => (
               <p key={index} className="mt-2">
                 {weekday}
               </p>

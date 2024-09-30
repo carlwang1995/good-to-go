@@ -180,10 +180,10 @@ const TripInput = ({
             className="w-full outline-none placeholder:text-[#8e8e8e] max-sm:hidden"
             placeholder="輸入後按下「Enter」，加入多個城市"
             value={inputDestination}
-            onChange={(e: any) => {
+            onChange={(e) => {
               setInputDestination(e.target.value);
             }}
-            onKeyDown={(e: any) => {
+            onKeyDown={(e) => {
               if (e.key === "Enter" && inputDestination) {
                 setDestinaitonArray((prev) => [...prev, inputDestination]);
                 setInputDestination("");
@@ -195,10 +195,10 @@ const TripInput = ({
             className="hidden w-full outline-none placeholder:text-[#8e8e8e] max-sm:block"
             placeholder="加入多個城市"
             value={inputDestination}
-            onChange={(e: any) => {
+            onChange={(e) => {
               setInputDestination(e.target.value);
             }}
-            onKeyDown={(e: any) => {
+            onKeyDown={(e) => {
               if (e.key === "Enter" && inputDestination) {
                 setDestinaitonArray((prev) => [...prev, inputDestination]);
                 setInputDestination("");
