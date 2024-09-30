@@ -14,7 +14,7 @@ Good to GO is a travel itinerary planning website that allows users to create tr
 * **Next.js**
   * App Router
 * **React**
-  * React Hooks：`useState`, `useEffect`, `useRef`
+  * React Hooks：`useState`, `useEffect`, `useRef`, `useContext`
   * React Context
 * **TypeScript**
 * **Tailwind CSS**
