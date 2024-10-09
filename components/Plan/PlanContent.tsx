@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo, memo } from "react";
 import { useUser } from "@/contexts/UserAuth";
 import Image from "next/image";
 import PlanTitleCard from "./PlanTitleCard";
@@ -10,9 +10,9 @@ import {
   DayIndexContext,
   DestinationContext,
   EditableContext,
+  PlanContentContext,
 } from "@/contexts/ContextProvider";
 import { useRouter } from "next/navigation";
-import { DB_getTripNameByDocId } from "@/libs/db/TripsDoc";
 
 type TripType = {
   userId: string;
@@ -26,12 +26,46 @@ type TripType = {
   createTime: string;
 };
 
-const PlanContent = ({ docId }: { docId: string }) => {
-  const [planTitleState, setPlanTitleState] = useState(false);
-  const [tripInfo, setTripInfo] = useState<TripType>();
+interface PlaceType {
+  id: number;
+  placeId: string;
+  name: string;
+  address: string;
+  location: { latitude: number; longitude: number };
+  openTime: Array<string>;
+  stayTime: string;
+  trafficMode: string;
+  photos: Array<string>;
+}
+
+interface PlanTripType {
+  startTime: string;
+  places: Array<PlaceType>;
+  lastEditTime: string;
+}
+
+interface PlanContentType {
+  docId: string;
+  trips: {
+    [key: string]: PlanTripType;
+  };
+}
+
+const PlanContent = ({
+  docId,
+  tripData,
+  planDocId,
+  planData,
+}: {
+  docId: string;
+  tripData: TripType | undefined;
+  planDocId: string | undefined;
+  planData: PlanContentType | undefined;
+}) => {
+  const [tripInfo, setTripInfo] = useState<TripType | undefined>();
+  const [planContent, setPlanContent] = useState<PlanContentType | undefined>();
   const [dayIndex, setDayIndex] = useState<string>("day1");
   const [dateCount, setDateCount] = useState<string>("第1天");
-  const [isEditable, setIsEditable] = useState(false);
   const [showEditInput, setShowEditInput] = useState(false);
   const [showMobileMap, setShowMobileMap] = useState(true);
   const dateSectionRef = useRef<HTMLDivElement | null>(null);
@@ -39,52 +73,48 @@ const PlanContent = ({ docId }: { docId: string }) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (docId) {
-      DB_getTripNameByDocId(docId).then((result) => {
-        if (result) {
-          setTripInfo(result);
-        }
-      });
-    }
+    setTripInfo(tripData);
+    setPlanContent(planData);
+    return () => {
+      setTripInfo(undefined);
+      setPlanContent(undefined);
+    };
   }, []);
 
-  // 判斷編輯、檢視權限
-  useEffect(() => {
-    if (user === undefined) {
-      return;
+  let isEditable = false;
+  if (user !== undefined && tripInfo) {
+    if (checkPermissions() === true) {
+      isEditable = true;
     }
+  }
+  // 判斷編輯、檢視權限
+  function checkPermissions() {
     // 未登入
     if (!user && tripInfo) {
       if (!tripInfo.privacy) {
-        setIsEditable(false);
         router.push("/");
-        return;
+        return false;
       } else {
-        setIsEditable(false);
-        return;
+        return false;
       }
     }
     // 有登入
     if (user && tripInfo) {
       // 非公開且非本人，導回首頁
       if (!tripInfo.privacy && tripInfo.userId !== userId) {
-        setIsEditable(false);
         router.push("/");
-        return;
+        return false;
       }
       // 公開但非本人，可瀏覽不可編輯
       if (tripInfo.privacy && tripInfo.userId !== userId) {
-        setIsEditable(false);
-        return;
+        return false;
       }
       // 登入且為本人，可瀏覽可編輯
       if (tripInfo.userId === userId) {
-        setIsEditable(true);
-        return;
+        return true;
       }
     }
-  }, [tripInfo, user]);
-
+  }
   const scrollRange = 300;
   const dateScrollToLeft = () => {
     if (dateSectionRef.current) {
@@ -96,6 +126,7 @@ const PlanContent = ({ docId }: { docId: string }) => {
       dateSectionRef.current.scrollLeft += scrollRange;
     }
   };
+
   return (
     <div
       className={`relative flex h-full min-w-[500px] max-w-[500px] flex-col transition-all max-[980px]:min-w-full ${showMobileMap ? "max-[980px]:min-h-[60%]" : "max-[980px]:min-h-[calc(100%-60px)]"}`}
@@ -154,7 +185,7 @@ const PlanContent = ({ docId }: { docId: string }) => {
             tripInfo={tripInfo}
             setTripInfo={setTripInfo}
             setShowEditInput={setShowEditInput}
-            setState={setPlanTitleState}
+            setPlanContent={setPlanContent}
             setDayIndex={setDayIndex}
           />
         ) : (
@@ -215,11 +246,11 @@ const PlanContent = ({ docId }: { docId: string }) => {
             value={tripInfo ? tripInfo.destination : []}
           >
             <EditableContext.Provider value={isEditable}>
-              <PlanCard
-                docId={docId}
-                dateCount={dateCount}
-                planTitleState={planTitleState}
-              />
+              <PlanContentContext.Provider
+                value={{ planContent, setPlanContent }}
+              >
+                <PlanCard planDocId={planDocId} dateCount={dateCount} />
+              </PlanContentContext.Provider>
             </EditableContext.Provider>
           </DestinationContext.Provider>
         </DayIndexContext.Provider>

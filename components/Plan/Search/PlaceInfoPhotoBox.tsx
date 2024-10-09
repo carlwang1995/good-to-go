@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import PlaceInfoPhotoItem from "./PlaceInfoPhotoItem";
 
 const PlaceInfoPhotoBox = ({
@@ -8,9 +8,7 @@ const PlaceInfoPhotoBox = ({
   photos: Array<string> | undefined;
 }) => {
   const [photoIndex, setPhotoIndex] = useState(0);
-  useEffect(() => {
-    setPhotoIndex(0);
-  }, [photos]);
+
   return (
     <div className="flex h-fit w-full flex-col items-center bg-white shadow-md">
       <div className="relative flex h-[300px] w-full justify-center overflow-hidden">

@@ -13,6 +13,7 @@ import {
 } from "firebase/firestore";
 
 type TripType = {
+  docId: string;
   userId: string;
   tripName: string;
   destination: Array<string>;
@@ -42,10 +43,11 @@ const DB_getTrips = async (userId: string) => {
   );
   try {
     const querySnapshot = await getDocs(q);
-    let result: Array<object> = [];
+    let result: Array<TripType> = [];
     querySnapshot.forEach((doc) => {
       const docId = doc.id;
-      result.push({ docId, ...doc.data() });
+      const tripData: any = { docId, ...doc.data() };
+      result.push(tripData);
     });
     return result;
   } catch (e) {
