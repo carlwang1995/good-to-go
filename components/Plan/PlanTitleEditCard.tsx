@@ -1,12 +1,12 @@
 import Image from "next/image";
-import Link from "next/link";
 import React, { useState } from "react";
 import TargetItem from "./TargetItem";
 import CalendarCard from "./Calendar";
 import { getNewDateRangeTrips } from "@/libs/getNewDateRangeTrips";
 import { getDateBetween } from "@/libs/getDatesBetween";
-import { DB_updateTrips } from "@/libs/db/PlansDoc";
+import { DB_getPlanByTripsDocId, DB_updateTrips } from "@/libs/db/PlansDoc";
 import { DB_updateTripInfoByDocId } from "@/libs/db/TripsDoc";
+
 import { Loading } from "../Loading";
 
 type TripType = {
@@ -32,14 +32,16 @@ interface PlaceType {
   photos: Array<string>;
 }
 
+interface PlanTripType {
+  startTime: string;
+  places: Array<PlaceType>;
+  lastEditTime: string;
+}
+
 interface PlanContentType {
   docId: string;
   trips: {
-    [key: string]: {
-      startTime: string;
-      places: Array<PlaceType>;
-      lastEditTime: string;
-    };
+    [key: string]: PlanTripType;
   };
 }
 
@@ -48,14 +50,16 @@ const PlanTitleEditCard = ({
   tripInfo,
   setTripInfo,
   setShowEditInput,
-  setState,
+  setPlanContent,
   setDayIndex,
 }: {
   docId: string;
   tripInfo: TripType | undefined;
   setTripInfo: React.Dispatch<React.SetStateAction<TripType | undefined>>;
   setShowEditInput: React.Dispatch<React.SetStateAction<boolean>>;
-  setState: React.Dispatch<React.SetStateAction<boolean>>;
+  setPlanContent: React.Dispatch<
+    React.SetStateAction<PlanContentType | undefined>
+  >;
   setDayIndex: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const [inputDestination, setInputDestination] = useState<string>("");
@@ -112,7 +116,8 @@ const PlanTitleEditCard = ({
           newTrips.trips,
         );
         if (dateRangeResult.ok) {
-          setState((prev) => !prev);
+          const newPlanContent = await DB_getPlanByTripsDocId(docId);
+          setPlanContent(newPlanContent?.planContent);
         } else if (dateRangeResult.error) {
           throw new Error(dateRangeResult.message);
         }

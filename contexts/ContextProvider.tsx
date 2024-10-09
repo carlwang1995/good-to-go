@@ -33,7 +33,7 @@ const DocIdContext = createContext<string>("");
 const StateContext = createContext<React.Dispatch<
   React.SetStateAction<boolean>
 > | null>(null);
-const EditableContext = createContext<boolean>(false);
+const EditableContext = createContext<boolean | undefined>(false);
 const PlanContentContext = createContext<{
   planContent: PlanContentType | undefined;
   setPlanContent:

@@ -3,18 +3,6 @@ import PlaceInfoPhotoBox from "./PlaceInfoPhotoBox";
 import { useMapMarkers } from "@/contexts/UseMapMarkers";
 import Image from "next/image";
 
-interface PlaceType {
-  id: number;
-  placeId: string;
-  name: string;
-  address: string;
-  location: { latitude: number; longitude: number };
-  openTime: Array<string>;
-  stayTime: string;
-  trafficMode: string;
-  photos: Array<string>;
-}
-
 const PlaceInfoCard = () => {
   const { mapState, setPlaceMarker, setShowPlaceInfo } = useMapMarkers();
 
@@ -50,7 +38,10 @@ const PlaceInfoCard = () => {
             {mapState.placeInfo && mapState.placeInfo.name}
           </p>
         </div>
-        <PlaceInfoPhotoBox photos={mapState.placeInfo?.photos} />
+        <PlaceInfoPhotoBox
+          key={mapState.placeInfo?.id}
+          photos={mapState.placeInfo?.photos}
+        />
         <div className="p-3">
           <p className="text-2xl font-bold text-sky-800">
             {mapState.placeInfo && mapState.placeInfo.name}

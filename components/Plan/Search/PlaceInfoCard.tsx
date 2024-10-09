@@ -102,7 +102,10 @@ const PlaceInfoCard = ({
                 {selectedPlace && selectedPlace.name}
               </p>
             </div>
-            <PlaceInfoPhotoBox photos={photoUriArr} />
+            <PlaceInfoPhotoBox
+              photos={photoUriArr}
+              key={selectedPlace?.placeId}
+            />
             <p className="mt-4 px-3 text-2xl font-bold text-sky-800">
               {selectedPlace && selectedPlace.name}
             </p>

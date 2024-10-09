@@ -9,7 +9,13 @@ const Loading = ({
   heightPx: number;
 }) => {
   return (
-    <Image src="/loading.gif" alt="loading" width={widthPx} height={heightPx} />
+    <Image
+      unoptimized={true}
+      src="/loading.gif"
+      alt="loading"
+      width={widthPx}
+      height={heightPx}
+    />
   );
 };
 
@@ -22,6 +28,7 @@ const PageLoading = ({
 }) => {
   return (
     <Image
+      unoptimized={true}
       src="/pageLoading.gif"
       alt="loading"
       width={widthPx}
