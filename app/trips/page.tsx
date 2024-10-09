@@ -1,5 +1,4 @@
 "use server";
-import React from "react";
 import { TripsProvider } from "@/components/Trips/TripsProvider";
 
 const Trips = () => {

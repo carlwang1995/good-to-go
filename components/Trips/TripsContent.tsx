@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import ListContent from "@/components/Trips/List/ListContent";
 import CreateTripCard from "@/components/Trips/CreateTripCard";
 import BrowseContent from "./Browse/BrowseContent";
@@ -40,7 +40,7 @@ const TripsContent = ({ userId }: { userId: string }) => {
     }
   }, [userId, state]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (sessionStorage.getItem("page") === "browse") {
       setContent(false);
     } else {
