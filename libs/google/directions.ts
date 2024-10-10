@@ -10,7 +10,9 @@ export default async function get_directions(
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    // console.log("發出directions fetch");
+    if (process.env.NODE_ENV === "development") {
+      console.log("發出directions fetch");
+    }
     const data = await response.json();
     if (data.routes.status === "ZERO_RESULTS") {
       return false;
