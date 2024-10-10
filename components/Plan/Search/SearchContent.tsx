@@ -89,9 +89,21 @@ const SearchContent = ({
         setMessage(`在 「${destination}」 搜尋不到 「${input}」的相關結果`);
       }
     }
-
     setIsLoading(false);
   };
+
+  // 防抖 debounce
+  const debounce = () => {
+    let timeout: any;
+    return (destination: string, input: string) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        searchPlaces(destination, input);
+      }, 500);
+    };
+  };
+
+  const debounceSearch = debounce();
 
   useEffect(() => {
     const newArr = [];
@@ -143,22 +155,35 @@ const SearchContent = ({
             autoFocus
             onKeyDown={(e) => {
               if (e.key == "Enter") {
-                setSearchListBoxArr([]);
-                searchPlaces(destinationList, input === "" ? "景點" : input);
+                debounceSearch(destinationList, input === "" ? "景點" : input);
               }
             }}
-            type="search"
+            type="text"
             className="h-full w-full rounded-l bg-white p-4 outline-none"
             onChange={(e) => {
               setInput(e.target.value);
             }}
             placeholder="搜尋景點"
+            value={input}
           />
+
+          <div
+            className={`flex h-full items-center justify-center bg-white px-2`}
+          >
+            <Image
+              src="/close.png"
+              width={15}
+              height={15}
+              alt="close"
+              className={`hover:cursor-pointer ${input.length === 0 && "invisible"}`}
+              onClick={() => setInput("")}
+            />
+          </div>
           <button
             className="flex h-full items-center justify-center text-nowrap rounded-r bg-white p-2 transition hover:bg-blue-100"
-            onClick={() =>
-              searchPlaces(destinationList, input === "" ? "景點" : input)
-            }
+            onClick={() => {
+              debounceSearch(destinationList, input === "" ? "景點" : input);
+            }}
           >
             <Image src="/search.png" alt="search" width={30} height={30} />
           </button>
@@ -191,7 +216,7 @@ const SearchContent = ({
           )}
           {searchListBoxArr.length > 0 && searchListBoxArr}
           {isLoading && (
-            <div className="mt-4 flex w-full justify-center">
+            <div className="absolute left-0 top-0 z-10 flex h-full w-full items-center justify-center bg-black/30">
               <Loading widthPx={50} heightPx={50} />
             </div>
           )}
