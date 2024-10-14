@@ -42,7 +42,7 @@ const TurtorialCard = () => {
   }, []);
 
   return (
-    <section className="w-[900px] px-4 max-[900px]:w-full">
+    <section className="w-[1100px] px-4 max-[1100px]:w-full">
       <div className="slide-in-left" ref={box1Ref}>
         <TurtorialBox
           title="Step 1：建立行程"

@@ -16,6 +16,13 @@ const TurtorialBox = ({ title, imageUrl, msg }: TurtorialBoxProps) => {
         <hr className="mt-2 w-full border border-sky-800" />
       </div>
       <div className="flex w-full max-sm:flex-col max-sm:items-center">
+        {/* <video
+          className="relative mx-2 my-4 h-[300px] min-w-[420px] shadow-lg max-[430px]:h-[240px] max-[430px]:min-w-[336px]"
+          src="/video/test.mp4"
+          autoPlay
+          muted
+          loop
+        ></video> */}
         <div className="relative mx-2 my-4 h-[300px] min-w-[420px] shadow-lg max-[430px]:h-[240px] max-[430px]:min-w-[336px]">
           <Image
             loading="lazy"

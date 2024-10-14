@@ -1,7 +1,7 @@
 const tutorialContent = {
   step_1: {
     imageUrl: "/turtorial/create-trip.gif",
-    msg: "可以設定行程起訖日期、加入多個目的地城市，並為行程取一個名稱吧！",
+    msg: "可以設定行程起訖日期、加入多個目的地城市，並為行程取一個名稱",
   },
   step_2: {
     imageUrl: "/turtorial/plan-trip.gif",

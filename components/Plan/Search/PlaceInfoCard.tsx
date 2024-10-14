@@ -65,18 +65,36 @@ const PlaceInfoCard = ({
   return (
     <div className="absolute left-[500px] top-0 z-[32] flex h-full w-[380px] flex-col overflow-y-auto overflow-x-hidden border border-slate-300 bg-white max-[980px]:left-0 max-[980px]:w-full">
       <div className="flex min-h-16 items-center justify-end max-[980px]:hidden">
-        <Image
-          src="/close.png"
-          alt="close"
-          width={24}
-          height={24}
-          className="m-4 px-1 hover:cursor-pointer"
+        {/* Close Btn */}
+        <span
+          className="m-4 hover:cursor-pointer"
           onClick={() => {
             setIsShowSearchResult(false);
             setAddDone(false);
             setPlaceMarker(null);
           }}
-        />
+        >
+          <svg
+            viewBox="0 0 1024 1024"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="#000000"
+            width={24}
+            height={24}
+          >
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g
+              id="SVGRepo_tracerCarrier"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></g>
+            <g id="SVGRepo_iconCarrier">
+              <path
+                fill="#000000"
+                d="M195.2 195.2a64 64 0 0 1 90.496 0L512 421.504 738.304 195.2a64 64 0 0 1 90.496 90.496L602.496 512 828.8 738.304a64 64 0 0 1-90.496 90.496L512 602.496 285.696 828.8a64 64 0 0 1-90.496-90.496L421.504 512 195.2 285.696a64 64 0 0 1 0-90.496z"
+              ></path>
+            </g>
+          </svg>
+        </span>
       </div>
       {isLoading ? (
         <div className="my-4 flex justify-center">
@@ -86,18 +104,38 @@ const PlaceInfoCard = ({
         <>
           <div className="mb-[130px] h-full overflow-y-auto overflow-x-hidden bg-zinc-100">
             <div className="absolute right-0 top-0 z-10 hidden min-h-12 w-full items-center justify-start bg-black/50 max-[980px]:flex">
-              <Image
-                src="/left-arrow-white.png"
-                alt="close"
-                width={24}
-                height={24}
-                className="ml-3 hover:cursor-pointer"
+              <span
                 onClick={() => {
                   setIsShowSearchResult(false);
                   setAddDone(false);
                   setPlaceMarker(null);
                 }}
-              />
+                className="ml-3 hover:cursor-pointer"
+              >
+                <svg
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  width={24}
+                  height={24}
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      stroke="#ffffff"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M18 10H2m0 0l7-7m-7 7l7 7"
+                    ></path>
+                  </g>
+                </svg>
+              </span>
               <p className="ml-4 text-lg text-white">
                 {selectedPlace && selectedPlace.name}
               </p>
