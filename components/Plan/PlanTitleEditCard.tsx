@@ -144,17 +144,36 @@ const PlanTitleEditCard = ({
     <>
       <div className="relative z-10 bg-black/30">
         <div className="relative flex h-16 w-full items-center bg-black/60 p-3 max-[980px]:h-12">
-          <button className="mr-3 min-w-7">
-            <Image
-              src="/left-arrow-white.png"
+          <button
+            className="mr-3 min-w-7"
+            onClick={() => {
+              setShowEditInput(false);
+            }}
+          >
+            {/* Arrow Btn */}
+            <svg
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
               width={24}
               height={24}
-              alt="left arrow"
-              className="hover:cursor-pointer"
-              onClick={() => {
-                setShowEditInput(false);
-              }}
-            />
+            >
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></g>
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  stroke="#ffffff"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M18 10H2m0 0l7-7m-7 7l7 7"
+                ></path>
+              </g>
+            </svg>
           </button>
           {tripInfo && (
             <input
@@ -222,20 +241,38 @@ const PlanTitleEditCard = ({
                   }
                 }}
               ></input>
-              <Image
+              {/* Add DES Icon */}
+              <span
+                className="h-6 w-6 hover:cursor-pointer"
+                style={{ display: inputDestination ? "block" : "none" }}
                 onClick={() => {
                   if (inputDestination) {
                     setDestinaitonArray((prev) => [...prev!, inputDestination]);
                     setInputDestination("");
                   }
                 }}
-                src="/insert-white.png"
-                alt="insert"
-                width={50}
-                height={50}
-                className="h-6 w-6 hover:cursor-pointer"
-                style={{ display: inputDestination ? "block" : "none" }}
-              />
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={30}
+                  height={30}
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      d="M16.19 2H7.81C4.17 2 2 4.17 2 7.81V16.18C2 19.83 4.17 22 7.81 22H16.18C19.82 22 21.99 19.83 21.99 16.19V7.81C22 4.17 19.83 2 16.19 2ZM18 12.75H12.75V18C12.75 18.41 12.41 18.75 12 18.75C11.59 18.75 11.25 18.41 11.25 18V12.75H6C5.59 12.75 5.25 12.41 5.25 12C5.25 11.59 5.59 11.25 6 11.25H11.25V6C11.25 5.59 11.59 5.25 12 5.25C12.41 5.25 12.75 5.59 12.75 6V11.25H18C18.41 11.25 18.75 11.59 18.75 12C18.75 12.41 18.41 12.75 18 12.75Z"
+                      fill="#ffffff"
+                    ></path>
+                  </g>
+                </svg>
+              </span>
             </div>
           </div>
         </div>

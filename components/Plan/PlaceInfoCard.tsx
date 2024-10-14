@@ -9,31 +9,70 @@ const PlaceInfoCard = () => {
   return (
     <div className="absolute bottom-0 left-[500px] z-[31] flex h-full w-[380px] flex-col overflow-hidden bg-white max-[980px]:left-0 max-[980px]:w-full">
       <div className="flex min-h-16 items-center justify-end max-[980px]:hidden">
-        <Image
-          src="/close.png"
-          alt="close"
-          width={24}
-          height={24}
-          className="m-4 px-1 hover:cursor-pointer"
+        {/* Close Btn */}
+        <span
+          className="m-4 hover:cursor-pointer"
           onClick={() => {
             setShowPlaceInfo(false);
             setPlaceMarker(null);
           }}
-        />
+        >
+          <svg
+            viewBox="0 0 1024 1024"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="#000000"
+            width={24}
+            height={24}
+          >
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g
+              id="SVGRepo_tracerCarrier"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></g>
+            <g id="SVGRepo_iconCarrier">
+              <path
+                fill="#000000"
+                d="M195.2 195.2a64 64 0 0 1 90.496 0L512 421.504 738.304 195.2a64 64 0 0 1 90.496 90.496L602.496 512 828.8 738.304a64 64 0 0 1-90.496 90.496L512 602.496 285.696 828.8a64 64 0 0 1-90.496-90.496L421.504 512 195.2 285.696a64 64 0 0 1 0-90.496z"
+              ></path>
+            </g>
+          </svg>
+        </span>
       </div>
       <div className="h-full overflow-y-auto overflow-x-hidden bg-zinc-100">
         <div className="absolute right-0 top-0 z-10 hidden min-h-12 w-full items-center justify-start bg-black/50 max-[980px]:flex">
-          <Image
-            src="/left-arrow-white.png"
-            alt="close"
-            width={24}
-            height={24}
+          {/* Close Arrow Btn */}
+          <span
             className="ml-3 hover:cursor-pointer"
             onClick={() => {
               setShowPlaceInfo(false);
               setPlaceMarker(null);
             }}
-          />
+          >
+            <svg
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              width={24}
+              height={24}
+            >
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></g>
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  stroke="#ffffff"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M18 10H2m0 0l7-7m-7 7l7 7"
+                ></path>
+              </g>
+            </svg>
+          </span>
           <p className="ml-4 text-lg text-white">
             {mapState.placeInfo && mapState.placeInfo.name}
           </p>

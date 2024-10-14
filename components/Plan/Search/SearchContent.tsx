@@ -134,20 +134,38 @@ const SearchContent = ({
     <>
       <div className="absolute left-0 top-0 z-[31] flex h-full w-[500px] flex-col bg-zinc-100 max-[980px]:w-full">
         <div className="flex max-h-16 min-h-16 w-full items-center bg-sky-800 p-3 max-[980px]:min-h-12">
-          <span className="mr-3 min-w-7">
-            <Image
-              src="/left-arrow-white.png"
+          <span
+            className="mr-3 min-w-7 hover:cursor-pointer"
+            onClick={() => {
+              setIsSearching(false);
+              setIsShowSearchResult(false);
+              setResults([]);
+              setPlaceMarker(null);
+            }}
+          >
+            <svg
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
               width={24}
               height={24}
-              alt="left arrow"
-              className="hover:cursor-pointer"
-              onClick={() => {
-                setIsSearching(false);
-                setIsShowSearchResult(false);
-                setResults([]);
-                setPlaceMarker(null);
-              }}
-            />
+            >
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></g>
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  stroke="#ffffff"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M18 10H2m0 0l7-7m-7 7l7 7"
+                ></path>
+              </g>
+            </svg>
           </span>
         </div>
         <div className="flex max-h-16 min-h-16 w-full items-center bg-blue-300 p-3">
@@ -170,22 +188,63 @@ const SearchContent = ({
           <div
             className={`flex h-full items-center justify-center bg-white px-2`}
           >
-            <Image
-              src="/close.png"
-              width={15}
-              height={15}
-              alt="close"
+            {/* Clear Input Btn */}
+            <span
               className={`hover:cursor-pointer ${input.length === 0 && "invisible"}`}
               onClick={() => setInput("")}
-            />
+            >
+              <svg
+                viewBox="0 0 1024 1024"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="#000000"
+                width={20}
+                height={20}
+              >
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    fill="#000000"
+                    d="M195.2 195.2a64 64 0 0 1 90.496 0L512 421.504 738.304 195.2a64 64 0 0 1 90.496 90.496L602.496 512 828.8 738.304a64 64 0 0 1-90.496 90.496L512 602.496 285.696 828.8a64 64 0 0 1-90.496-90.496L421.504 512 195.2 285.696a64 64 0 0 1 0-90.496z"
+                  ></path>
+                </g>
+              </svg>
+            </span>
           </div>
+          {/* Search Btn */}
           <button
             className="flex h-full items-center justify-center text-nowrap rounded-r bg-white p-2 transition hover:bg-blue-100"
             onClick={() => {
               debounceSearch(destinationList, input === "" ? "景點" : input);
             }}
           >
-            <Image src="/search.png" alt="search" width={30} height={30} />
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              width={30}
+              height={30}
+            >
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></g>
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  d="M14.9536 14.9458L21 21M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
+                  stroke="#000000"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+              </g>
+            </svg>
           </button>
         </div>
         <div className="relative h-full w-full items-center overflow-y-auto overflow-x-hidden bg-scroll pl-3 pr-3">

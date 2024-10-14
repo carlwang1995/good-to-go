@@ -24,7 +24,7 @@ const ListContent = ({ setDisplay, trips }: ListContentProps) => {
       <ul className="mt-4 grid w-full grid-cols-3 gap-8 max-[1000px]:grid-cols-2 max-sm:grid-cols-1">
         <li
           onClick={() => setDisplay((prev) => !prev)}
-          className="flex min-h-[220px] items-center justify-center rounded-lg border border-solid border-sky-800 bg-white transition hover:cursor-pointer hover:bg-sky-100"
+          className="flex min-h-[220px] items-center justify-center rounded-lg border border-solid border-sky-800 bg-white transition hover:cursor-pointer"
         >
           <div className="flex flex-col items-center justify-center">
             <div className="flex h-12 w-12 items-center justify-center rounded-full border border-solid border-blue-500">

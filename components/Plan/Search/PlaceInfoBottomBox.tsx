@@ -1,5 +1,4 @@
 import { DB_updateTripPlan } from "@/libs/db/PlansDoc";
-import Image from "next/image";
 import React, { useState, useContext } from "react";
 import {
   DayIndexContext,
@@ -109,13 +108,27 @@ const PlaceInfoBottomBox = ({
       ) : (
         <>
           <div className="mb-4 flex w-full items-center justify-center">
-            <Image
-              className="mr-1 h-[15px]"
-              src="/stay-time-icon.png"
-              alt="stayTimeIcon"
-              width={15}
-              height={15}
-            ></Image>
+            {/* Stay Time Icon */}
+            <svg
+              fill="#000000"
+              viewBox="0 0 24 24"
+              id="Layer_1"
+              data-name="Layer 1"
+              xmlns="http://www.w3.org/2000/svg"
+              width="15px"
+              height="15px"
+              className="mr-1"
+            >
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></g>
+              <g id="SVGRepo_iconCarrier">
+                <path d="M23,11a1,1,0,0,0-1,1,10.034,10.034,0,1,1-2.9-7.021A.862.862,0,0,1,19,5H16a1,1,0,0,0,0,2h3a3,3,0,0,0,3-3V1a1,1,0,0,0-2,0V3.065A11.994,11.994,0,1,0,24,12,1,1,0,0,0,23,11Z M12,6a1,1,0,0,0-1,1v5a1,1,0,0,0,.293.707l3,3a1,1,0,0,0,1.414-1.414L13,11.586V7A1,1,0,0,0,12,6Z"></path>
+              </g>
+            </svg>
             <p>預計停留：</p>
             <div className="flex flex-nowrap items-center">
               <select

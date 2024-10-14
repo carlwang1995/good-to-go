@@ -127,13 +127,27 @@ const PlaceBox = ({ number, trip, place, startTime }: PlaceBoxProps) => {
             </div>
             <div className="ml-2 flex w-full flex-col justify-center">
               <div className="flex items-center">
-                <Image
-                  className="mr-1 h-[15px]"
-                  src="/stay-time-icon.png"
-                  alt="stayTimeIcon"
-                  width={15}
-                  height={15}
-                />
+                {/* Stay Time Icon */}
+                <svg
+                  fill="#000000"
+                  viewBox="0 0 24 24"
+                  id="Layer_1"
+                  data-name="Layer 1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="15px"
+                  height="15px"
+                  className="mr-1"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path d="M23,11a1,1,0,0,0-1,1,10.034,10.034,0,1,1-2.9-7.021A.862.862,0,0,1,19,5H16a1,1,0,0,0,0,2h3a3,3,0,0,0,3-3V1a1,1,0,0,0-2,0V3.065A11.994,11.994,0,1,0,24,12,1,1,0,0,0,23,11Z M12,6a1,1,0,0,0-1,1v5a1,1,0,0,0,.293.707l3,3a1,1,0,0,0,1.414-1.414L13,11.586V7A1,1,0,0,0,12,6Z"></path>
+                  </g>
+                </svg>
                 <span
                   onClick={() => {
                     if (!isEditable) {
@@ -170,7 +184,44 @@ const PlaceBox = ({ number, trip, place, startTime }: PlaceBoxProps) => {
             }}
             className={`absolute right-0 top-0 z-10 rounded p-1 hover:cursor-pointer max-sm:hidden ${showDeleteBtn ? "visible" : "invisible"}`}
           >
-            <Image src="/delete.png" alt="delete" width={20} height={20} />
+            {/* Trash Icon */}
+            <svg
+              viewBox="-3 0 32 32"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="#000000"
+              width="20px"
+              height="20px"
+            >
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></g>
+              <g id="SVGRepo_iconCarrier">
+                <title>trash</title> <desc>Created with Sketch Beta.</desc>
+                <defs> </defs>
+                <g
+                  id="Page-1"
+                  stroke="none"
+                  stroke-width="1"
+                  fill="none"
+                  fill-rule="evenodd"
+                >
+                  <g
+                    id="Icon-Set-Filled"
+                    transform="translate(-261.000000, -205.000000)"
+                    fill="#ff0000"
+                  >
+                    <path
+                      d="M268,220 C268,219.448 268.448,219 269,219 C269.552,219 270,219.448 270,220 L270,232 C270,232.553 269.552,233 269,233 C268.448,233 268,232.553 268,232 L268,220 L268,220 Z M273,220 C273,219.448 273.448,219 274,219 C274.552,219 275,219.448 275,220 L275,232 C275,232.553 274.552,233 274,233 C273.448,233 273,232.553 273,232 L273,220 L273,220 Z M278,220 C278,219.448 278.448,219 279,219 C279.552,219 280,219.448 280,220 L280,232 C280,232.553 279.552,233 279,233 C278.448,233 278,232.553 278,232 L278,220 L278,220 Z M263,233 C263,235.209 264.791,237 267,237 L281,237 C283.209,237 285,235.209 285,233 L285,217 L263,217 L263,233 L263,233 Z M277,209 L271,209 L271,208 C271,207.447 271.448,207 272,207 L276,207 C276.552,207 277,207.447 277,208 L277,209 L277,209 Z M285,209 L279,209 L279,207 C279,205.896 278.104,205 277,205 L271,205 C269.896,205 269,205.896 269,207 L269,209 L263,209 C261.896,209 261,209.896 261,211 L261,213 C261,214.104 261.895,214.999 262.999,215 L285.002,215 C286.105,214.999 287,214.104 287,213 L287,211 C287,209.896 286.104,209 285,209 L285,209 Z"
+                      id="trash"
+                    ></path>
+                  </g>
+                </g>
+              </g>
+            </svg>
           </div>
         )}
         {isEditable && (
@@ -182,7 +233,29 @@ const PlaceBox = ({ number, trip, place, startTime }: PlaceBoxProps) => {
             }}
             className="absolute right-1 top-1 z-10 hidden rounded p-1 hover:cursor-pointer max-sm:block"
           >
-            <Image src="/close-red.png" alt="delete" width={15} height={15} />
+            {/* Close Icon */}
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              width={20}
+              height={20}
+            >
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></g>
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12ZM7.29289 16.7071C6.90237 16.3166 6.90237 15.6834 7.29289 15.2929L10.5858 12L7.29289 8.70711C6.90237 8.31658 6.90237 7.68342 7.29289 7.29289C7.68342 6.90237 8.31658 6.90237 8.70711 7.29289L12 10.5858L15.2929 7.29289C15.6834 6.90237 16.3166 6.90237 16.7071 7.29289C17.0976 7.68342 17.0976 8.31658 16.7071 8.70711L13.4142 12L16.7071 15.2929C17.0976 15.6834 17.0976 16.3166 16.7071 16.7071C16.3166 17.0976 15.6834 17.0976 15.2929 16.7071L12 13.4142L8.70711 16.7071C8.31658 17.0976 7.68342 17.0976 7.29289 16.7071Z"
+                  fill="#ff0000"
+                ></path>
+              </g>
+            </svg>
           </div>
         )}
       </div>
