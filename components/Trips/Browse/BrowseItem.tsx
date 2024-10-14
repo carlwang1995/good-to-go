@@ -31,7 +31,7 @@ const BrowseItem = ({ trip }: { trip: TripType }) => {
   return (
     <li className="my-3 h-fit w-full rounded-md bg-white p-4 shadow-md transition hover:-translate-x-1 hover:-translate-y-1 hover:cursor-pointer hover:shadow-xl">
       <Link href={`/plan/${trip.docId}`} className="flex max-sm:block">
-        <div className="relative h-48 rounded-lg bg-slate-500 max-sm:min-w-48 sm:min-w-64">
+        <div className="relative h-48 rounded-lg bg-slate-500 sm:min-w-80">
           <Image
             src={trip.photo.photoUrl}
             alt="trip's photo"
