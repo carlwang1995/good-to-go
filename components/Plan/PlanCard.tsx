@@ -54,7 +54,6 @@ const PlanCard = ({ planDocId, dateCount }: PlanCardProps) => {
     [key: string]: Array<[]>;
   }>({});
   const [destinationList, setDestinationList] = useState(destinationArr[0]);
-  const [isLoading, setIsLoading] = useState(false);
   const [isSearching, setIsSearching] = useState<boolean>(false);
   const [showStartTimeSetting, setShowStartTimeSetting] =
     useState<boolean>(false);
@@ -130,18 +129,21 @@ const PlanCard = ({ planDocId, dateCount }: PlanCardProps) => {
   // Handle Traffic route
   useEffect(() => {
     if (planContent && trafficBoxArray) {
-      const routesArr: any = [];
+      const routesArr: any[] = [];
       for (let i = 0; i < trafficBoxArray.length; i++) {
         const places = planContent.trips[dayIndex].places;
         routesArr.push(
           routesObject[`${i}-${places[i].placeId}-${places[i + 1].placeId}`],
         );
       }
-      if (!routesArr.includes(undefined)) {
-        setRoutes(routesArr);
+      if (routesArr.some((route) => route === undefined)) {
+        return;
       }
+      console.log(routesObject);
+      setRoutes(routesArr);
+      console.log(routesArr);
     }
-  }, [trafficBoxArray]);
+  }, [trafficBoxArray, routesObject]);
 
   useEffect(() => {
     setRoutes([]);
@@ -220,44 +222,39 @@ const PlanCard = ({ planDocId, dateCount }: PlanCardProps) => {
       setMarkers([]);
     }
   }, [planContent, dayIndex, trafficTimeObject]);
-
   return (
-    <DocIdContext.Provider value={planDocId!}>
-      {isLoading ? (
-        <div className="relative z-10 mt-10 flex h-full w-full items-center justify-center">
-          <Loading widthPx={80} heightPx={80} />
+    <>
+      <div className="h-full overflow-x-hidden overflow-y-scroll bg-zinc-100">
+        <div className="flex w-full">
+          <div className="ml-5 mt-2 flex min-w-[120px] items-center justify-center rounded bg-blue-100 px-4 py-1 max-sm:min-w-[110px]">
+            <p className="text-lg font-bold text-blue-900 max-sm:text-base">
+              {dateCount}
+            </p>
+          </div>
+          <div className="mr-5 flex w-full items-end justify-end">
+            <p className="text-sm italic text-gray-400 max-sm:text-xs">
+              最後編輯於:
+            </p>
+            <p className="ml-1 text-sm italic text-gray-400 max-sm:text-xs">
+              {lastEditTime}
+            </p>
+          </div>
         </div>
-      ) : (
-        <div className="h-full overflow-x-hidden overflow-y-scroll bg-zinc-100">
-          <div className="flex w-full">
-            <div className="ml-5 mt-2 flex min-w-[120px] items-center justify-center rounded bg-blue-100 px-4 py-1 max-sm:min-w-[110px]">
-              <p className="text-lg font-bold text-blue-900 max-sm:text-base">
-                {dateCount}
-              </p>
-            </div>
-            <div className="mr-5 flex w-full items-end justify-end">
-              <p className="text-sm italic text-gray-400 max-sm:text-xs">
-                最後編輯於:
-              </p>
-              <p className="ml-1 text-sm italic text-gray-400 max-sm:text-xs">
-                {lastEditTime}
-              </p>
-            </div>
-          </div>
-          <div className="ml-5 py-2">
-            <span className="text-gray-500 max-sm:text-sm">出發時間：</span>
-            <span
-              onClick={() => {
-                if (!isEditable) {
-                  return;
-                }
-                setShowStartTimeSetting(true);
-              }}
-              className={`${isEditable && "font-bold underline hover:cursor-pointer"}`}
-            >
-              {planContent && planContent.trips[dayIndex].startTime}
-            </span>
-          </div>
+        <div className="ml-5 py-2">
+          <span className="text-gray-500 max-sm:text-sm">出發時間：</span>
+          <span
+            onClick={() => {
+              if (!isEditable) {
+                return;
+              }
+              setShowStartTimeSetting(true);
+            }}
+            className={`${isEditable && "font-bold underline hover:cursor-pointer"}`}
+          >
+            {planContent && planContent.trips[dayIndex].startTime}
+          </span>
+        </div>
+        <DocIdContext.Provider value={planDocId!}>
           <div className="relative">
             {/* 景點資訊區塊 */}
             <DragDropContext onDragEnd={handleOnDragEnd}>
@@ -288,12 +285,12 @@ const PlanCard = ({ planDocId, dateCount }: PlanCardProps) => {
                                   >
                                     <g
                                       id="SVGRepo_bgCarrier"
-                                      stroke-width="0"
+                                      strokeWidth="0"
                                     ></g>
                                     <g
                                       id="SVGRepo_tracerCarrier"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
                                     ></g>
                                     <g id="SVGRepo_iconCarrier">
                                       <path d="M10,4A2,2,0,1,1,8,2,2,2,0,0,1,10,4ZM8,10a2,2,0,1,0,2,2A2,2,0,0,0,8,10Zm0,8a2,2,0,1,0,2,2A2,2,0,0,0,8,18ZM16,6a2,2,0,1,0-2-2A2,2,0,0,0,16,6Zm0,8a2,2,0,1,0-2-2A2,2,0,0,0,16,14Zm0,8a2,2,0,1,0-2-2A2,2,0,0,0,16,22Z"></path>
@@ -321,25 +318,26 @@ const PlanCard = ({ planDocId, dateCount }: PlanCardProps) => {
               />
             )}
           </div>
-        </div>
-      )}
-
-      {isSearching && isEditable && (
-        <SearchContent
-          setIsSearching={setIsSearching}
-          destinationList={destinationList}
-          setDestinationList={setDestinationList}
-        />
-      )}
-      {mapState.showPlaceInfo && <PlaceInfoCard />}
-      {showStartTimeSetting && isEditable && (
-        <StartTimeSetting
-          planDocId={planDocId!}
-          dateCount={dateCount}
-          setShowStartTimeSetting={setShowStartTimeSetting}
-        />
-      )}
-    </DocIdContext.Provider>
+        </DocIdContext.Provider>
+      </div>
+      <DocIdContext.Provider value={planDocId!}>
+        {isSearching && isEditable && (
+          <SearchContent
+            setIsSearching={setIsSearching}
+            destinationList={destinationList}
+            setDestinationList={setDestinationList}
+          />
+        )}
+        {mapState.showPlaceInfo && <PlaceInfoCard />}
+        {showStartTimeSetting && isEditable && (
+          <StartTimeSetting
+            planDocId={planDocId!}
+            dateCount={dateCount}
+            setShowStartTimeSetting={setShowStartTimeSetting}
+          />
+        )}
+      </DocIdContext.Provider>
+    </>
   );
 };
 

@@ -22,7 +22,7 @@ const ListContent = ({ setDisplay, trips }: ListContentProps) => {
   return (
     <>
       <ul className="mt-4 grid w-full grid-cols-3 gap-8 max-[1000px]:grid-cols-2 max-sm:grid-cols-1">
-        <li
+        <button
           onClick={() => setDisplay((prev) => !prev)}
           className="flex min-h-[220px] items-center justify-center rounded-lg border border-solid border-sky-800 bg-white transition hover:cursor-pointer"
         >
@@ -32,7 +32,7 @@ const ListContent = ({ setDisplay, trips }: ListContentProps) => {
             </div>
             <p className="mt-1 text-xl text-blue-500">新增行程</p>
           </div>
-        </li>
+        </button>
         {trips.length > 0 &&
           trips.map((trip) => (
             <ListItem

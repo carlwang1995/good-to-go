@@ -46,22 +46,22 @@ const TurtorialCard = () => {
       <div className="slide-in-left" ref={box1Ref}>
         <TurtorialBox
           title="Step 1：建立行程"
-          imageUrl={tutorialContent.step_1.imageUrl}
-          msg={tutorialContent.step_1.msg}
+          videoUrl={tutorialContent.step_1.videoUrl}
+          msgs={tutorialContent.step_1.msgs}
         />
       </div>
-      <div className="slide-in-left" ref={box2Ref}>
+      <div className="slide-in-left mt-4" ref={box2Ref}>
         <TurtorialBox
           title="Step 2：規劃行程"
-          imageUrl={tutorialContent.step_2.imageUrl}
-          msg={tutorialContent.step_2.msg}
+          videoUrl={tutorialContent.step_2.videoUrl}
+          msgs={tutorialContent.step_2.msgs}
         />
       </div>
-      <div className="slide-in-left" ref={box3Ref}>
+      <div className="slide-in-left mt-4" ref={box3Ref}>
         <TurtorialBox
           title="Step 3：分享行程"
-          imageUrl={tutorialContent.step_3.imageUrl}
-          msg={tutorialContent.step_3.msg}
+          videoUrl={tutorialContent.step_3.videoUrl}
+          msgs={tutorialContent.step_3.msgs}
         />
       </div>
     </section>
