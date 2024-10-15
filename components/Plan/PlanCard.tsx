@@ -127,7 +127,6 @@ const PlanCard = ({ planDocId, dateCount }: PlanCardProps) => {
   };
 
   // Handle Traffic route
-
   useEffect(() => {
     if (planContent && trafficBoxArray) {
       const routesArr: any[] = [];
@@ -141,7 +140,7 @@ const PlanCard = ({ planDocId, dateCount }: PlanCardProps) => {
       }
       setRoutes(routesArr);
     }
-  }, [trafficBoxArray, routesObject]);
+  }, [trafficBoxArray]);
 
   useEffect(() => {
     setRoutes([]);
