@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Loading } from "../Loading";
 import PlaceBox from "./PlaceBox";
 import TrafficBox from "./TrafficBox";
 import SearchContent from "./Search/SearchContent";
@@ -22,7 +21,7 @@ import { getTimeNow } from "@/libs/timeConvertor";
 
 type PlanCardProps = {
   planDocId: string | undefined;
-  dateCount: string; // 渲染第幾天
+  dateCount: string; // 渲染第X天
 };
 const PlanCard = ({ planDocId, dateCount }: PlanCardProps) => {
   const dayIndex: string = useContext(DayIndexContext);

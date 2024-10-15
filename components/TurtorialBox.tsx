@@ -1,3 +1,5 @@
+import { useRef, useState } from "react";
+
 type TurtorialBoxProps = {
   title: string;
   videoUrl: string;
@@ -5,6 +7,16 @@ type TurtorialBoxProps = {
 };
 
 const TurtorialBox = ({ title, videoUrl, msgs }: TurtorialBoxProps) => {
+  const videoRef = useRef(null);
+  const [videoPresentage, setVideoPresentage] = useState("0%");
+
+  const handleTimeUpdate = (e: React.ChangeEvent<HTMLVideoElement>) => {
+    let currentTime = e.target.currentTime;
+    let duration = e.target.duration;
+    let presentage = ((currentTime / duration) * 100).toFixed(0) + "%";
+    setVideoPresentage(presentage);
+  };
+
   return (
     <section>
       <div className="flex items-center">
@@ -14,14 +26,22 @@ const TurtorialBox = ({ title, videoUrl, msgs }: TurtorialBoxProps) => {
         <hr className="mt-2 w-full border border-sky-800" />
       </div>
       <div className="flex w-full max-[680px]:flex-col max-sm:items-center">
-        <video
-          className="relative my-4 aspect-[1/0.572] w-full shadow-lg min-[680px]:mx-2 min-[680px]:min-w-[450px] min-[880px]:min-w-[600px]"
-          src={videoUrl}
-          autoPlay
-          muted
-          playsInline
-          loop
-        ></video>
+        <span className="relative z-0 my-4 aspect-[1/0.572] w-full shadow-lg min-[680px]:mx-2 min-[680px]:min-w-[450px] min-[880px]:min-w-[600px]">
+          <video
+            src={videoUrl}
+            autoPlay
+            muted
+            playsInline
+            loop
+            ref={videoRef}
+            onTimeUpdate={handleTimeUpdate}
+          ></video>
+          <div
+            className="h-1 bg-blue-500 duration-500"
+            style={{ width: videoPresentage }}
+          ></div>
+        </span>
+
         <ul className="flex w-full flex-col justify-center">
           {msgs.map((msg, index) => (
             <li
