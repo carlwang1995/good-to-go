@@ -127,21 +127,19 @@ const PlanCard = ({ planDocId, dateCount }: PlanCardProps) => {
   };
 
   // Handle Traffic route
+
   useEffect(() => {
     if (planContent && trafficBoxArray) {
       const routesArr: any[] = [];
       for (let i = 0; i < trafficBoxArray.length; i++) {
         const places = planContent.trips[dayIndex].places;
-        routesArr.push(
-          routesObject[`${i}-${places[i].placeId}-${places[i + 1].placeId}`],
-        );
+        const newRoutes =
+          routesObject[`${i}-${places[i].placeId}-${places[i + 1].placeId}`];
+        if (newRoutes !== undefined) {
+          routesArr.push(newRoutes);
+        }
       }
-      if (routesArr.some((route) => route === undefined)) {
-        return;
-      }
-      console.log(routesObject);
       setRoutes(routesArr);
-      console.log(routesArr);
     }
   }, [trafficBoxArray, routesObject]);
 
@@ -195,7 +193,7 @@ const PlanCard = ({ planDocId, dateCount }: PlanCardProps) => {
       for (let i = 0; i < trip.places.length - 1; i++) {
         newTrafficBoxArray.push(
           <TrafficBox
-            key={trip.places[i].id + trip.places[i].placeId}
+            key={i}
             number={i}
             trip={trip}
             mode={trip.places[i].trafficMode}

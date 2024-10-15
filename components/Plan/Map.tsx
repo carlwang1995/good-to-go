@@ -92,7 +92,7 @@ const LeafletMap = () => {
   }, [mapState.markers]);
 
   const colorOptions = {
-    blue: { color: "rgb(0,110,255,0.8)", weight: 8 },
+    blue: { color: "rgb(0,110,255,0.6)", weight: 8 },
     lightBlue: { color: "rgb(0,110,255,0.3)", weight: 4 },
   };
   return (
@@ -127,16 +127,8 @@ const LeafletMap = () => {
       <FitMapToBounds bounds={mapState.markers} />
       <SetPlaceView latlng={mapState.placeMarker} />
       <Polyline
-        pathOptions={
-          process.env.NODE_ENV == "production"
-            ? colorOptions.blue
-            : colorOptions.blue
-        }
-        positions={
-          process.env.NODE_ENV == "production"
-            ? mapState.routes
-            : mapState.routes
-        }
+        pathOptions={colorOptions.blue}
+        positions={mapState.routes.length ? mapState.routes : mapState.markers}
       />
     </MapContainer>
   );
