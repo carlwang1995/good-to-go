@@ -165,11 +165,10 @@ const TrafficBox = ({
       </g>
     </svg>
   );
-  // 真實資料
-  // development
-  // production
+
   useEffect(() => {
-    if (process.env.NODE_ENV === "development" && mode) {
+    // 真實資料
+    if (process.env.NODE_ENV === "production" && mode) {
       get_directions(originId, destinationId, mode)
         .then((direction) => {
           if (direction) {
@@ -200,12 +199,8 @@ const TrafficBox = ({
         .catch((e) => {
           console.error(e);
         });
-    }
-  }, [mode, destinationId, originId]);
-
-  // 假的資料
-  useEffect(() => {
-    if (process.env.NODE_ENV === "development") {
+    } // 假的資料
+    else if (process.env.NODE_ENV === "development") {
       const { distance, duration } = directionsData;
       setDistance(distance.text);
       setDurationText(duration.text);
