@@ -19,6 +19,7 @@ const TurtorialBox = ({ title, videoUrl, msgs }: TurtorialBoxProps) => {
           src={videoUrl}
           autoPlay
           muted
+          playsInline
           loop
         ></video>
         <ul className="flex w-full flex-col justify-center">
