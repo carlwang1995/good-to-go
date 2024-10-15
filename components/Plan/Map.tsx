@@ -128,7 +128,11 @@ const LeafletMap = () => {
       <SetPlaceView latlng={mapState.placeMarker} />
       <Polyline
         pathOptions={colorOptions.blue}
-        positions={mapState.routes.length ? mapState.routes : mapState.markers}
+        positions={
+          process.env.NODE_ENV === "production"
+            ? mapState.routes
+            : mapState.markers
+        }
       />
     </MapContainer>
   );
