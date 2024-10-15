@@ -147,11 +147,11 @@ const PlanContent = ({
                 width={18}
                 height={18}
               >
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                 <g
                   id="SVGRepo_tracerCarrier"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 ></g>
                 <g id="SVGRepo_iconCarrier">
                   <title>arrow_up [#337]</title>{" "}
@@ -159,9 +159,9 @@ const PlanContent = ({
                   <g
                     id="Page-1"
                     stroke="none"
-                    stroke-width="1"
+                    strokeWidth="1"
                     fill="none"
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                   >
                     <g
                       id="Dribbble-Light-Preview"
@@ -203,11 +203,11 @@ const PlanContent = ({
                 width={16}
                 height={16}
               >
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                 <g
                   id="SVGRepo_tracerCarrier"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 ></g>
                 <g id="SVGRepo_iconCarrier">
                   <title>arrow_up [#337]</title>{" "}
@@ -215,9 +215,9 @@ const PlanContent = ({
                   <g
                     id="Page-1"
                     stroke="none"
-                    stroke-width="1"
+                    strokeWidth="1"
                     fill="none"
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                   >
                     <g
                       id="Dribbble-Light-Preview"
@@ -285,16 +285,16 @@ const PlanContent = ({
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               stroke="#000000"
-              stroke-width="1.2"
+              strokeWidth="1.2"
               transform="rotate(180)"
               width={16}
               height={16}
             >
-              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
               <g
                 id="SVGRepo_tracerCarrier"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               ></g>
               <g id="SVGRepo_iconCarrier">
                 <path
@@ -331,15 +331,15 @@ const PlanContent = ({
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
                 stroke="#000000"
-                stroke-width="1.2"
+                strokeWidth="1.2"
                 width={16}
                 height={16}
               >
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                 <g
                   id="SVGRepo_tracerCarrier"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 ></g>
                 <g id="SVGRepo_iconCarrier">
                   <path

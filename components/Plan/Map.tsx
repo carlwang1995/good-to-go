@@ -130,12 +130,12 @@ const LeafletMap = () => {
         pathOptions={
           process.env.NODE_ENV == "production"
             ? colorOptions.blue
-            : colorOptions.lightBlue
+            : colorOptions.blue
         }
         positions={
           process.env.NODE_ENV == "production"
             ? mapState.routes
-            : mapState.markers
+            : mapState.routes
         }
       />
     </MapContainer>
