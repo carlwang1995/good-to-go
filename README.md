@@ -3,7 +3,7 @@
 * [Introduction](https://github.com/carlwang1995/good-to-go/tree/main?tab=readme-ov-file#introduction)
 * [Techniques](https://github.com/carlwang1995/good-to-go/tree/main?tab=readme-ov-file#techniques)
 * [Features](https://github.com/carlwang1995/good-to-go/tree/main?tab=readme-ov-file#features)
-* [Unit Test]()
+* [Unit Test](https://github.com/carlwang1995/good-to-go/tree/main?tab=readme-ov-file#unit-test)
 * [Contact](https://github.com/carlwang1995/good-to-go/tree/main?tab=readme-ov-file#contact)
 ## Introduction
 Good to GO is a travel itinerary planning website that allows users to create trips, search for places, and edit travel plans freely.
