@@ -6,6 +6,7 @@ import {
 import { DB_upadatePlaceInfo } from "@/libs/db/PlansDoc";
 import { getTimeNow } from "@/libs/timeConvertor";
 import { Button } from "../Button";
+import { Loading } from "../Loading";
 
 interface PlaceType {
   id: number;
@@ -47,6 +48,7 @@ const PlaceStayTimeSetting = ({
   const { planContent, setPlanContent } = useContext(PlanContentContext);
   const [hour, setHour] = useState("");
   const [minute, setMinute] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   if (!dayIndex) {
     throw new Error("StayTimeSetting.tsx不屬於DayIndexContext的子組件。");
@@ -68,6 +70,7 @@ const PlaceStayTimeSetting = ({
     dayIndex: string,
     number: number,
   ) => {
+    setIsLoading(true);
     const hh = hour;
     const mm = minute;
     const newStayTime = `${hh}:${mm}`;
@@ -82,6 +85,14 @@ const PlaceStayTimeSetting = ({
       setShowStaySetting(false);
     }
   };
+  const handleHourChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setHour(e.target.value);
+  };
+
+  const handleMinuteChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setMinute(e.target.value);
+  };
+
   return (
     <div className="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-black/80">
       <div
@@ -99,7 +110,7 @@ const PlaceStayTimeSetting = ({
           <div className="ml-2 text-lg">停留時間：</div>
           <div className="my-2 flex w-full flex-nowrap items-center justify-between">
             <select
-              onChange={(e) => setHour(e.target.value)}
+              onChange={handleHourChange}
               value={hour}
               className="m-2 w-1/2 rounded border border-solid border-slate-400 bg-white p-2"
             >
@@ -129,7 +140,7 @@ const PlaceStayTimeSetting = ({
               <option value="23">23 小時</option>
             </select>
             <select
-              onChange={(e) => setMinute(e.target.value)}
+              onChange={handleMinuteChange}
               value={minute}
               className="m-2 w-1/2 rounded border border-solid border-slate-400 bg-white p-2"
             >
@@ -153,11 +164,18 @@ const PlaceStayTimeSetting = ({
               type="cancel"
               onSmash={() => setShowStaySetting(false)}
             />
-            <Button
-              title="確認"
-              type="confirm"
-              onSmash={() => updateStaytTime(planDocId, dayIndex, number)}
-            />
+            {isLoading ? (
+              <Button
+                title={<Loading widthPx={28} heightPx={28} />}
+                type="undone"
+              />
+            ) : (
+              <Button
+                title="確認"
+                type="confirm"
+                onSmash={() => updateStaytTime(planDocId, dayIndex, number)}
+              />
+            )}
           </div>
         </div>
       </div>

@@ -17,17 +17,47 @@ const SignInCard = ({
   const router = useRouter();
   const { googleAuth, signIn } = useUser();
 
+  const returnHomePage = () => {
+    setTimeout(() => {
+      router.push("/");
+    }, 1000);
+  };
+
   const signInHandler = async (email: string, password: string) => {
-    setIsChecking(true);
-    const result = await signIn(email, password);
-    if (result) {
+    try {
+      setIsChecking(true);
+      const result = await signIn(email, password);
+      if (result) {
+        setIsLogin(true);
+        setMessage("登入成功，系統自動跳轉至首頁");
+        returnHomePage();
+      } else {
+        setIsLogin(false);
+        setMessage("登入失敗，請確認帳號密碼");
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
       setIsChecking(false);
-      setIsLogin(true);
-      setMessage("登入成功");
-    } else {
+    }
+  };
+
+  const googleSignInHandler = async () => {
+    try {
+      setIsChecking(true);
+      const result = await googleAuth();
+      if (result) {
+        setIsLogin(true);
+        setMessage("登入成功，系統自動跳轉至首頁");
+        returnHomePage();
+      } else {
+        setIsLogin(false);
+        setMessage("登入失敗，請確認Google帳號狀態");
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
       setIsChecking(false);
-      setIsLogin(false);
-      setMessage("登入失敗，請確認帳號密碼");
     }
   };
 
@@ -75,12 +105,6 @@ const SignInCard = ({
               {message}
             </div>
           </div>
-          <button
-            onClick={() => router.push("/")}
-            className="m-4 flex w-full items-center justify-center rounded border border-blue-700 bg-blue-500 px-2 py-1 text-lg transition hover:bg-blue-700"
-          >
-            <p className="text-white">返回首頁</p>
-          </button>
         </>
       ) : (
         <div
@@ -158,14 +182,7 @@ const SignInCard = ({
           </button>
           <button
             className="mt-4 flex w-full items-center justify-center rounded border border-solid border-blue-500 bg-blue-100 px-2 py-1 text-lg transition hover:bg-blue-200"
-            onClick={async () => {
-              const result = await googleAuth();
-              if (result) {
-                router.push("/");
-              } else {
-                setMessage("登入失敗");
-              }
-            }}
+            onClick={googleSignInHandler}
           >
             <Image src={GoogleIcon} alt="Google Icon" width={25} height={25} />
             <p className="ml-2 text-lg">Google帳號登入</p>

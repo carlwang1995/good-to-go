@@ -95,7 +95,7 @@ const TripsContent = () => {
         )}
 
         {display && <CreateTripCard setDisplay={setDisplay} />}
-      </StateContext.Provider>{" "}
+      </StateContext.Provider>
     </div>
   );
 };
