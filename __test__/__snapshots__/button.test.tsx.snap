@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`測試Button是否正常 測試渲染結果與 Snapshot 一致 1`] = `
+<div>
+  <button
+    class="btn_blue"
+  >
+    測試
+  </button>
+</div>
+`;

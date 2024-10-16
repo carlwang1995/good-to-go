@@ -1,8 +1,8 @@
 import Header from "@/components/Header/Header";
 import Image from "next/image";
 import { Alkatra } from "next/font/google";
-import { StartupButton } from "@/components/Button";
 import TurtorialCard from "@/components/TurtorialCard";
+import StartupButton from "@/components/StartupButton";
 
 const fontStyle = Alkatra({ weight: "700", subsets: ["latin"] });
 
