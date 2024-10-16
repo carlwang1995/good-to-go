@@ -72,7 +72,7 @@ Good to GO is a travel itinerary planning website that allows users to create tr
 ![Trips](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/structure/Trips.jpg)
 ![Plans](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/structure/Plans.jpg)
 ## Unit Test
-* **Testing Button component layout and click event.**
+* **Testing `Button.tsx` component render layout and click event.**
 
 ![Unit Test](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/UnitTest.jpg)
 ## Contact
