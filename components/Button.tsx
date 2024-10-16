@@ -5,7 +5,7 @@ import { useUser } from "@/contexts/UserAuth";
 import Link from "next/link";
 
 type ButtonProps = {
-  title: string;
+  title: string | React.JSX.Element;
   type: "confirm" | "cancel" | "close" | "undone";
   onSmash?: () => void;
 };

@@ -6,6 +6,7 @@ import {
 import { DB_updateTripStartTime } from "@/libs/db/PlansDoc";
 import { getTimeNow } from "@/libs/timeConvertor";
 import { Button } from "../Button";
+import { Loading } from "../Loading";
 
 const StartTimeSetting = ({
   planDocId,
@@ -19,6 +20,7 @@ const StartTimeSetting = ({
   const [period, setPeriod] = useState("");
   const [hour, setHour] = useState("");
   const [minute, setMinute] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const dayIndex = useContext(DayIndexContext);
   const { planContent, setPlanContent } = useContext(PlanContentContext);
@@ -46,6 +48,7 @@ const StartTimeSetting = ({
   }, [planContent]);
 
   const updateStartTime = async (docId: string, dayIndex: string) => {
+    setIsLoading(true);
     let hh = hour;
     const mm = minute;
     if (period === "PM") {
@@ -61,6 +64,16 @@ const StartTimeSetting = ({
       setShowStartTimeSetting(false);
     }
   };
+  const handlePeriodChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setPeriod(e.target.value);
+  };
+  const handleHourChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setHour(e.target.value);
+  };
+  const handleMinuteChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setMinute(e.target.value);
+  };
+
   return (
     <div className="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center">
       <div
@@ -74,7 +87,7 @@ const StartTimeSetting = ({
           </div>
           <div className="my-4 flex w-full flex-nowrap items-center justify-between">
             <select
-              onChange={(e) => setPeriod(e.target.value)}
+              onChange={handlePeriodChange}
               value={period}
               className="m-2 w-1/3 rounded border border-solid border-slate-400 bg-white p-2"
             >
@@ -82,7 +95,7 @@ const StartTimeSetting = ({
               <option value="PM">PM</option>
             </select>
             <select
-              onChange={(e) => setHour(e.target.value)}
+              onChange={handleHourChange}
               value={hour}
               className="m-2 w-1/3 rounded border border-solid border-slate-400 bg-white p-2"
             >
@@ -101,7 +114,7 @@ const StartTimeSetting = ({
             </select>
             <span>:</span>
             <select
-              onChange={(e) => setMinute(e.target.value)}
+              onChange={handleMinuteChange}
               value={minute}
               className="m-2 w-1/3 rounded border border-solid border-slate-400 bg-white p-2"
             >
@@ -125,11 +138,18 @@ const StartTimeSetting = ({
               type="cancel"
               onSmash={() => setShowStartTimeSetting(false)}
             />
-            <Button
-              title="確認"
-              type="confirm"
-              onSmash={() => updateStartTime(planDocId, dayIndex)}
-            />
+            {isLoading ? (
+              <Button
+                title={<Loading widthPx={28} heightPx={28} />}
+                type="undone"
+              />
+            ) : (
+              <Button
+                title="確認"
+                type="confirm"
+                onSmash={() => updateStartTime(planDocId, dayIndex)}
+              />
+            )}
           </div>
         </div>
       </div>

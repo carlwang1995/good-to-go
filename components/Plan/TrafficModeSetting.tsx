@@ -8,6 +8,7 @@ import { DB_upadatePlaceInfo } from "@/libs/db/PlansDoc";
 import TrafficModeButton from "./TrafficModeButton";
 import { getTimeNow } from "@/libs/timeConvertor";
 import { Button } from "../Button";
+import { Loading } from "../Loading";
 
 interface PlaceType {
   id: number;
@@ -39,6 +40,7 @@ const TrafficModeSetting = ({
   setIsShowing,
 }: TrafficModeSettingProps) => {
   const [newMode, setNewMode] = useState<string>(currentMode);
+  const [isLoading, setIsLoading] = useState(false);
   const dayIndex = useContext(DayIndexContext);
   const planDocId = useContext(DocIdContext);
   const { planContent, setPlanContent } = useContext(PlanContentContext);
@@ -58,6 +60,7 @@ const TrafficModeSetting = ({
     dayIndex: string,
     number: number,
   ) => {
+    setIsLoading(true);
     const mode = newMode;
     const newPlaces = [...trip.places];
     newPlaces[number].trafficMode = mode;
@@ -101,15 +104,24 @@ const TrafficModeSetting = ({
               type="cancel"
               onSmash={() => setIsShowing(false)}
             />
-            <Button
-              title="確認"
-              type="confirm"
-              onSmash={() => {
-                if (currentMode != newMode) {
-                  updateMode(planDocId, dayIndex, number);
-                }
-              }}
-            />
+            {isLoading ? (
+              <Button
+                title={<Loading widthPx={28} heightPx={28} />}
+                type="undone"
+              />
+            ) : (
+              <Button
+                title="確認"
+                type="confirm"
+                onSmash={() => {
+                  if (currentMode != newMode) {
+                    updateMode(planDocId, dayIndex, number);
+                  } else {
+                    setIsShowing(false);
+                  }
+                }}
+              />
+            )}
           </div>
         </div>
       </div>
