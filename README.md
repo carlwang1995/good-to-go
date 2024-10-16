@@ -76,5 +76,5 @@ Good to GO is a travel itinerary planning website that allows users to create tr
 
 ![Unit Test](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/UnitTest.jpg)
 ## Contact
-* **Name:** Wei-Yao Wang
+* **Name:** 王維耀
 * **Email:** z5n9800z@gmail.com 
