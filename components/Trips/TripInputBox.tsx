@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { getDateBetween } from "@/libs/getDatesBetween";
 import { getTimeNow } from "@/libs/timeConvertor";
 import { coverPhotos } from "@/constants";
-import { Button } from "../Button";
+import Button from "../Button";
 
 type TripInputProps = {
   startDate: string;

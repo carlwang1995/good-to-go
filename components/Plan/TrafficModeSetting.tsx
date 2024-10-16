@@ -7,7 +7,7 @@ import {
 import { DB_upadatePlaceInfo } from "@/libs/db/PlansDoc";
 import TrafficModeButton from "./TrafficModeButton";
 import { getTimeNow } from "@/libs/timeConvertor";
-import { Button } from "../Button";
+import Button from "../Button";
 import { Loading } from "../Loading";
 
 interface PlaceType {

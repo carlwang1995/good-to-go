@@ -5,7 +5,7 @@ import {
 } from "@/contexts/ContextProvider";
 import { DB_upadatePlaceInfo } from "@/libs/db/PlansDoc";
 import { getTimeNow } from "@/libs/timeConvertor";
-import { Button } from "../Button";
+import Button from "../Button";
 import { Loading } from "../Loading";
 
 interface PlaceType {

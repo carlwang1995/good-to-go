@@ -7,7 +7,7 @@ import {
 } from "@/contexts/ContextProvider";
 import { useMapMarkers } from "@/contexts/UseMapMarkers";
 import { getTimeNow } from "@/libs/timeConvertor";
-import { Button } from "@/components/Button";
+import Button from "@/components/Button";
 
 type PlaceType = {
   id?: number;
