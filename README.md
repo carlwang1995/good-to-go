@@ -1,4 +1,4 @@
-![Home](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/good-to-go.png)
+![Home](https://github.com/carlwang1995/good-to-go/blob/main/public/readme/good-to-go-project.png)
 # Good to GO
 * [Introduction](https://github.com/carlwang1995/good-to-go/tree/main?tab=readme-ov-file#introduction)
 * [Techniques](https://github.com/carlwang1995/good-to-go/tree/main?tab=readme-ov-file#techniques)
