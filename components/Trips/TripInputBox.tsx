@@ -14,8 +14,6 @@ type TripInputProps = {
   startDate: string;
   endDate: string;
   isOpenCalendar: boolean;
-  setStartDate: React.Dispatch<React.SetStateAction<string>>;
-  setEndDate: React.Dispatch<React.SetStateAction<string>>;
   setDisplay: React.Dispatch<React.SetStateAction<boolean>>;
   setIsOpenCalendar: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -24,8 +22,6 @@ const TripInput = ({
   startDate,
   endDate,
   isOpenCalendar,
-  setStartDate,
-  setEndDate,
   setDisplay,
   setIsOpenCalendar,
 }: TripInputProps) => {
@@ -44,13 +40,6 @@ const TripInput = ({
 
   // 取消建立行程
   const cancelEdit = (): void => {
-    setStartDate("出發日期");
-    setEndDate("結束日期");
-    setDestinaitonArray([]);
-    setInputTripName("");
-    setIsDateSelect(true);
-    setIsDestination(true);
-    setIsTripName(true);
     setDisplay((prev) => !prev);
   };
   // 檢查輸入內容
@@ -85,8 +74,8 @@ const TripInput = ({
       return;
     }
     setIsCreating(true);
+    const tripsObj: { [key: string]: Trip } = {};
     const dates = getDateBetween(startDate, endDate);
-    let tripsObj: { [key: string]: Trip } = {};
     const formatDate = getTimeNow();
     const tripObject = {
       userId,
@@ -129,13 +118,13 @@ const TripInput = ({
   };
   return (
     <div
-      className={`mx-4 w-[500px] rounded-lg bg-zinc-100 p-10 ${isOpenCalendar && "hidden"}`}
+      className={`mx-4 w-[500px] rounded-lg bg-zinc-100 p-10 ${isOpenCalendar && "opacity-0"}`}
     >
       <div className="text-xl font-bold text-sky-800">建立行程</div>
       <br />
       <h3>旅遊日期</h3>
       <div
-        className="flex w-full rounded border-[1px] border-solid border-black bg-white p-2 hover:cursor-pointer"
+        className="flex w-full items-center rounded border border-solid border-black bg-white p-2 transition hover:cursor-pointer"
         onClick={() => setIsOpenCalendar(true)}
       >
         <div
@@ -146,7 +135,32 @@ const TripInput = ({
         >
           {startDate}
         </div>
-        <div className="mx-2">→</div>
+        <div className="mx-2">
+          {/* arrow right */}
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            width={"24px"}
+            height={"24px"}
+          >
+            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+            <g
+              id="SVGRepo_tracerCarrier"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            ></g>
+            <g id="SVGRepo_iconCarrier">
+              <path
+                d="M6 12H18M18 12L13 7M18 12L13 17"
+                stroke="#000000"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              ></path>
+            </g>
+          </svg>
+        </div>
         <div
           className="flex-auto"
           style={
@@ -166,7 +180,7 @@ const TripInput = ({
           {destinaitonArray.length > 0 &&
             destinaitonArray.map((target, index) => (
               <TargetItem
-                key={index}
+                key={target}
                 number={index}
                 target={target}
                 destinaitonArray={destinaitonArray}

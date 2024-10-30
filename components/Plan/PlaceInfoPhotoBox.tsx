@@ -10,7 +10,7 @@ const PlaceInfoPhotoBox = ({
   const [photoIndex, setPhotoIndex] = useState(0);
 
   return (
-    <div className="flex h-fit w-full flex-col items-center bg-white shadow-md">
+    <div className="flex h-fit w-full flex-col items-center bg-white shadow-lg">
       <div className="relative flex h-[300px] w-full justify-center overflow-hidden">
         {photos && photos.length > 0 ? (
           <Image

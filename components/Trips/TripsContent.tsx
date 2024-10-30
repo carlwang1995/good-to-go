@@ -60,13 +60,13 @@ const TripsContent = () => {
   }, []);
 
   return (
-    <div className="mx-10 mb-6 w-[1100px] max-sm:mx-6">
-      <div className="my-5">
-        <p className="text-3xl font-bold text-sky-800">
-          Hi, {userName ? userName : ""}
-        </p>
-      </div>
-      <StateContext.Provider value={setState}>
+    <>
+      <div className="mx-10 mb-6 w-[1100px] max-sm:mx-6">
+        <div className="my-5">
+          <p className="text-3xl font-bold text-sky-800">
+            Hi, {userName ? userName : ""}
+          </p>
+        </div>
         <div className="flex">
           <button
             onClick={() => {
@@ -89,14 +89,15 @@ const TripsContent = () => {
         </div>
         <hr className="border-slate-400" />
         {content ? (
-          <ListContent setDisplay={setDisplay} trips={trips} />
+          <StateContext.Provider value={setState}>
+            <ListContent setDisplay={setDisplay} trips={trips} />
+          </StateContext.Provider>
         ) : (
           <BrowseContent />
         )}
-
-        {display && <CreateTripCard setDisplay={setDisplay} />}
-      </StateContext.Provider>
-    </div>
+      </div>
+      {display && <CreateTripCard setDisplay={setDisplay} />}
+    </>
   );
 };
 

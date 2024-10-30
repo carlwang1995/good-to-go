@@ -36,7 +36,7 @@ const ListItem = ({
     <>
       <li className="rounded-lg bg-white shadow-lg transition-all hover:shadow-xl">
         <div className="relative rounded-lg">
-          <Link href={`plan/${docId}`}>
+          <Link href={`plan/${docId}`} prefetch={true}>
             <div className="relative z-10 flex min-h-[220px] w-full flex-col justify-end rounded-lg">
               <div className={`absolute left-0 top-0 z-10 rounded-tl-lg`}>
                 <div

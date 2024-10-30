@@ -32,9 +32,7 @@ const BrowseContent = () => {
       <ul className="flex w-full flex-col">
         {tripsArr &&
           tripsArr.length > 0 &&
-          tripsArr.map((trip, index) => (
-            <BrowseItem trip={trip} key={trip.docId} />
-          ))}
+          tripsArr.map((trip) => <BrowseItem trip={trip} key={trip.docId} />)}
       </ul>
     </div>
   );

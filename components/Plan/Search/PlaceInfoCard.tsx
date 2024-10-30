@@ -63,7 +63,10 @@ const PlaceInfoCard = ({
   }, [selectedPlace]);
 
   return (
-    <div className="absolute left-[500px] top-0 z-[32] flex h-full w-[380px] flex-col overflow-y-auto overflow-x-hidden border border-slate-300 bg-white max-[980px]:left-0 max-[980px]:w-full">
+    <div
+      style={{ boxShadow: "0px 0px 15px gray" }}
+      className="absolute left-[500px] top-0 z-[32] flex h-full w-[380px] flex-col overflow-y-auto overflow-x-hidden bg-white max-[980px]:left-0 max-[980px]:w-full"
+    >
       <div className="flex min-h-16 items-center justify-end max-[980px]:hidden">
         {/* Close Btn */}
         <span
@@ -102,7 +105,7 @@ const PlaceInfoCard = ({
         </div>
       ) : (
         <>
-          <div className="mb-[130px] h-full overflow-y-auto overflow-x-hidden bg-zinc-100">
+          <div className="mb-[130px] h-full overflow-y-auto overflow-x-hidden bg-white">
             <div className="absolute right-0 top-0 z-10 hidden min-h-12 w-full items-center justify-start bg-black/50 max-[980px]:flex">
               <span
                 onClick={() => {

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef, useMemo, memo } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useUser } from "@/contexts/UserAuth";
 import Image from "next/image";
 import PlanTitleCard from "./PlanTitleCard";
@@ -129,7 +129,8 @@ const PlanContent = ({
 
   return (
     <div
-      className={`relative flex h-full min-w-[500px] max-w-[500px] flex-col transition-all max-[980px]:min-w-full ${showMobileMap ? "max-[980px]:min-h-[60%]" : "max-[980px]:min-h-[calc(100%-60px)]"}`}
+      style={{ boxShadow: "5px 0px 15px gray" }}
+      className={`relative z-[5] flex h-full min-w-[500px] max-w-[500px] flex-col transition-all max-[980px]:min-w-full ${showMobileMap ? "max-[980px]:min-h-[60%]" : "max-[980px]:min-h-[calc(100%-60px)]"}`}
     >
       {showMobileMap && (
         <div className="absolute -top-6 flex w-full justify-center min-[980px]:hidden">
@@ -277,7 +278,8 @@ const PlanContent = ({
         <div className="relative flex h-14 w-full bg-white">
           <button
             onClick={dateScrollToLeft}
-            className="absolute left-0 top-0 z-10 flex h-full items-center justify-center border border-white bg-white px-1 hover:cursor-pointer hover:border-slate-300 max-sm:hidden"
+            style={{ boxShadow: "1px 0px 3px gray" }}
+            className="absolute left-0 top-0 z-10 flex h-full items-center justify-center bg-white px-1 max-sm:hidden"
           >
             {/* Left Srcoll Arrow Btn */}
             <svg
@@ -305,7 +307,7 @@ const PlanContent = ({
             </svg>
           </button>
           <div
-            className="flex h-full w-full overflow-x-hidden overflow-y-hidden scroll-smooth whitespace-nowrap px-7 max-sm:overflow-x-auto max-sm:px-1"
+            className="flex h-full w-full overflow-x-hidden overflow-y-hidden scroll-smooth whitespace-nowrap bg-gray-50 px-7 max-sm:overflow-x-auto max-sm:px-1"
             ref={dateSectionRef}
           >
             {tripInfo &&
@@ -322,7 +324,8 @@ const PlanContent = ({
           </div>
           <button
             onClick={dateScrollToRight}
-            className="hover: absolute right-0 top-0 z-10 flex h-full items-center justify-center border border-white bg-white px-1 hover:cursor-pointer hover:border-slate-300 max-sm:hidden"
+            style={{ boxShadow: "-1px 0px 3px gray" }}
+            className="hover: absolute right-0 top-0 z-10 flex h-full items-center justify-center bg-white px-1 max-sm:hidden"
           >
             <div className="text-2xl">
               {/* Right Srcoll Arrow Btn */}
