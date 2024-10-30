@@ -215,7 +215,7 @@ const TrafficBox = ({
         onClick={() => {
           setIsShowModeSetting(true);
         }}
-        className={`mt-[120px] flex h-[40px] w-full items-center justify-between transition ${isEditable && "hover:cursor-pointer hover:bg-blue-100"} max-sm:mt-[85px]`}
+        className={`mt-[120px] flex h-[40px] w-full items-center justify-between transition ${isEditable && "hover:cursor-pointer hover:bg-blue-100"} hover:cursor-default max-sm:mt-[85px]`}
       >
         <div className="flex h-full items-center">
           <div className="ml-14 h-full border-l-2 border-dotted border-blue-400"></div>

@@ -6,7 +6,6 @@ export async function GET(request: Request) {
   const origin = searchParams.get("origin");
   const destination = searchParams.get("destination");
   const mode = searchParams.get("mode") || "driving";
-  // console.log("Received request with params:", { origin, destination, mode });
 
   if (!origin || !destination) {
     return NextResponse.json(

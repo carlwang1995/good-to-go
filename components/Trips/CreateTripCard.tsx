@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import Calendar from "./Calendar";
 import TripInputBox from "./TripInputBox";
 
-type CreateTripCardProps = {
+const CreateTripCard = ({
+  setDisplay,
+}: {
   setDisplay: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-const CreateTripCard = ({ setDisplay }: CreateTripCardProps) => {
+}) => {
   const [startDate, setStartDate] = useState<string>("出發日期");
   const [endDate, setEndDate] = useState<string>("結束日期");
   const [isOpenCalendar, setIsOpenCalendar] = useState<boolean>(false);
@@ -19,8 +19,6 @@ const CreateTripCard = ({ setDisplay }: CreateTripCardProps) => {
         isOpenCalendar={isOpenCalendar}
         setIsOpenCalendar={setIsOpenCalendar}
         setDisplay={setDisplay}
-        setStartDate={setStartDate}
-        setEndDate={setEndDate}
       />
       {isOpenCalendar && (
         <Calendar

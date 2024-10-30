@@ -6,7 +6,6 @@ import StartupButton from "@/components/StartupButton";
 
 const fontStyle = Alkatra({ weight: "700", subsets: ["latin"] });
 
-Header;
 export default function Home() {
   return (
     <div className="overflow-x-hidden">

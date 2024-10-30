@@ -1,11 +1,9 @@
 import React, { useContext } from "react";
-import Image from "next/image";
 import { StateContext } from "@/contexts/ContextProvider";
 import { DB_deleteTrip } from "@/libs/db/TripsDoc";
 import { DB_deletePlanByDocId } from "@/libs/db/PlansDoc";
 import { storage } from "@/config/firebase";
 import { ref, deleteObject } from "firebase/storage";
-import shareIcon from "@/public/share-svg.svg";
 
 type ListSettingProps = {
   docId: string;

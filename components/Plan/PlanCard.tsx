@@ -101,13 +101,13 @@ const PlanCard = ({ planDocId, dateCount }: PlanCardProps) => {
     if (source.index != destination.index && planContent) {
       // 先處理PlaceBox畫面呈現
       const newPlaceBoxArray = [...placeBoxArray!];
-      const [removePlaceBox] = newPlaceBoxArray.splice(source.index, 1);
-      newPlaceBoxArray.splice(destination.index, 0, removePlaceBox);
+      const [removedPlaceBox] = newPlaceBoxArray.splice(source.index, 1);
+      newPlaceBoxArray.splice(destination.index, 0, removedPlaceBox);
       setPlaceBoxArray(newPlaceBoxArray);
       // 實際處理Places順序，並儲存至資料庫、刷新狀態重新渲染
       const newTripPlaces = planContent?.trips[dayIndex].places;
-      const [removePlace] = newTripPlaces.splice(source.index, 1);
-      newTripPlaces.splice(destination.index, 0, removePlace);
+      const [removedPlace] = newTripPlaces.splice(source.index, 1);
+      newTripPlaces.splice(destination.index, 0, removedPlace);
       if (planDocId && dayIndex) {
         DB_upadatePlaceInfo(planDocId, dayIndex, newTripPlaces)
           .then((result) => {
@@ -220,10 +220,10 @@ const PlanCard = ({ planDocId, dateCount }: PlanCardProps) => {
   }, [planContent, dayIndex, trafficTimeObject]);
   return (
     <>
-      <div className="h-full overflow-x-hidden overflow-y-scroll bg-zinc-100">
+      <div className="h-full overflow-y-auto overflow-x-hidden bg-zinc-100 hover:pr-0">
         <div className="flex w-full">
-          <div className="ml-5 mt-2 flex min-w-[120px] items-center justify-center rounded bg-blue-100 px-4 py-1 max-sm:min-w-[110px]">
-            <p className="text-lg font-bold text-blue-900 max-sm:text-base">
+          <div className="ml-5 mt-2 flex min-w-[120px] items-center justify-center rounded bg-sky-200 px-4 py-1 max-sm:min-w-[110px]">
+            <p className="text-lg font-bold text-sky-700 max-sm:text-base">
               {dateCount}
             </p>
           </div>
@@ -274,6 +274,7 @@ const PlanCard = ({ planDocId, dateCount }: PlanCardProps) => {
                                   {...provided.dragHandleProps}
                                   className="absolute bottom-11 right-0 z-[15] h-8 w-8 p-1 hover:cursor-move max-sm:bottom-7 max-sm:left-4"
                                 >
+                                  {/* Drag Icon */}
                                   <svg
                                     fill="#075985"
                                     viewBox="0 0 24 24"

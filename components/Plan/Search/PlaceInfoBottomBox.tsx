@@ -183,7 +183,7 @@ const PlaceInfoBottomBox = ({
           </div>
           <div className="flex items-center justify-center">
             <Button
-              title="加入行程"
+              title="+ 加入行程"
               type="confirm"
               onSmash={() => {
                 addPlace(selectedPlace, planDocId);

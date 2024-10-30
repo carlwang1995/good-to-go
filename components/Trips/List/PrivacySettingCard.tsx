@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { StateContext } from "@/contexts/ContextProvider";
 import { DB_updateTripInfoByDocId } from "@/libs/db/TripsDoc";
-import Image from "next/image";
 import Button from "@/components/Button";
 
 const PrivacySettingCard = ({
